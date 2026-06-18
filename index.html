@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Art Lab — Learn. Create. Mentor.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20">🎨</text></svg>
+      The Art Lab
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="sessions.html">Sessions</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="dashboard.html">My Page</a></li>
+    </ul>
+    <div class="nav-right">
+      <div style="position:relative;">
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
+        <div class="palette-popup" id="palettePopup">
+          <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
+          <div class="palette-option active" data-palette="warm">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio
+          </div>
+          <div class="palette-option" data-palette="ocean">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm
+          </div>
+          <div class="palette-option" data-palette="forest">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh
+          </div>
+          <div class="palette-option" data-palette="sunset">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow
+          </div>
+        </div>
+      </div>
+      <div class="auth-area" id="authArea"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <!-- BG blobs -->
+  <div class="blob-bg" style="width:600px;height:600px;background:var(--primary);top:-200px;right:-100px;"></div>
+  <div class="blob-bg" style="width:400px;height:400px;background:var(--highlight);bottom:-100px;left:20%;"></div>
+
+  <!-- Floating doodles -->
+  <div class="doodle-field">
+    <div class="doodle" style="left:8%;top:20%;font-size:2.5rem;--rot:15deg;animation-delay:0s;" data-msg="Art is everywhere! 🌟">✏️</div>
+    <div class="doodle" style="left:12%;top:65%;font-size:1.8rem;--rot:-10deg;animation-delay:1s;" data-msg="Splash some color! 💦">🖌️</div>
+    <div class="doodle" style="left:3%;top:45%;font-size:2rem;--rot:20deg;animation-delay:2s;" data-msg="Draw what you feel 🌸">🌸</div>
+    <div class="doodle" style="right:52%;top:15%;font-size:1.5rem;--rot:-15deg;animation-delay:0.5s;" data-msg="You're an artist! ⭐">⭐</div>
+    <div class="doodle" style="right:48%;top:75%;font-size:2rem;--rot:5deg;animation-delay:1.5s;" data-msg="Keep creating! 🔥">🔥</div>
+    <div class="doodle" style="left:5%;top:80%;font-size:2.2rem;--rot:-20deg;animation-delay:3s;" data-msg="Experiment boldly! 🧪">🎭</div>
+  </div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">✦ By Students, For Students</div>
+      <h1>Where <span>creativity</span><br>becomes your<br>superpower.</h1>
+      <p>The Art Lab is a free online creative learning hub — take courses, attend live sessions, build your portfolio, and one day, teach the next generation of artists.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">Start Creating Free</button>
+        <a href="gallery.html" class="btn btn-outline btn-lg">Explore Gallery</a>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">Student Artists</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">40+</div>
+          <div class="hero-stat-label">Courses & Workshops</div>
+        </div>
+        <div class="hero-stat-item">
+          <div class="hero-stat-num">28%</div>
+          <div class="hero-stat-label">Schools Offer Arts*</div>
+        </div>
+      </div>
+      <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--mid)">*NCES — that's why we built this.</div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-canvas">🎨</div>
+  </div>
+</section>
+
+<!-- ── LEARN CREATE MENTOR ────────────────────────────────────────────────── -->
+<section class="section cycle-section">
+  <div class="container">
+    <div class="section-tag">Our Model</div>
+    <h2 class="cycle-title reveal">Learn. Create. Mentor.</h2>
+    <p class="cycle-subtitle reveal">A self-sustaining cycle where every artist grows — and eventually lifts others up too.</p>
+    <div class="cycle-container reveal">
+      <div class="cycle-step">
+        <div class="cycle-step-num">01</div>
+        <h3>Learn</h3>
+        <p>Take courses, attend live tutoring sessions, and explore resources curated by peer mentors.</p>
+      </div>
+      <div class="cycle-arrow">→</div>
+      <div class="cycle-step">
+        <div class="cycle-step-num">02</div>
+        <h3>Create</h3>
+        <p>Apply your skills. Build your portfolio. Share your artwork with the gallery community.</p>
+      </div>
+      <div class="cycle-arrow">→</div>
+      <div class="cycle-step">
+        <div class="cycle-step-num">03</div>
+        <h3>Mentor</h3>
+        <p>Become a mentor. Guide newer artists, host sessions, and strengthen the community.</p>
+      </div>
+      <div class="cycle-arrow" style="transform:rotate(180deg)">→</div>
+    </div>
+    <div class="text-center mt-3 reveal">
+      <a href="sessions.html" class="btn btn-outline">Explore Sessions →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED COURSES ───────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom:2.5rem;">
+      <div>
+        <div class="section-tag">Courses</div>
+        <h2 class="reveal">Start your journey</h2>
+      </div>
+      <a href="resources.html" class="btn btn-ghost reveal">View all →</a>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-img-placeholder">🎨</div>
+        <div class="card-body">
+          <span class="card-tag">Beginner</span>
+          <h3>Watercolor 101</h3>
+          <p>Master the fundamentals of watercolor — blending, layering, and color theory from scratch.</p>
+          <div class="card-meta">
+            <span>👤 234 students</span>
+            <a href="resources.html" class="btn btn-primary btn-sm">Enroll</a>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img-placeholder">✏️</div>
+        <div class="card-body">
+          <span class="card-tag">Beginner</span>
+          <h3>Sketching Basics</h3>
+          <p>Learn proportion, shading, and line work through guided exercises and weekly challenges.</p>
+          <div class="card-meta">
+            <span>👤 312 students</span>
+            <a href="resources.html" class="btn btn-primary btn-sm">Enroll</a>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <div class="card-img-placeholder">🖊️</div>
+        <div class="card-body">
+          <span class="card-tag">Intermediate</span>
+          <h3>Inking & Line Art</h3>
+          <p>Explore the expressive world of ink — stippling, hatching, and bold graphic illustration.</p>
+          <div class="card-meta">
+            <span>👤 189 students</span>
+            <a href="resources.html" class="btn btn-primary btn-sm">Enroll</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IMPACT BANNER ──────────────────────────────────────────────────────── -->
+<section class="section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="grid-2" style="align-items:center;gap:4rem;">
+      <div class="reveal">
+        <div class="section-tag">Why It Matters</div>
+        <h2>Art shouldn't disappear when budgets get cut.</h2>
+        <p style="margin-top:1rem;margin-bottom:2rem;">According to the National Center for Education Statistics, only 28% of schools offer visual arts courses meeting state standards. The Art Lab exists so students never lose access to creative education — regardless of where they live or what their school can afford.</p>
+        <a href="resources.html" class="btn btn-primary">Explore Free Resources</a>
+      </div>
+      <div class="reveal" style="display:grid;gap:1.5rem;">
+        <div class="card" style="padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;">
+          <div style="font-size:2rem;flex-shrink:0;">📚</div>
+          <div>
+            <h4>Free for Every Student</h4>
+            <p style="font-size:0.88rem;">No tuition, no paywall. Every course, session, and resource is completely free.</p>
+          </div>
+        </div>
+        <div class="card" style="padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;">
+          <div style="font-size:2rem;flex-shrink:0;">🤝</div>
+          <div>
+            <h4>Peer-Powered Learning</h4>
+            <p style="font-size:0.88rem;">Real students teach real skills. Mentors who were once beginners guide the next wave.</p>
+          </div>
+        </div>
+        <div class="card" style="padding:1.75rem;display:flex;gap:1.25rem;align-items:flex-start;">
+          <div style="font-size:2rem;flex-shrink:0;">♿</div>
+          <div>
+            <h4>Accessible by Design</h4>
+            <p style="font-size:0.88rem;">WCAG 2.1 compliant. High-contrast, screen-reader friendly, and responsive on every device.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────────────────────── -->
+<section class="section testimonials">
+  <div class="container">
+    <h2>What students are saying</h2>
+  </div>
+  <div style="overflow:hidden;margin-top:2rem;">
+    <div class="testimonial-track" id="testimonialTrack">
+      <!-- set 1 -->
+      <div class="testimonial-card">
+        <p>"I never thought I'd be teaching other students in watercolor. The Art Lab gave me the space to grow into a mentor."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div><div class="testimonial-name">Mia K.</div><div class="testimonial-role">Student → Mentor, Watercolor</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"Our school cut the art program junior year. The Art Lab was literally the only reason I kept drawing."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JL</div>
+          <div><div class="testimonial-name">James L.</div><div class="testimonial-role">Student, Sketching</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"The gallery feature made me feel like a real artist — seeing my work up there and getting likes was so motivating."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PR</div>
+          <div><div class="testimonial-name">Priya R.</div><div class="testimonial-role">Student, Digital Art</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"Booking a 1-on-1 session with my mentor changed everything. She saw what I was struggling with immediately."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SB</div>
+          <div><div class="testimonial-name">Sofia B.</div><div class="testimonial-role">Student, Illustration</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"The progress tracker actually kept me accountable. I hit 10 pieces uploaded in my first month here."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TD</div>
+          <div><div class="testimonial-name">Tyler D.</div><div class="testimonial-role">Student, Mixed Media</div></div>
+        </div>
+      </div>
+      <!-- duplicate for seamless loop -->
+      <div class="testimonial-card">
+        <p>"I never thought I'd be teaching other students in watercolor. The Art Lab gave me the space to grow into a mentor."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div><div class="testimonial-name">Mia K.</div><div class="testimonial-role">Student → Mentor, Watercolor</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"Our school cut the art program junior year. The Art Lab was literally the only reason I kept drawing."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JL</div>
+          <div><div class="testimonial-name">James L.</div><div class="testimonial-role">Student, Sketching</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"The gallery feature made me feel like a real artist — seeing my work up there and getting likes was so motivating."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PR</div>
+          <div><div class="testimonial-name">Priya R.</div><div class="testimonial-role">Student, Digital Art</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"Booking a 1-on-1 session with my mentor changed everything. She saw what I was struggling with immediately."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SB</div>
+          <div><div class="testimonial-name">Sofia B.</div><div class="testimonial-role">Student, Illustration</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>"The progress tracker actually kept me accountable. I hit 10 pieces uploaded in my first month here."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TD</div>
+          <div><div class="testimonial-name">Tyler D.</div><div class="testimonial-role">Student, Mixed Media</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
+<section class="section text-center" style="background:var(--accent);color:var(--white);">
+  <div class="container">
+    <h2 style="color:var(--white);margin-bottom:1rem;">Ready to start your creative journey?</h2>
+    <p style="color:rgba(255,255,255,0.8);margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto;">Join hundreds of student artists learning, creating, and mentoring — completely free.</p>
+    <button class="btn btn-lg" style="background:var(--white);color:var(--accent);" onclick="openAuthModal('signup')">Join The Art Lab Free →</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>🎨 The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images & icons: Unsplash, The Noun Project</div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
+      <span>Poorva Khambekar · Mishti Doshi · Claire Xu</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── AUTH MODAL ─────────────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="modal-header">
+      <div style="font-size:2.5rem;margin-bottom:0.5rem;">🎨</div>
+      <h2>The Art Lab</h2>
+      <p>Create, learn, and grow with a community of student artists.</p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
+        <div class="modal-tab" data-tab="signup" onclick="switchTab('signup')">Join Free</div>
+      </div>
+      <!-- Login -->
+      <div class="modal-tab-content active" id="loginForm">
+        <div id="loginError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="Your password" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In →</button>
+        </form>
+        <div style="text-align:center;margin-top:1rem;font-size:0.88rem;color:var(--mid);">
+          No account? <a href="#" onclick="switchTab('signup')" style="color:var(--accent);font-weight:600;">Join free</a>
+        </div>
+      </div>
+      <!-- Signup -->
+      <div class="modal-tab-content" id="signupForm">
+        <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div style="margin-bottom:1.25rem;">
+          <label style="display:block;font-weight:600;font-size:0.88rem;color:var(--dark);margin-bottom:0.5rem;">I am a...</label>
+          <div class="role-select">
+            <div class="role-option selected" data-role="student" onclick="selectRole('student')">
+              <span class="role-icon">🎨</span>Student
+            </div>
+            <div class="role-option" data-role="mentor" onclick="selectRole('mentor')">
+              <span class="role-icon">⭐</span>Mentor
+            </div>
+          </div>
+        </div>
+        <form onsubmit="handleSignup(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="signupFirst" class="form-control" placeholder="First" required />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="signupLast" class="form-control" placeholder="Last" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="signupEmail" class="form-control" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Create My Account →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    initAuthUI();
+  });
+</script>
+</body>
+</html>

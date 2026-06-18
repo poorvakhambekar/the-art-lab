@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — The Art Lab</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .quiz-card {
+      background: var(--card); border-radius: var(--radius);
+      padding: 2rem; box-shadow: 0 4px 24px var(--shadow);
+    }
+    .quiz-option {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.85rem 1rem; border-radius: var(--radius-sm);
+      border: 2px solid var(--bg2); margin-bottom: 0.6rem;
+      font-size: 0.92rem; font-weight: 500; color: var(--dark);
+      transition: var(--transition); cursor: pointer;
+    }
+    .quiz-option:hover { border-color: var(--primary-d); background: rgba(232,180,192,0.08); }
+    .quiz-option.correct { border-color: #27AE60; background: rgba(39,174,96,0.1); }
+    .quiz-option.wrong { border-color: #E74C3C; background: rgba(231,76,60,0.1); }
+    .quiz-option .opt-letter {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: var(--bg2); display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; color: var(--mid);
+    }
+    .featured-resource {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      border-radius: var(--radius); padding: 2.5rem;
+      display: flex; gap: 2rem; align-items: center; margin-bottom: 3rem;
+      color: var(--white);
+    }
+    .featured-resource h2 { color: var(--white); margin-bottom: 0.75rem; font-size: 1.75rem; }
+    .featured-resource p { color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; }
+    .featured-emoji { font-size: 5rem; flex-shrink: 0; }
+    .download-item {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding: 1.1rem 1.25rem; border-radius: var(--radius-sm);
+      background: var(--bg); border: 2px solid var(--bg2);
+      transition: var(--transition); margin-bottom: 0.75rem;
+    }
+    .download-item:hover { border-color: var(--primary-d); background: rgba(232,180,192,0.08); transform: translateX(4px); }
+    .download-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .download-info { flex: 1; }
+    .download-name { font-weight: 700; font-size: 0.92rem; color: var(--dark); }
+    .download-meta { font-size: 0.78rem; color: var(--mid); margin-top: 0.2rem; }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20">🎨</text></svg>
+      The Art Lab
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sessions.html">Sessions</a></li>
+      <li><a href="resources.html" class="active">Resources</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="dashboard.html">My Page</a></li>
+    </ul>
+    <div class="nav-right">
+      <div style="position:relative;">
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
+        <div class="palette-popup" id="palettePopup">
+          <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow</div>
+        </div>
+      </div>
+      <div class="auth-area" id="authArea"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="blob-bg" style="width:400px;height:400px;background:var(--highlight);top:-150px;left:-100px;"></div>
+  <div class="container">
+    <div class="section-tag">Resources</div>
+    <h1>Everything you need to grow.</h1>
+    <p>Video lessons, interactive quizzes, and downloadable worksheets — all free, all created by and for student artists.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Search + filter bar -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;">
+      <div class="search-bar" style="flex:1;min-width:240px;max-width:400px;">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search resources…" id="resourceSearch" oninput="searchResources()" />
+      </div>
+      <div class="filter-bar" style="margin:0;">
+        <button class="filter-btn active" data-filter="all" onclick="filterResources(this,'all')">All</button>
+        <button class="filter-btn" data-filter="video" onclick="filterResources(this,'video')">🎬 Videos</button>
+        <button class="filter-btn" data-filter="quiz" onclick="filterResources(this,'quiz')">🧠 Quizzes</button>
+        <button class="filter-btn" data-filter="download" onclick="filterResources(this,'download')">📥 Downloads</button>
+        <button class="filter-btn" data-filter="lesson" onclick="filterResources(this,'lesson')">📖 Lessons</button>
+      </div>
+    </div>
+
+    <!-- Featured -->
+    <div class="featured-resource reveal">
+      <div class="featured-emoji">🎨</div>
+      <div>
+        <h2>Start Here: The Art Lab Fundamentals</h2>
+        <p>A curated 5-part video series introducing color theory, composition, and line — the foundations every artist needs.</p>
+        <button class="btn" style="background:var(--white);color:var(--accent);" onclick="openVideo('Art Lab Fundamentals — Part 1')">▶ Watch Series Free</button>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="res-all" onclick="switchResTab('res-all',this)">All Resources</button>
+      <button class="tab-btn" data-tab="res-courses" onclick="switchResTab('res-courses',this)">Courses</button>
+      <button class="tab-btn" data-tab="res-quizzes" onclick="switchResTab('res-quizzes',this)">Interactive Quizzes</button>
+      <button class="tab-btn" data-tab="res-downloads" onclick="switchResTab('res-downloads',this)">Downloads</button>
+    </div>
+
+    <!-- ALL RESOURCES -->
+    <div id="res-all">
+      <div class="grid-4" id="resourceGrid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <div id="res-courses" class="hidden">
+      <div class="grid-3" id="coursesGrid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- QUIZZES -->
+    <div id="res-quizzes" class="hidden">
+      <div class="grid-2" style="gap:2rem;align-items:start;">
+        <div class="quiz-card reveal" id="quizContainer">
+          <div id="quizContent"><!-- injected --></div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:1.5rem;">More Quizzes</h3>
+          <div style="display:flex;flex-direction:column;gap:0.75rem;">
+            <div class="card" style="padding:1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;" onclick="loadQuiz(1)">
+              <div style="font-size:1.5rem;">🎨</div>
+              <div><div style="font-weight:700;font-size:0.92rem;">Color Theory Basics</div><div style="font-size:0.8rem;color:var(--mid);">5 questions • Beginner</div></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:auto;">Try it</button>
+            </div>
+            <div class="card" style="padding:1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;" onclick="loadQuiz(2)">
+              <div style="font-size:1.5rem;">✏️</div>
+              <div><div style="font-weight:700;font-size:0.92rem;">Composition Principles</div><div style="font-size:0.8rem;color:var(--mid);">6 questions • Intermediate</div></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:auto;">Try it</button>
+            </div>
+            <div class="card" style="padding:1.25rem;display:flex;align-items:center;gap:1rem;cursor:pointer;" onclick="loadQuiz(3)">
+              <div style="font-size:1.5rem;">🖊️</div>
+              <div><div style="font-weight:700;font-size:0.92rem;">Art History Match</div><div style="font-size:0.8rem;color:var(--mid);">8 questions • All levels</div></div>
+              <button class="btn btn-outline btn-sm" style="margin-left:auto;">Try it</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOWNLOADS -->
+    <div id="res-downloads" class="hidden">
+      <div class="grid-2">
+        <div>
+          <h3 style="margin-bottom:1.25rem;">Worksheets & Guides</h3>
+          <div id="downloadList"><!-- injected --></div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:1.25rem;">Templates</h3>
+          <div id="templateList"><!-- injected --></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal" style="max-width:640px;">
+    <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('open')">✕</button>
+    <div style="background:var(--dark);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border-radius:16px 16px 0 0;">
+      <div style="text-align:center;color:white;">
+        <div style="font-size:4rem;margin-bottom:1rem;">▶</div>
+        <div style="font-size:1rem;opacity:0.7;" id="videoTitle">Video Title</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <h3 id="videoModalTitle" style="margin-bottom:0.5rem;"></h3>
+      <p id="videoModalDesc" style="font-size:0.9rem;"></p>
+      <div style="display:flex;gap:0.75rem;margin-top:1.25rem;">
+        <button class="btn btn-primary" onclick="document.getElementById('videoModal').classList.remove('open')">Mark as Watched ✓</button>
+        <button class="btn btn-outline" onclick="document.getElementById('videoModal').classList.remove('open')">Save for Later</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="modal-header"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🎨</div><h2>The Art Lab</h2><p>Sign in to track your progress.</p></div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
+        <div class="modal-tab" data-tab="signup" onclick="switchTab('signup')">Join Free</div>
+      </div>
+      <div class="modal-tab-content active" id="loginForm">
+        <div id="loginError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" required /></div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In →</button>
+        </form>
+      </div>
+      <div class="modal-tab-content" id="signupForm">
+        <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div class="role-select" style="margin-bottom:1.25rem;">
+          <div class="role-option selected" data-role="student" onclick="selectRole('student')"><span class="role-icon">🎨</span>Student</div>
+          <div class="role-option" data-role="mentor" onclick="selectRole('mentor')"><span class="role-icon">⭐</span>Mentor</div>
+        </div>
+        <form onsubmit="handleSignup(event)">
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" id="signupFirst" class="form-control" required /></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="signupLast" class="form-control" required /></div>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="signupPassword" class="form-control" required /></div>
+          <button type="submit" class="btn btn-primary btn-full">Create My Account →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="background:var(--dark);color:rgba(255,255,255,0.6);padding:2rem 0;">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0;">
+      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
+      <div style="display:flex;gap:2rem;">
+        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
+        <a href="sessions.html" style="color:rgba(255,255,255,0.6);">Sessions</a>
+        <a href="gallery.html" style="color:rgba(255,255,255,0.6);">Gallery</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+const RESOURCES = [
+  { id:1, type:'video', emoji:'💧', title:'Wet-on-Wet Watercolor', desc:'Master blooms and soft edges in this 18-minute demo.', duration:'18 min', level:'Beginner', medium:'watercolor' },
+  { id:2, type:'video', emoji:'✏️', title:'Gesture Drawing Fundamentals', desc:'Loosen your hand and capture movement with confidence.', duration:'22 min', level:'Beginner', medium:'sketching' },
+  { id:3, type:'lesson', emoji:'🎨', title:'Understanding Color Theory', desc:'Primary, secondary, complementary — and why it all matters.', duration:'15 min', level:'Beginner', medium:'all' },
+  { id:4, type:'video', emoji:'🖊️', title:'Stippling Techniques for Ink', desc:'Create stunning texture with just a pen and patience.', duration:'24 min', level:'Intermediate', medium:'inking' },
+  { id:5, type:'quiz', emoji:'🧠', title:'Color Theory Quiz', desc:'Test your knowledge of color wheels, values, and harmony.', duration:'5 questions', level:'Beginner', medium:'all' },
+  { id:6, type:'download', emoji:'📝', title:'Watercolor Worksheet Pack', desc:'Step-by-step practice sheets for 6 watercolor techniques.', duration:'PDF, 12 pages', level:'Beginner', medium:'watercolor' },
+  { id:7, type:'video', emoji:'🌊', title:'Creating Depth with Layers', desc:'Discover how to build luminous washes that glow from within.', duration:'31 min', level:'Intermediate', medium:'watercolor' },
+  { id:8, type:'lesson', emoji:'📐', title:'Composition: Rule of Thirds', desc:'How to arrange your subject for maximum visual impact.', duration:'10 min', level:'Beginner', medium:'all' },
+  { id:9, type:'download', emoji:'📄', title:'Gesture Drawing Reference Sheet', desc:'60 gesture poses for daily warm-up practice.', duration:'PDF, 8 pages', level:'All levels', medium:'sketching' },
+  { id:10, type:'video', emoji:'🖥️', title:'Procreate Brush Basics', desc:'Set up your digital workspace and learn core brush controls.', duration:'20 min', level:'Beginner', medium:'digital' },
+  { id:11, type:'lesson', emoji:'💡', title:'Finding Your Art Style', desc:'Exercises to identify what makes your work distinctly yours.', duration:'12 min', level:'All levels', medium:'all' },
+  { id:12, type:'download', emoji:'🗂️', title:'Portfolio Planning Template', desc:'Map out your artistic goals and track growth month by month.', duration:'PDF, 4 pages', level:'All levels', medium:'all' },
+];
+
+const COURSES = [
+  { emoji:'🎨', title:'Watercolor 101', level:'Beginner', lessons:9, students:234, desc:'From color mixing to wet-on-wet — the complete beginner watercolor path.', tags:['Color mixing','Blending','Composition'] },
+  { emoji:'✏️', title:'Sketching Basics', level:'Beginner', lessons:10, students:312, desc:'Proportion, shading, and gesture — everything you need to draw with confidence.', tags:['Gesture','Shading','Perspective'] },
+  { emoji:'🖊️', title:'Inking & Line Art', level:'Intermediate', lessons:8, students:189, desc:'Stippling, crosshatching, and bold graphic illustration with ink.', tags:['Stippling','Hatching','Bold line'] },
+  { emoji:'🖥️', title:'Digital Illustration', level:'Advanced', lessons:12, students:156, desc:'Procreate workflow, color theory in digital, and building your portfolio.', tags:['Procreate','Digital color','Portfolio'] },
+  { emoji:'🎭', title:'Mixed Media Collage', level:'Intermediate', lessons:10, students:98, desc:'Combine painting, drawing, and found materials into expressive collages.', tags:['Texture','Layering','Experimental'] },
+  { emoji:'🏛️', title:'Art History & Context', level:'Beginner', lessons:6, students:203, desc:'The movements, masters, and ideas that shaped art as we know it.', tags:['History','Movements','Analysis'] },
+];
+
+const DOWNLOADS = [
+  { emoji:'📝', name:'Watercolor Technique Pack', type:'PDF • 12 pages', size:'2.3 MB' },
+  { emoji:'✏️', name:'Gesture Drawing Poses (60)', type:'PDF • 8 pages', size:'4.1 MB' },
+  { emoji:'🎨', name:'Color Mixing Chart', type:'PDF • 2 pages', size:'0.8 MB' },
+  { emoji:'🖊️', name:'Inking Practice Grids', type:'PDF • 6 pages', size:'1.2 MB' },
+];
+const TEMPLATES = [
+  { emoji:'🗂️', name:'Portfolio Planning Template', type:'PDF • 4 pages', size:'0.5 MB' },
+  { emoji:'📅', name:'Weekly Art Practice Planner', type:'PDF • 2 pages', size:'0.4 MB' },
+  { emoji:'🌈', name:'Color Palette Builder', type:'PDF • 3 pages', size:'0.6 MB' },
+  { emoji:'📊', name:'Progress Tracking Sheet', type:'PDF • 2 pages', size:'0.3 MB' },
+];
+
+const QUIZZES = [
+  {
+    title: 'Color Theory Basics',
+    questions: [
+      { q: 'Which two colors mix to create orange?', opts: ['Red & Blue','Red & Yellow','Yellow & Blue','Blue & Green'], answer: 1 },
+      { q: 'What is a complementary color pair?', opts: ['Red & Pink','Blue & Purple','Red & Green','Yellow & Cream'], answer: 2 },
+      { q: 'Which color temperature feels "warmer"?', opts: ['Blue','Teal','Violet','Orange'], answer: 3 },
+      { q: 'What does "value" mean in art?', opts: ['Price of the artwork','Lightness or darkness of a color','Emotional meaning','Texture quality'], answer: 1 },
+      { q: 'Mixing a color with white creates a…', opts: ['Shade','Tone','Tint','Hue'], answer: 2 },
+    ]
+  },
+  {
+    title: 'Composition Principles',
+    questions: [
+      { q: 'The Rule of Thirds divides the canvas into how many sections?', opts: ['4','6','9','12'], answer: 2 },
+      { q: 'A "leading line" is used to…', opts: ['Outline the subject','Guide the viewer\'s eye through the image','Separate foreground and background','Define shadow edges'], answer: 1 },
+      { q: 'Negative space refers to…', opts: ['Dark colors in a painting','The area around the subject','Errors in composition','Background texture'], answer: 1 },
+    ]
+  },
+  {
+    title: 'Art History Match',
+    questions: [
+      { q: 'Who painted the Starry Night?', opts: ['Pablo Picasso','Claude Monet','Vincent van Gogh','Frida Kahlo'], answer: 2 },
+      { q: 'Impressionism originated in which country?', opts: ['Spain','Italy','USA','France'], answer: 3 },
+      { q: 'Frida Kahlo was known for her…', opts: ['Abstract sculptures','Self-portraits','Landscape photography','Minimalist line drawings'], answer: 1 },
+    ]
+  },
+];
+
+let currentQuiz = 0, currentQ = 0, score = 0, answered = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAuthUI();
+  renderResourceGrid();
+  renderCourses();
+  renderDownloads();
+  loadQuiz(0);
+});
+
+function renderResourceGrid() {
+  document.getElementById('resourceGrid').innerHTML = RESOURCES.map(r => {
+    const badges = { video:'badge-video', quiz:'badge-quiz', download:'badge-download', lesson:'badge-lesson' };
+    const labels = { video:'🎬 Video', quiz:'🧠 Quiz', download:'📥 Download', lesson:'📖 Lesson' };
+    return `<div class="resource-card" data-type="${r.type}" data-title="${r.title.toLowerCase()}">
+      <div class="resource-thumb" style="background:linear-gradient(135deg,var(--primary),var(--highlight));">
+        <span style="font-size:2.5rem;">${r.emoji}</span>
+        ${r.type==='video' ? `<div class="play-btn" onclick="openVideo('${r.title}','${r.desc}')">▶</div>` : ''}
+      </div>
+      <div class="resource-body">
+        <h4>${r.title}</h4>
+        <p>${r.desc}</p>
+        <div class="resource-footer">
+          <span class="resource-type-badge ${badges[r.type]}">${labels[r.type]}</span>
+          <span style="font-size:0.78rem;color:var(--mid);">${r.duration}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderCourses() {
+  document.getElementById('coursesGrid').innerHTML = COURSES.map(c => `
+    <div class="card">
+      <div style="background:linear-gradient(135deg,var(--primary),var(--highlight));padding:2rem;text-align:center;font-size:3rem;">${c.emoji}</div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <h3 style="font-size:1.1rem;">${c.title}</h3>
+          <span class="chip">${c.level}</span>
+        </div>
+        <p style="font-size:0.88rem;margin-bottom:1rem;">${c.desc}</p>
+        <div class="tag-list" style="margin-bottom:1rem;">${c.tags.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
+        <div class="resource-footer">
+          <span style="font-size:0.82rem;color:var(--mid);">👤 ${c.students} • ${c.lessons} lessons</span>
+          <button class="btn btn-primary btn-sm" onclick="enrollCourse('${c.title}')">Enroll Free</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderDownloads() {
+  const makeItem = (d, i) => `
+    <div class="download-item" onclick="downloadItem('${d.name}')">
+      <div class="download-icon">${d.emoji}</div>
+      <div class="download-info">
+        <div class="download-name">${d.name}</div>
+        <div class="download-meta">${d.type} • ${d.size}</div>
+      </div>
+      <button class="btn btn-outline btn-sm">📥</button>
+    </div>`;
+  document.getElementById('downloadList').innerHTML = DOWNLOADS.map(makeItem).join('');
+  document.getElementById('templateList').innerHTML = TEMPLATES.map(makeItem).join('');
+}
+
+function filterResources(btn, type) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.resource-card').forEach(c => {
+    c.style.display = type === 'all' || c.dataset.type === type ? '' : 'none';
+  });
+}
+
+function searchResources() {
+  const q = document.getElementById('resourceSearch').value.toLowerCase();
+  document.querySelectorAll('.resource-card').forEach(c => {
+    c.style.display = c.dataset.title.includes(q) ? '' : 'none';
+  });
+}
+
+function switchResTab(id, btn) {
+  ['res-all','res-courses','res-quizzes','res-downloads'].forEach(t => {
+    document.getElementById(t).classList.toggle('hidden', t !== id);
+  });
+  document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (id === 'res-quizzes') animateProgressBars();
+}
+
+function openVideo(title, desc) {
+  document.getElementById('videoTitle').textContent = title;
+  document.getElementById('videoModalTitle').textContent = title;
+  document.getElementById('videoModalDesc').textContent = desc || 'A curated instructional video from The Art Lab library.';
+  document.getElementById('videoModal').classList.add('open');
+}
+
+function enrollCourse(name) {
+  if (!Auth.currentUser()) { openAuthModal('signup'); return; }
+  showToast(`Enrolled in ${name}!`, '📚');
+  Auth.addNotification({ text: `You enrolled in "${name}" — let's go! 🚀`, time:'Just now', icon:'📚' });
+}
+
+function downloadItem(name) {
+  showToast(`Downloading "${name}"…`, '📥');
+}
+
+// ── Quiz Engine ────────────────────────────────────────────────────────────
+function loadQuiz(idx) {
+  currentQuiz = idx; currentQ = 0; score = 0; answered = false;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const quiz = QUIZZES[currentQuiz];
+  const q = quiz.questions[currentQ];
+  const letters = ['A','B','C','D'];
+  document.getElementById('quizContent').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <h3 style="font-size:1.1rem;">${quiz.title}</h3>
+      <span style="font-size:0.82rem;color:var(--mid);">${currentQ+1} / ${quiz.questions.length}</span>
+    </div>
+    <div class="progress-bar" style="margin-bottom:1.5rem;">
+      <div class="progress-fill" style="width:${((currentQ)/quiz.questions.length*100)}%"></div>
+    </div>
+    <p style="font-weight:700;font-size:1rem;margin-bottom:1.25rem;">${q.q}</p>
+    ${q.opts.map((o,i)=>`
+      <div class="quiz-option" onclick="answerQuiz(${i},${q.answer})">
+        <div class="opt-letter">${letters[i]}</div>${o}
+      </div>`).join('')}
+    <div id="quizFeedback" style="margin-top:1rem;font-size:0.9rem;min-height:24px;"></div>
+  `;
+}
+
+function answerQuiz(picked, correct) {
+  if (answered) return;
+  answered = true;
+  const opts = document.querySelectorAll('.quiz-option');
+  opts[correct].classList.add('correct');
+  if (picked !== correct) opts[picked].classList.add('wrong');
+  else { score++; }
+  const fb = document.getElementById('quizFeedback');
+  fb.textContent = picked === correct ? '✅ Correct!' : `❌ Not quite — the answer is "${QUIZZES[currentQuiz].questions[currentQ].opts[correct]}".`;
+  fb.style.color = picked === correct ? '#27AE60' : '#E74C3C';
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < QUIZZES[currentQuiz].questions.length) {
+      answered = false; renderQuestion();
+    } else {
+      const total = QUIZZES[currentQuiz].questions.length;
+      document.getElementById('quizContent').innerHTML = `
+        <div style="text-align:center;padding:1.5rem 0;">
+          <div style="font-size:3rem;margin-bottom:1rem;">${score===total?'🏆':score>=total/2?'🎨':'💪'}</div>
+          <h3 style="margin-bottom:0.75rem;">Quiz Complete!</h3>
+          <p style="font-size:1.1rem;margin-bottom:0.25rem;">You scored <strong>${score}/${total}</strong></p>
+          <p style="font-size:0.88rem;color:var(--mid);margin-bottom:1.75rem;">${score===total?'Perfect score!':score>=total/2?'Great job — keep learning!':'Keep practicing, you\'ve got this!'}</p>
+          <button class="btn btn-primary" onclick="loadQuiz(${currentQuiz})">Try Again</button>
+        </div>`;
+    }
+  }, 1200);
+}
+</script>
+</body>
+</html>

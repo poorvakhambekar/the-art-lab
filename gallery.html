@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — The Art Lab</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .gallery-masonry { columns: 4 200px; gap: 1.25rem; }
+    .gallery-piece {
+      break-inside: avoid; margin-bottom: 1.25rem;
+      border-radius: var(--radius); overflow: hidden;
+      position: relative; cursor: pointer;
+      box-shadow: 0 4px 20px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-piece:hover { transform: translateY(-4px); box-shadow: 0 12px 36px var(--shadow); }
+    .piece-canvas {
+      width: 100%; display: block;
+      background: linear-gradient(135deg, var(--primary), var(--highlight));
+    }
+    .piece-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(44,26,26,0.88) 0%, rgba(44,26,26,0) 55%);
+      opacity: 0; transition: opacity 0.3s ease;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 1.1rem;
+    }
+    .gallery-piece:hover .piece-overlay { opacity: 1; }
+    .piece-title { color: var(--white); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem; }
+    .piece-artist { color: rgba(255,255,255,0.72); font-size: 0.78rem; margin-bottom: 0.6rem; }
+    .piece-actions { display: flex; gap: 0.5rem; }
+    .piece-like-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
+      padding: 0.35rem 0.85rem; color: var(--white);
+      font-size: 0.8rem; font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .piece-like-btn:hover, .piece-like-btn.liked { background: rgba(255,77,109,0.7); border-color: transparent; }
+    .piece-like-btn.liked .lheart { animation: heartPop 0.3s ease; }
+    .piece-view-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
+      padding: 0.35rem 0.85rem; color: var(--white);
+      font-size: 0.8rem; font-weight: 600; transition: background 0.2s;
+    }
+    .piece-view-btn:hover { background: rgba(255,255,255,0.25); }
+    @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
+
+    /* Piece Detail Modal */
+    .piece-modal {
+      display: none; position: fixed; inset: 0; z-index: 9500;
+      background: rgba(20,10,10,0.92); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .piece-modal.open { display: flex; animation: fadeIn 0.2s ease; }
+    .piece-modal-inner {
+      display: grid; grid-template-columns: 1fr 380px; gap: 0;
+      background: var(--card); border-radius: 24px; overflow: hidden;
+      max-width: 900px; width: 100%; max-height: 90vh;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .piece-modal-canvas {
+      background: linear-gradient(135deg, var(--primary), var(--highlight));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem; min-height: 400px;
+    }
+    .piece-modal-info { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+    .piece-modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: none;
+      color: white; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .piece-modal-close:hover { background: rgba(255,255,255,0.3); }
+    .comment-input-area {
+      display: flex; gap: 0.5rem; margin-top: 0.5rem;
+    }
+    .comment-input-area input {
+      flex: 1; padding: 0.6rem 1rem; border-radius: 50px;
+      border: 2px solid var(--bg2); background: var(--bg);
+      font-size: 0.88rem; color: var(--dark); outline: none; font-family: inherit;
+    }
+    .comment-input-area input:focus { border-color: var(--primary-d); }
+    .comment-item { padding: 0.75rem 0; border-bottom: 1px solid var(--bg2); }
+    .comment-item:last-child { border: none; }
+    .comment-author { font-weight: 700; font-size: 0.85rem; color: var(--dark); margin-bottom: 0.2rem; }
+    .comment-text { font-size: 0.85rem; color: var(--mid); }
+    .trending-badge {
+      position: absolute; top: 0.75rem; left: 0.75rem; z-index: 2;
+      background: var(--accent); color: var(--white);
+      padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-trail"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20">🎨</text></svg>
+      The Art Lab
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sessions.html">Sessions</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="dashboard.html">My Page</a></li>
+    </ul>
+    <div class="nav-right">
+      <div style="position:relative;">
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
+        <div class="palette-popup" id="palettePopup">
+          <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow</div>
+        </div>
+      </div>
+      <div class="auth-area" id="authArea"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="blob-bg" style="width:350px;height:350px;background:var(--primary);bottom:-80px;right:10%;"></div>
+  <div class="container">
+    <div class="section-tag">Student Gallery</div>
+    <h1>Art made by students,<br>celebrated by all.</h1>
+    <p>Every piece here was created by a member of The Art Lab community. Like, comment, and get inspired.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Controls -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem;">
+      <div class="search-bar" style="flex:1;min-width:200px;max-width:360px;">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search by title or artist…" id="gallerySearch" oninput="searchGallery()" />
+      </div>
+      <div class="filter-bar" style="margin:0;">
+        <button class="filter-btn active" onclick="filterGallery(this,'all')">All</button>
+        <button class="filter-btn" onclick="filterGallery(this,'watercolor')">Watercolor</button>
+        <button class="filter-btn" onclick="filterGallery(this,'sketching')">Sketching</button>
+        <button class="filter-btn" onclick="filterGallery(this,'digital')">Digital</button>
+        <button class="filter-btn" onclick="filterGallery(this,'inking')">Inking</button>
+        <button class="filter-btn" onclick="filterGallery(this,'mixed')">Mixed Media</button>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:0.5rem;">
+        <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">🔥 Most Liked</button>
+        <button class="filter-btn" id="sortNew" onclick="sortBy('new')">✨ Newest</button>
+      </div>
+    </div>
+
+    <!-- Masonry gallery -->
+    <div class="gallery-masonry" id="galleryGrid">
+      <!-- injected by JS -->
+    </div>
+
+    <div style="text-align:center;margin-top:3rem;">
+      <button class="btn btn-outline btn-lg" onclick="loadMore()">Load More ↓</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Piece Detail Modal -->
+<div class="piece-modal" id="pieceModal">
+  <button class="piece-modal-close" onclick="closePieceModal()">✕</button>
+  <div class="piece-modal-inner">
+    <div class="piece-modal-canvas" id="modalCanvas">🌸</div>
+    <div class="piece-modal-info">
+      <div>
+        <h2 id="modalTitle" style="margin-bottom:0.25rem;font-size:1.5rem;"></h2>
+        <div id="modalArtist" style="font-size:0.88rem;color:var(--mid);margin-bottom:0.75rem;"></div>
+        <div class="tag-list" id="modalTags"></div>
+      </div>
+      <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1rem;">
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">Artist Statement</div>
+        <p id="modalStatement" style="font-size:0.9rem;font-style:italic;"></p>
+      </div>
+      <div style="display:flex;gap:1rem;">
+        <button class="piece-like-btn" id="modalLikeBtn" style="flex:1;justify-content:center;padding:0.65rem;" onclick="modalLike()">
+          <span class="lheart" id="modalHeart">🤍</span>
+          <span id="modalLikeCount">0</span> likes
+        </button>
+        <button class="piece-view-btn" style="flex:1;justify-content:center;padding:0.65rem;background:var(--accent);border-color:var(--accent);" onclick="sharepiece()">
+          📤 Share
+        </button>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:0.92rem;margin-bottom:0.75rem;">Comments <span id="commentCount" style="color:var(--mid);font-weight:400;font-family:'DM Sans',sans-serif;font-size:0.82rem;"></span></div>
+        <div id="commentsList" style="max-height:180px;overflow-y:auto;"></div>
+        <div class="comment-input-area" style="margin-top:0.75rem;">
+          <input type="text" id="commentInput" placeholder="Leave a kind word…" onkeydown="if(event.key==='Enter')submitComment()" />
+          <button class="btn btn-primary btn-sm" onclick="submitComment()">Post</button>
+        </div>
+        <div id="commentLoginHint" style="font-size:0.8rem;color:var(--mid);margin-top:0.5rem;display:none;">
+          <a href="#" onclick="openAuthModal('login');return false;" style="color:var(--accent);font-weight:600;">Sign in</a> to leave a comment.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="modal-header"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🎨</div><h2>The Art Lab</h2><p>Sign in to like and comment on art.</p></div>
+    <div class="modal-body">
+      <div class="modal-tabs">
+        <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
+        <div class="modal-tab" data-tab="signup" onclick="switchTab('signup')">Join Free</div>
+      </div>
+      <div class="modal-tab-content active" id="loginForm">
+        <div id="loginError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" required /></div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In →</button>
+        </form>
+      </div>
+      <div class="modal-tab-content" id="signupForm">
+        <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div class="role-select" style="margin-bottom:1.25rem;">
+          <div class="role-option selected" data-role="student" onclick="selectRole('student')"><span class="role-icon">🎨</span>Student</div>
+          <div class="role-option" data-role="mentor" onclick="selectRole('mentor')"><span class="role-icon">⭐</span>Mentor</div>
+        </div>
+        <form onsubmit="handleSignup(event)">
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" id="signupFirst" class="form-control" required /></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="signupLast" class="form-control" required /></div>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="signupPassword" class="form-control" required /></div>
+          <button type="submit" class="btn btn-primary btn-full">Create My Account →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer style="background:var(--dark);color:rgba(255,255,255,0.6);padding:2rem 0;">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:0;">
+      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
+      <div style="display:flex;gap:2rem;">
+        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
+        <a href="sessions.html" style="color:rgba(255,255,255,0.6);">Sessions</a>
+        <a href="resources.html" style="color:rgba(255,255,255,0.6);">Resources</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script>
+const PIECES = [
+  { id:'p1', emoji:'🌸', title:'Spring Bloom', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:47, trending:true, statement:'I wanted to capture the fleeting beauty of cherry blossoms before they fade — watercolor felt like the only medium that could hold that impermanence.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette 💕'}], w:1, h:1.4 },
+  { id:'p2', emoji:'🌊', title:'Deep Current', artist:'James L.', artistId:'jl', medium:'watercolor', likes:34, trending:false, statement:'Ocean motion rendered in layers of wet ink — this took 4 sessions to get right.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}], w:1, h:0.85 },
+  { id:'p3', emoji:'✏️', title:'Self Portrait #3', artist:'Sofia B.', artistId:'sb', medium:'sketching', likes:62, trending:true, statement:'Part of my ongoing self-portrait series — drawing yourself is the hardest and most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw — love it.'},{author:'Tyler D.',text:'Those eyes!! 🤩'},{author:'Mia K.',text:'Your line work has improved so much.'}], w:1, h:1.2 },
+  { id:'p4', emoji:'🖊️', title:'City Grid', artist:'Maya R.', artistId:'mr', medium:'inking', likes:28, trending:false, statement:'Stippled cityscapes exploring urban density and isolation.', comments:[], w:1, h:0.9 },
+  { id:'p5', emoji:'🎭', title:'Mask and Memory', artist:'Sam K.', artistId:'sk', medium:'mixed', likes:51, trending:true, statement:'Collage, ink, and watercolor — exploring identity and cultural memory through layered textures.', comments:[{author:'Amara W.',text:'The textures are unreal!'},{author:'Maya R.',text:'Museum worthy 🏛️'}], w:1, h:1.5 },
+  { id:'p6', emoji:'🖥️', title:'Neon Reverie', artist:'Tyler D.', artistId:'td', medium:'digital', likes:39, trending:false, statement:'A late-night Procreate session exploring what a dream city might look like at 3AM.', comments:[{author:'James L.',text:'The lighting is perfect.'}], w:1, h:1.0 },
+  { id:'p7', emoji:'🌿', title:'Growth', artist:'Priya R.', artistId:'pr', medium:'watercolor', likes:29, trending:false, statement:'Botanical studies of plants that grow in unexpected places — inspired by weeds in the sidewalk.', comments:[{author:'Sofia B.',text:'So peaceful to look at 🌿'}], w:1, h:1.3 },
+  { id:'p8', emoji:'🔥', title:'Ignition', artist:'Leo C.', artistId:'lc', medium:'inking', likes:44, trending:false, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Maya R.',text:'I can literally feel the heat!'},{author:'Mia K.',text:'Your brushwork is insane.'}], w:1, h:0.8 },
+  { id:'p9', emoji:'⭐', title:'Constellation', artist:'Amara W.', artistId:'aw', medium:'digital', likes:56, trending:true, statement:'Mapping personal mythology onto star charts — each star is a memory.', comments:[{author:'Tyler D.',text:'This belongs on a poster.'},{author:'Priya R.',text:'Absolutely ethereal ✨'}], w:1, h:1.1 },
+  { id:'p10', emoji:'🦋', title:'Metamorphosis', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:33, trending:false, statement:'A study in transition — inspired by one of those weeks where everything changes at once.', comments:[], w:1, h:1.6 },
+  { id:'p11', emoji:'🌅', title:'Golden Hour', artist:'James L.', artistId:'jl', medium:'sketching', likes:22, trending:false, statement:'Pencil studies of light at dusk — trying to capture warmth through value alone.', comments:[{author:'Sam K.',text:'The gradients are so smooth!'}], w:1, h:0.9 },
+  { id:'p12', emoji:'🎆', title:'Fracture', artist:'Sofia B.', artistId:'sb', medium:'mixed', likes:48, trending:true, statement:'Mixed media exploration of breaking points — sometimes things have to fracture before they can reform beautifully.', comments:[{author:'Leo C.',text:'Stunning. So powerful.'},{author:'Amara W.',text:'This gives me chills.'}], w:1, h:1.2 },
+];
+
+const GRADIENTS = [
+  'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
+  'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
+  'linear-gradient(135deg,#A8C897,#D0EDBB)',
+  'linear-gradient(135deg,#F0B89A,#F9D8A8)',
+  'linear-gradient(135deg,#C8A8E8,#E8C8F5)',
+  'linear-gradient(135deg,#E8D4A0,#F5E8C0)',
+  'linear-gradient(135deg,#A8E8D4,#C8F5E8)',
+  'linear-gradient(135deg,#E8A8A8,#F5C8C8)',
+];
+
+const HEIGHTS = [180, 220, 260, 300, 240, 200, 280, 160];
+
+let displayedPieces = [...PIECES];
+let currentPieceId = null;
+const COMMENTS_KEY = 'artlab_gallery_comments';
+const LIKES_KEY = 'artlab_gallery_likes';
+
+function getLikes() { return JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'); }
+function saveLikes(l) { localStorage.setItem(LIKES_KEY, JSON.stringify(l)); }
+function getComments() { return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }
+function saveComments(c) { localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  initAuthUI();
+  renderGallery(displayedPieces);
+});
+
+function renderGallery(pieces) {
+  const grid = document.getElementById('galleryGrid');
+  const allLikes = getLikes();
+  grid.innerHTML = pieces.map((p, i) => {
+    const isLiked = Auth.isLiked(p.id) || allLikes[p.id];
+    const totalLikes = p.likes + (allLikes[p.id+'_count'] || 0);
+    const h = HEIGHTS[i % HEIGHTS.length];
+    const grad = GRADIENTS[i % GRADIENTS.length];
+    return `
+      <div class="gallery-piece" data-id="${p.id}" data-medium="${p.medium}" data-title="${p.title.toLowerCase()} ${p.artist.toLowerCase()}" onclick="openPiece('${p.id}')">
+        ${p.trending ? '<div class="trending-badge">🔥 Trending</div>' : ''}
+        <div class="piece-canvas" style="height:${h}px;background:${grad};display:flex;align-items:center;justify-content:center;font-size:${Math.floor(h/3.5)}px;">${p.emoji}</div>
+        <div class="piece-overlay">
+          <div class="piece-title">${p.title}</div>
+          <div class="piece-artist">by ${p.artist}</div>
+          <div class="piece-actions" onclick="event.stopPropagation()">
+            <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
+              <span class="lheart">${isLiked?'❤️':'🤍'}</span>
+              <span class="lcount">${totalLikes}</span>
+            </button>
+            <button class="piece-view-btn" onclick="openPiece('${p.id}')">👁 View</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function quickLike(e, pieceId) {
+  e.stopPropagation();
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  const btn = e.currentTarget;
+  const heart = btn.querySelector('.lheart');
+  const count = btn.querySelector('.lcount');
+  const allLikes = getLikes();
+  const wasLiked = Auth.isLiked(pieceId) || allLikes[pieceId];
+  const liked = Auth.likeToggle(pieceId);
+  allLikes[pieceId] = liked;
+  const piece = PIECES.find(p => p.id === pieceId);
+  if (liked) {
+    allLikes[pieceId + '_count'] = (allLikes[pieceId + '_count'] || 0) + 1;
+    Auth.addNotification({ text: `Someone liked "${piece?.title}"! ❤️`, time: 'Just now', icon: '❤️' });
+  } else {
+    allLikes[pieceId + '_count'] = Math.max(0, (allLikes[pieceId + '_count'] || 0) - 1);
+  }
+  saveLikes(allLikes);
+  btn.classList.toggle('liked', liked);
+  heart.textContent = liked ? '❤️' : '🤍';
+  const base = piece?.likes || 0;
+  count.textContent = base + (allLikes[pieceId + '_count'] || 0);
+}
+
+function openPiece(id) {
+  const piece = PIECES.find(p => p.id === id);
+  if (!piece) return;
+  currentPieceId = id;
+  const allLikes = getLikes();
+  const i = PIECES.indexOf(piece);
+  const grad = GRADIENTS[i % GRADIENTS.length];
+  document.getElementById('modalCanvas').style.background = grad;
+  document.getElementById('modalCanvas').textContent = piece.emoji;
+  document.getElementById('modalTitle').textContent = piece.title;
+  document.getElementById('modalArtist').textContent = `by ${piece.artist} · ${piece.medium.charAt(0).toUpperCase()+piece.medium.slice(1)}`;
+  document.getElementById('modalStatement').textContent = piece.statement;
+  document.getElementById('modalTags').innerHTML = `<span class="chip">${piece.medium}</span>`;
+
+  const isLiked = Auth.isLiked(id) || allLikes[id];
+  const totalLikes = piece.likes + (allLikes[id+'_count'] || 0);
+  const likeBtn = document.getElementById('modalLikeBtn');
+  likeBtn.classList.toggle('liked', isLiked);
+  document.getElementById('modalHeart').textContent = isLiked ? '❤️' : '🤍';
+  document.getElementById('modalLikeCount').textContent = totalLikes;
+
+  renderComments(id, piece.comments);
+  const user = Auth.currentUser();
+  document.getElementById('commentInput').style.display = user ? '' : 'none';
+  document.querySelector('.comment-input-area button').style.display = user ? '' : 'none';
+  document.getElementById('commentLoginHint').style.display = user ? 'none' : 'block';
+
+  document.getElementById('pieceModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderComments(pieceId, defaultComments) {
+  const stored = getComments();
+  const all = [...(defaultComments || []), ...(stored[pieceId] || [])];
+  document.getElementById('commentCount').textContent = `(${all.length})`;
+  document.getElementById('commentsList').innerHTML = all.length
+    ? all.map(c => `<div class="comment-item"><div class="comment-author">${c.author}</div><div class="comment-text">${c.text}</div></div>`).join('')
+    : '<div style="font-size:0.85rem;color:var(--mid);padding:0.5rem 0;">No comments yet — be the first!</div>';
+}
+
+function submitComment() {
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const stored = getComments();
+  stored[currentPieceId] = stored[currentPieceId] || [];
+  const comment = { author: user.firstName + ' ' + user.lastName[0] + '.', text };
+  stored[currentPieceId].push(comment);
+  saveComments(stored);
+  const piece = PIECES.find(p => p.id === currentPieceId);
+  renderComments(currentPieceId, piece?.comments || []);
+  input.value = '';
+  Auth.addNotification({ text: `Your comment on "${piece?.title}" was posted!`, time: 'Just now', icon: '💬' });
+  showToast('Comment posted!', '💬');
+}
+
+function modalLike() {
+  if (!currentPieceId) return;
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  const allLikes = getLikes();
+  const liked = Auth.likeToggle(currentPieceId);
+  allLikes[currentPieceId] = liked;
+  const piece = PIECES.find(p => p.id === currentPieceId);
+  if (liked) {
+    allLikes[currentPieceId + '_count'] = (allLikes[currentPieceId + '_count'] || 0) + 1;
+    Auth.addNotification({ text: `You liked "${piece?.title}" ❤️`, time: 'Just now', icon: '❤️' });
+  } else {
+    allLikes[currentPieceId + '_count'] = Math.max(0, (allLikes[currentPieceId + '_count'] || 0) - 1);
+  }
+  saveLikes(allLikes);
+  const btn = document.getElementById('modalLikeBtn');
+  btn.classList.toggle('liked', liked);
+  document.getElementById('modalHeart').textContent = liked ? '❤️' : '🤍';
+  const base = piece?.likes || 0;
+  document.getElementById('modalLikeCount').textContent = base + (allLikes[currentPieceId + '_count'] || 0);
+  // update grid too
+  renderGallery(displayedPieces);
+}
+
+function closePieceModal() {
+  document.getElementById('pieceModal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentPieceId = null;
+}
+
+function sharepiece() {
+  if (navigator.share) {
+    navigator.share({ title: 'The Art Lab Gallery', text: 'Check out this artwork!' });
+  } else {
+    showToast('Link copied to clipboard!', '📤');
+  }
+}
+
+// ── Filtering ──────────────────────────────────────────────────────────────
+function filterGallery(btn, medium) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  displayedPieces = medium === 'all' ? [...PIECES] : PIECES.filter(p => p.medium === medium);
+  renderGallery(displayedPieces);
+}
+
+function searchGallery() {
+  const q = document.getElementById('gallerySearch').value.toLowerCase();
+  displayedPieces = PIECES.filter(p => p.title.toLowerCase().includes(q) || p.artist.toLowerCase().includes(q));
+  renderGallery(displayedPieces);
+}
+
+function sortBy(type) {
+  document.getElementById('sortLikes').classList.toggle('active', type==='likes');
+  document.getElementById('sortNew').classList.toggle('active', type==='new');
+  if (type === 'likes') displayedPieces = [...displayedPieces].sort((a,b) => b.likes - a.likes);
+  else displayedPieces = [...PIECES].filter(p => displayedPieces.find(d => d.id===p.id));
+  renderGallery(displayedPieces);
+}
+
+function loadMore() {
+  showToast('All pieces loaded — check back soon for new submissions!', '🎨');
+}
+
+// Close modal on backdrop click
+document.getElementById('pieceModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('pieceModal')) closePieceModal();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePieceModal(); });
+</script>
+</body>
+</html>
