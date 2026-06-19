@@ -31,6 +31,19 @@
       <li><a href="dashboard.html">My Page</a></li>
     </ul>
     <div class="nav-right">
+      <!-- Cursor picker -->
+      <div style="position:relative;">
+        <button class="palette-btn" id="cursorPickerBtn" title="Choose your cursor">✏️</button>
+        <div class="cursor-picker-popup" id="cursorPickerPopup">
+          <div class="cursor-picker-label">Your cursor</div>
+          <div class="cursor-option" data-cursor="paintbrush" onclick="setCursorType('paintbrush')"><span class="cursor-icon">🖌️</span>Paintbrush</div>
+          <div class="cursor-option" data-cursor="pencil"     onclick="setCursorType('pencil')">    <span class="cursor-icon">✏️</span>Pencil</div>
+          <div class="cursor-option" data-cursor="pen"        onclick="setCursorType('pen')">        <span class="cursor-icon">🖊️</span>Ink Pen</div>
+          <div class="cursor-option" data-cursor="crayon"     onclick="setCursorType('crayon')">    <span class="cursor-icon">🖍️</span>Crayon</div>
+          <div class="cursor-option" data-cursor="wand"       onclick="setCursorType('wand')">      <span class="cursor-icon">🪄</span>Magic Wand</div>
+          <div class="cursor-option" data-cursor="scissors"   onclick="setCursorType('scissors')">  <span class="cursor-icon">✂️</span>Scissors</div>
+        </div>
+      </div>
       <div style="position:relative;">
         <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
         <div class="palette-popup" id="palettePopup">
@@ -73,7 +86,22 @@
   <div class="container">
     <div class="hero-content">
       <div class="hero-tag">✦ By Students, For Students</div>
-      <h1>Where <span>creativity</span><br>becomes your<br>superpower.</h1>
+
+      <!-- Artsy stacked title -->
+      <div class="hero-title">
+        <span class="title-the">The</span>
+        <div class="title-art-wrap">
+          <span class="title-art">Art</span>
+          <!-- hand-drawn brushstroke underline -->
+          <svg class="title-brushstroke" viewBox="0 0 300 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 12 C40 4, 90 16, 150 9 C210 2, 260 14, 296 8" stroke="var(--primary-d)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85"/>
+            <path d="M8 15 C50 10, 100 17, 155 12 C210 7, 258 16, 294 11" stroke="var(--accent2)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="title-lab">
+          Lab<span class="title-lab-dot"></span>
+        </div>
+      </div>
       <p>The Art Lab is a free online creative learning hub — take courses, attend live sessions, build your portfolio, and one day, teach the next generation of artists.</p>
       <div class="hero-btns">
         <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">Start Creating Free</button>

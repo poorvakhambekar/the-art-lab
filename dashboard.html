@@ -83,6 +83,19 @@
       <li><a href="dashboard.html" class="active">My Page</a></li>
     </ul>
     <div class="nav-right">
+      <!-- Cursor picker -->
+      <div style="position:relative;">
+        <button class="palette-btn" id="cursorPickerBtn" title="Choose your cursor">✏️</button>
+        <div class="cursor-picker-popup" id="cursorPickerPopup">
+          <div class="cursor-picker-label">Your cursor</div>
+          <div class="cursor-option" data-cursor="paintbrush" onclick="setCursorType('paintbrush')"><span class="cursor-icon">🖌️</span>Paintbrush</div>
+          <div class="cursor-option" data-cursor="pencil"     onclick="setCursorType('pencil')">    <span class="cursor-icon">✏️</span>Pencil</div>
+          <div class="cursor-option" data-cursor="pen"        onclick="setCursorType('pen')">        <span class="cursor-icon">🖊️</span>Ink Pen</div>
+          <div class="cursor-option" data-cursor="crayon"     onclick="setCursorType('crayon')">    <span class="cursor-icon">🖍️</span>Crayon</div>
+          <div class="cursor-option" data-cursor="wand"       onclick="setCursorType('wand')">      <span class="cursor-icon">🪄</span>Magic Wand</div>
+          <div class="cursor-option" data-cursor="scissors"   onclick="setCursorType('scissors')">  <span class="cursor-icon">✂️</span>Scissors</div>
+        </div>
+      </div>
       <div style="position:relative;">
         <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
         <div class="palette-popup" id="palettePopup">

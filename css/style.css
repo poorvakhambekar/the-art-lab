@@ -50,34 +50,85 @@ body {
 
 /* Custom cursor */
 #cursor {
-  width: 20px; height: 20px;
-  border: 2.5px solid var(--accent);
-  border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%,-50%);
-  transition: width 0.2s, height 0.2s, background 0.2s, border-radius 0.2s;
-  mix-blend-mode: multiply;
-}
-#cursor.brush {
-  width: 10px; height: 28px;
-  border-radius: 4px 4px 50% 50%;
-  background: var(--accent2);
-  border-color: var(--accent);
+  line-height: 1;
+  transform: translate(-4px, -4px);
 }
 #cursor-trail {
-  width: 6px; height: 6px;
-  background: var(--primary);
+  width: 8px; height: 8px;
+  background: var(--primary-d);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99998;
   transform: translate(-50%,-50%);
-  opacity: 0.6;
-  transition: 0.12s ease;
+  opacity: 0.5;
+  transition: 0.1s ease;
 }
-a, button, [role="button"] { cursor: none; }
+a, button, [role="button"], input, select, textarea { cursor: none; }
+
+/* ── Cursor Picker ───────────────────────────────────────────────────── */
+.cursor-picker-popup {
+  position: absolute; top: 76px; right: 140px;
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: 0 12px 40px var(--shadow);
+  padding: 1rem 0.75rem 0.75rem;
+  display: none; flex-direction: column; gap: 0.25rem;
+  min-width: 160px; z-index: 2000;
+  border: 1px solid rgba(139,94,82,0.1);
+}
+.cursor-picker-popup.open { display: flex; animation: fadeUp 0.2s ease; }
+.cursor-picker-label {
+  font-weight: 700; font-size: 0.75rem; color: var(--mid);
+  text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 0 0.5rem; margin-bottom: 0.25rem;
+}
+.cursor-option {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0.6rem; border-radius: var(--radius-sm);
+  font-size: 0.88rem; font-weight: 500; color: var(--dark);
+  transition: var(--transition);
+}
+.cursor-option:hover { background: var(--bg2); }
+.cursor-option.active { background: rgba(232,180,192,0.25); color: var(--accent); font-weight: 700; }
+.cursor-option .cursor-icon { font-size: 1.15rem; width: 22px; text-align: center; }
+
+/* ── Artsy Hero Title ────────────────────────────────────────────────── */
+.hero-title {
+  display: flex; flex-direction: column; gap: 0;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.title-the {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-weight: 400; font-style: italic;
+  color: var(--mid); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: -0.1em;
+}
+.title-art-wrap { position: relative; display: inline-block; }
+.title-art {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(4rem, 10vw, 7.5rem);
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 55%, var(--primary-d) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; display: inline-block;
+}
+.title-brushstroke { display: block; width: 110%; margin-top: -0.15em; margin-left: -2%; opacity: 0.65; }
+.title-lab {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1; color: var(--dark); letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 0.15em;
+}
+.title-lab-dot {
+  width: 0.22em; height: 0.22em; border-radius: 50%;
+  background: var(--primary-d); display: inline-block;
+  margin-bottom: 0.12em; flex-shrink: 0;
+}
 
 /* ─── TYPOGRAPHY ────────────────────────────────────────────────────────── */
 h1,h2,h3,h4 {

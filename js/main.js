@@ -1,23 +1,66 @@
-/* ── Custom Cursor ────────────────────────────────────────────────────── */
-const cursor = document.getElementById('cursor');
-const trail = document.getElementById('cursor-trail');
+/* ── Custom Cursor System ─────────────────────────────────────────────── */
+const CURSOR_KEY = 'artlab_cursor';
+const CURSORS = {
+  pencil:     { icon: '✏️', label: 'Pencil',     rot: '-45deg', size: '28px', tip: '0 100%' },
+  paintbrush: { icon: '🖌️', label: 'Paintbrush', rot: '-30deg', size: '30px', tip: '0 100%' },
+  pen:        { icon: '🖊️', label: 'Ink Pen',    rot: '-40deg', size: '26px', tip: '0 100%' },
+  crayon:     { icon: '🖍️', label: 'Crayon',     rot: '-30deg', size: '28px', tip: '0 100%' },
+  wand:       { icon: '🪄', label: 'Magic Wand', rot: '-20deg', size: '28px', tip: '0 0'    },
+  scissors:   { icon: '✂️', label: 'Scissors',   rot:   '0deg', size: '26px', tip: '50% 50%' },
+};
+
+let currentCursorType = localStorage.getItem(CURSOR_KEY) || 'paintbrush';
+const cursor  = document.getElementById('cursor');
+const trail   = document.getElementById('cursor-trail');
 let mx = 0, my = 0, tx = 0, ty = 0;
+
+function setCursorType(type) {
+  currentCursorType = type;
+  localStorage.setItem(CURSOR_KEY, type);
+  applyCursor();
+  // update picker UI
+  document.querySelectorAll('.cursor-option').forEach(o =>
+    o.classList.toggle('active', o.dataset.cursor === type)
+  );
+  showToast(`Cursor: ${CURSORS[type].label}`, CURSORS[type].icon);
+  document.getElementById('cursorPickerPopup')?.classList.remove('open');
+}
+
+function applyCursor() {
+  if (!cursor) return;
+  const c = CURSORS[currentCursorType];
+  cursor.innerHTML = `<span style="
+    display:block; font-size:${c.size};
+    transform:rotate(${c.rot});
+    transform-origin:${c.tip};
+    line-height:1; user-select:none; pointer-events:none;
+    filter: drop-shadow(0 1px 2px rgba(44,26,26,0.3));
+  ">${c.icon}</span>`;
+  cursor.style.cssText = `
+    position:fixed; pointer-events:none; z-index:99999;
+    transform:translate(-4px,-4px);
+    transition: none;
+  `;
+}
 
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  if (cursor) { cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; }
+  if (cursor) {
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  }
 });
 
 function animateTrail() {
-  tx += (mx - tx) * 0.18;
-  ty += (my - ty) * 0.18;
-  if (trail) { trail.style.left = tx + 'px'; trail.style.top = ty + 'px'; }
+  tx += (mx - tx) * 0.15;
+  ty += (my - ty) * 0.15;
+  if (trail) {
+    trail.style.left = tx + 'px';
+    trail.style.top  = ty + 'px';
+  }
   requestAnimationFrame(animateTrail);
 }
 animateTrail();
-
-document.addEventListener('mousedown', () => cursor?.classList.add('brush'));
-document.addEventListener('mouseup', () => cursor?.classList.remove('brush'));
 
 /* ── Palette Switcher ────────────────────────────────────────────────── */
 const PALETTE_KEY = 'artlab_palette';
@@ -35,13 +78,14 @@ function initPalette() {
   if (saved && saved !== 'warm') applyPalette(saved);
   else applyPalette('');
 
-  const btn = document.getElementById('paletteBtn');
+  const btn   = document.getElementById('paletteBtn');
   const popup = document.getElementById('palettePopup');
   btn?.addEventListener('click', (e) => {
     e.stopPropagation();
     popup.classList.toggle('open');
     document.getElementById('userPopup')?.classList.remove('open');
     document.getElementById('notifPanel')?.classList.remove('open');
+    document.getElementById('cursorPickerPopup')?.classList.remove('open');
   });
   document.querySelectorAll('.palette-option').forEach(o => {
     o.addEventListener('click', () => {
@@ -51,13 +95,31 @@ function initPalette() {
   });
 }
 
+function initCursorPicker() {
+  applyCursor();
+  const btn   = document.getElementById('cursorPickerBtn');
+  const popup = document.getElementById('cursorPickerPopup');
+  if (!btn || !popup) return;
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popup.classList.toggle('open');
+    document.getElementById('palettePopup')?.classList.remove('open');
+    document.getElementById('userPopup')?.classList.remove('open');
+    document.getElementById('notifPanel')?.classList.remove('open');
+  });
+  // mark current
+  document.querySelectorAll('.cursor-option').forEach(o =>
+    o.classList.toggle('active', o.dataset.cursor === currentCursorType)
+  );
+}
+
 /* ── Scroll Effects ──────────────────────────────────────────────────── */
 function initScroll() {
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
     nav?.classList.toggle('scrolled', window.scrollY > 20);
   });
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.15 });
@@ -124,12 +186,6 @@ function initLikes() {
       const count = btn.querySelector('.like-count');
       heart.textContent = liked ? '❤️' : '🤍';
       if (count) count.textContent = parseInt(count.textContent) + (liked ? 1 : -1);
-      if (liked) {
-        btn.style.animation = 'none';
-        requestAnimationFrame(() => {
-          btn.style.animation = '';
-        });
-      }
     });
   });
 }
@@ -137,9 +193,7 @@ function initLikes() {
 /* ── Doodle Click Easter Egg ─────────────────────────────────────────── */
 function initDoodles() {
   document.querySelectorAll('.doodle[data-msg]').forEach(d => {
-    d.addEventListener('click', () => {
-      showToast(d.dataset.msg, '🎨');
-    });
+    d.addEventListener('click', () => showToast(d.dataset.msg, '🎨'));
   });
 }
 
@@ -153,21 +207,21 @@ function showToast(msg, icon = '✅') {
     font-size:0.95rem; font-weight:600;
     box-shadow:0 8px 32px rgba(44,26,26,0.25);
     z-index:99999; display:flex; align-items:center; gap:0.5rem;
-    animation:fadeUp 0.3s ease;
+    animation:fadeUp 0.3s ease; white-space:nowrap;
   `;
   toast.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
   document.body.appendChild(toast);
-  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = '0.3s'; setTimeout(() => toast.remove(), 300); }, 2800);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = '0.3s'; setTimeout(() => toast.remove(), 300); }, 2500);
 }
 
-/* ── Doodle Paint Splatter on Click ─────────────────────────────────── */
+/* ── Paint Splatter on Click ─────────────────────────────────────────── */
 document.addEventListener('click', (e) => {
-  if (e.target.closest('button, a, input, select, textarea, .modal, nav')) return;
+  if (e.target.closest('button, a, input, select, textarea, .modal, nav, .cursor-picker-popup')) return;
   const splat = document.createElement('div');
   splat.style.cssText = `
     position:fixed; left:${e.clientX}px; top:${e.clientY}px;
-    width:12px; height:12px; border-radius:50%;
-    background:var(--primary); pointer-events:none; z-index:99999;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--primary); pointer-events:none; z-index:99998;
     transform:translate(-50%,-50%) scale(0);
     animation:splatAnim 0.5s ease forwards;
   `;
@@ -185,10 +239,19 @@ splatStyle.textContent = `
 `;
 document.head.appendChild(splatStyle);
 
+/* ── Close all popups on outside click ──────────────────────────────── */
+document.addEventListener('click', () => {
+  document.getElementById('userPopup')?.classList.remove('open');
+  document.getElementById('notifPanel')?.classList.remove('open');
+  document.getElementById('palettePopup')?.classList.remove('open');
+  document.getElementById('cursorPickerPopup')?.classList.remove('open');
+});
+
 /* ── Init ────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initScroll();
   initPalette();
+  initCursorPicker();
   animateProgressBars();
   initDoodles();
   initLikes();
