@@ -1,12 +1,12 @@
 /* ── Custom Cursor System ─────────────────────────────────────────────── */
 const CURSOR_KEY = 'artlab_cursor';
 const CURSORS = {
-  pencil:     { icon: '✏️', label: 'Pencil',     rot: '-45deg', size: '28px', tip: '0 100%' },
-  paintbrush: { icon: '🖌️', label: 'Paintbrush', rot: '-30deg', size: '30px', tip: '0 100%' },
-  pen:        { icon: '🖊️', label: 'Ink Pen',    rot: '-40deg', size: '26px', tip: '0 100%' },
-  crayon:     { icon: '🖍️', label: 'Crayon',     rot: '-30deg', size: '28px', tip: '0 100%' },
-  wand:       { icon: '🪄', label: 'Magic Wand', rot: '-20deg', size: '28px', tip: '0 0'    },
-  scissors:   { icon: '✂️', label: 'Scissors',   rot:   '0deg', size: '26px', tip: '50% 50%' },
+  paintbrush: { label: 'Paintbrush', icon: '🖌️', color: 'var(--accent)',   trail: 'var(--primary)'   },
+  pencil:     { label: 'Pencil',     icon: '✏️', color: '#7A5A3A',         trail: '#D4B896'           },
+  pen:        { label: 'Ink Pen',    icon: '🖊️', color: '#3A3A5A',         trail: '#9494C8'           },
+  crayon:     { label: 'Crayon',     icon: '🖍️', color: '#C06030',         trail: '#F0A878'           },
+  wand:       { label: 'Magic Wand', icon: '🪄', color: '#8A4A9A',         trail: '#D4A0E8'           },
+  scissors:   { label: 'Scissors',   icon: '✂️', color: 'var(--mid)',       trail: 'var(--primary)'   },
 };
 
 let currentCursorType = localStorage.getItem(CURSOR_KEY) || 'paintbrush';
@@ -18,7 +18,6 @@ function setCursorType(type) {
   currentCursorType = type;
   localStorage.setItem(CURSOR_KEY, type);
   applyCursor();
-  // update picker UI
   document.querySelectorAll('.cursor-option').forEach(o =>
     o.classList.toggle('active', o.dataset.cursor === type)
   );
@@ -28,36 +27,20 @@ function setCursorType(type) {
 
 function applyCursor() {
   if (!cursor) return;
-  const c = CURSORS[currentCursorType];
-  cursor.innerHTML = `<span style="
-    display:block; font-size:${c.size};
-    transform:rotate(${c.rot});
-    transform-origin:${c.tip};
-    line-height:1; user-select:none; pointer-events:none;
-    filter: drop-shadow(0 1px 2px rgba(44,26,26,0.3));
-  ">${c.icon}</span>`;
-  cursor.style.cssText = `
-    position:fixed; pointer-events:none; z-index:99999;
-    transform:translate(-4px,-4px);
-    transition: none;
-  `;
+  const c = CURSORS[currentCursorType] || CURSORS.paintbrush;
+  cursor.style.borderColor = c.color;
+  if (trail) trail.style.background = c.trail;
 }
 
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  if (cursor) {
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
-  }
+  if (cursor) { cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; }
 });
 
 function animateTrail() {
   tx += (mx - tx) * 0.15;
   ty += (my - ty) * 0.15;
-  if (trail) {
-    trail.style.left = tx + 'px';
-    trail.style.top  = ty + 'px';
-  }
+  if (trail) { trail.style.left = tx + 'px'; trail.style.top = ty + 'px'; }
   requestAnimationFrame(animateTrail);
 }
 animateTrail();
@@ -97,6 +80,9 @@ function initPalette() {
 
 function initCursorPicker() {
   applyCursor();
+  document.addEventListener('mousedown', () => cursor?.classList.add('pressed'));
+  document.addEventListener('mouseup',   () => cursor?.classList.remove('pressed'));
+
   const btn   = document.getElementById('cursorPickerBtn');
   const popup = document.getElementById('cursorPickerPopup');
   if (!btn || !popup) return;
@@ -108,7 +94,6 @@ function initCursorPicker() {
     document.getElementById('userPopup')?.classList.remove('open');
     document.getElementById('notifPanel')?.classList.remove('open');
   });
-  // mark current
   document.querySelectorAll('.cursor-option').forEach(o =>
     o.classList.toggle('active', o.dataset.cursor === currentCursorType)
   );

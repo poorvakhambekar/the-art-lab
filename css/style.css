@@ -50,22 +50,31 @@ body {
 
 /* Custom cursor */
 #cursor {
+  width: 20px; height: 20px;
+  border: 2.5px solid var(--accent);
+  border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99999;
-  line-height: 1;
-  transform: translate(-4px, -4px);
+  transform: translate(-50%,-50%);
+  transition: width 0.15s, height 0.15s, border-radius 0.15s, background 0.15s;
+  mix-blend-mode: multiply;
+}
+#cursor.pressed {
+  width: 12px; height: 12px;
+  background: var(--accent2);
+  border-color: var(--accent2);
 }
 #cursor-trail {
-  width: 8px; height: 8px;
-  background: var(--primary-d);
+  width: 6px; height: 6px;
+  background: var(--primary);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99998;
   transform: translate(-50%,-50%);
-  opacity: 0.5;
-  transition: 0.1s ease;
+  opacity: 0.6;
+  transition: 0.12s ease;
 }
 a, button, [role="button"], input, select, textarea { cursor: none; }
 
