@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Page — The Art Lab</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E8B4C0'/><circle cx='50' cy='50' r='28' fill='%23D4899A'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -72,7 +72,7 @@
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
-      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20">🎨</text></svg>
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/></svg>
       The Art Lab
     </a>
     <ul class="nav-links">
@@ -83,21 +83,9 @@
       <li><a href="dashboard.html" class="active">My Page</a></li>
     </ul>
     <div class="nav-right">
-      <!-- Cursor picker -->
-      <div style="position:relative;">
-        <button class="palette-btn" id="cursorPickerBtn" title="Choose your cursor">✏️</button>
-        <div class="cursor-picker-popup" id="cursorPickerPopup">
-          <div class="cursor-picker-label">Your cursor</div>
-          <div class="cursor-option" data-cursor="paintbrush" onclick="setCursorType('paintbrush')"><span class="cursor-icon">🖌️</span>Paintbrush</div>
-          <div class="cursor-option" data-cursor="pencil"     onclick="setCursorType('pencil')">    <span class="cursor-icon">✏️</span>Pencil</div>
-          <div class="cursor-option" data-cursor="pen"        onclick="setCursorType('pen')">        <span class="cursor-icon">🖊️</span>Ink Pen</div>
-          <div class="cursor-option" data-cursor="crayon"     onclick="setCursorType('crayon')">    <span class="cursor-icon">🖍️</span>Crayon</div>
-          <div class="cursor-option" data-cursor="wand"       onclick="setCursorType('wand')">      <span class="cursor-icon">🪄</span>Magic Wand</div>
-          <div class="cursor-option" data-cursor="scissors"   onclick="setCursorType('scissors')">  <span class="cursor-icon">✂️</span>Scissors</div>
-        </div>
       </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
           <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
@@ -137,11 +125,11 @@
         <ul class="dash-nav">
           <li><a href="#overview" class="active" onclick="showSection('overview',this)"><span class="nav-icon">🏠</span>Overview</a></li>
           <li><a href="#progress" onclick="showSection('progress',this)"><span class="nav-icon">📈</span>Progress</a></li>
-          <li><a href="#portfolio" onclick="showSection('portfolio',this)"><span class="nav-icon">🖼️</span>Portfolio</a></li>
-          <li><a href="#courses" onclick="showSection('courses',this)"><span class="nav-icon">📚</span>My Courses</a></li>
+          <li><a href="#portfolio" onclick="showSection('portfolio',this)">Portfolio</a></li>
+          <li><a href="#courses" onclick="showSection('courses',this)">My Courses</a></li>
           <li><a href="#goals" onclick="showSection('goals',this)"><span class="nav-icon">🎯</span>Goals</a></li>
-          <li id="mentorNavItem" class="hidden"><a href="#mentoring" onclick="showSection('mentoring',this)"><span class="nav-icon">⭐</span>My Sessions</a></li>
-          <li style="margin-top:1rem;"><a href="#" onclick="Auth.logout()" style="color:var(--mid);"><span class="nav-icon">🚪</span>Sign Out</a></li>
+          <li id="mentorNavItem" class="hidden"><a href="#mentoring" onclick="showSection('mentoring',this)">My Sessions</a></li>
+          <li style="margin-top:1rem;"><a href="#" onclick="Auth.logout()" style="color:var(--mid);">Sign Out</a></li>
         </ul>
       </aside>
 
@@ -151,13 +139,13 @@
         <!-- OVERVIEW -->
         <div id="section-overview">
           <div style="margin-bottom:2rem;">
-            <h2 id="welcomeMsg">Welcome back! 🎨</h2>
+            <h2 id="welcomeMsg">Welcome back!</h2>
             <p style="margin-top:0.25rem;">Here's what's happening in your creative journey.</p>
           </div>
 
           <!-- Mentor badge (hidden for students) -->
           <div class="mentor-badge hidden" id="mentorBanner">
-            <h3>⭐ You're a Mentor</h3>
+            <h3>You're a Mentor</h3>
             <p>Thank you for giving back to the community. Your sessions are making a difference.</p>
           </div>
 
@@ -166,17 +154,17 @@
             <div class="section-heading">Your Journey</div>
             <div class="journey-steps" id="journeySteps">
               <div class="journey-step done">
-                <div class="journey-step-circle">📚</div>
+                <div class="journey-step-circle">01</div>
                 <h4>Learner</h4>
               </div>
               <div class="journey-connector done"></div>
               <div class="journey-step current" id="journeyCreate">
-                <div class="journey-step-circle">🎨</div>
+                <div class="journey-step-circle">02</div>
                 <h4>Creator</h4>
               </div>
               <div class="journey-connector" id="connectorMentor"></div>
               <div class="journey-step" id="journeyMentor">
-                <div class="journey-step-circle">⭐</div>
+                <div class="journey-step-circle">03</div>
                 <h4>Mentor</h4>
               </div>
             </div>
@@ -186,22 +174,22 @@
           <!-- Stats -->
           <div class="stats-row" id="statsRow">
             <div class="stat-card">
-              <div class="stat-icon">📚</div>
+              <div class="stat-icon"></div>
               <div class="stat-value" id="statCourses">2</div>
               <div class="stat-label">Courses Enrolled</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">🖼️</div>
+              <div class="stat-icon"></div>
               <div class="stat-value" id="statPieces">0</div>
               <div class="stat-label">Pieces Uploaded</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">🤝</div>
+              <div class="stat-icon"></div>
               <div class="stat-value" id="statSessions">0</div>
               <div class="stat-label">Sessions Attended</div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">❤️</div>
+              <div class="stat-icon"></div>
               <div class="stat-value" id="statLikes">0</div>
               <div class="stat-label">Likes Received</div>
             </div>
@@ -210,19 +198,31 @@
           <!-- Quick links -->
           <div class="grid-2" style="gap:1.25rem;">
             <a href="sessions.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div style="font-size:2rem;">📅</div>
               <div><h4>Book a Session</h4><p style="font-size:0.85rem;margin:0;">Find a mentor or join a group study</p></div>
             </a>
             <a href="resources.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div style="font-size:2rem;">📖</div>
               <div><h4>Browse Resources</h4><p style="font-size:0.85rem;margin:0;">Videos, quizzes, and downloadables</p></div>
             </a>
+          </div>
+
+          <!-- Art inspiration strip -->
+          <div style="margin-top:2rem;">
+            <div class="section-heading">Community Art</div>
+            <div class="dash-art-strip">
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_3720.jpg" alt="Soft Blue"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/purple_piece.jpg" alt="Purple Study"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_5300.jpg" alt="Portrait in Red"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/two_faces.jpg" alt="Two Faces"></a>
+              <a href="gallery.html" class="dash-art-thumb dash-art-more">
+                <span>See all in gallery</span>
+              </a>
+            </div>
           </div>
         </div>
 
         <!-- PROGRESS -->
         <div id="section-progress" class="hidden">
-          <h2 style="margin-bottom:2rem;">Your Progress 📈</h2>
+          <h2 style="margin-bottom:2rem;">Your Progress</h2>
           <div class="content-block">
             <div class="section-heading">Overall Level: <span id="levelBadge" style="color:var(--accent);">Beginner</span></div>
             <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem;">
@@ -269,7 +269,7 @@
         <!-- PORTFOLIO -->
         <div id="section-portfolio" class="hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
-            <h2>My Portfolio 🖼️</h2>
+            <h2>My Portfolio</h2>
             <button class="btn btn-primary btn-sm" onclick="showUploadModal()">+ Upload Piece</button>
           </div>
           <div class="content-block">
@@ -282,7 +282,7 @@
 
         <!-- COURSES -->
         <div id="section-courses" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Courses 📚</h2>
+          <h2 style="margin-bottom:2rem;">My Courses</h2>
           <div class="content-block">
             <div class="section-heading">Enrolled Courses</div>
             <div id="enrolledCoursesList"></div>
@@ -291,36 +291,36 @@
             <div class="section-heading">Discover More</div>
             <div class="grid-2" style="gap:1rem;">
               <div class="course-row">
-                <div class="course-icon">🖊️</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Inking & Line Art</div>
                   <div class="course-sub">Intermediate • 8 lessons</div>
                 </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Inking & Line Art','🖊️')">Enroll</button>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Inking & Line Art','')">Enroll</button>
               </div>
               <div class="course-row">
-                <div class="course-icon">🎭</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Mixed Media Collage</div>
                   <div class="course-sub">Intermediate • 10 lessons</div>
                 </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Mixed Media Collage','🎭')">Enroll</button>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Mixed Media Collage','')">Enroll</button>
               </div>
               <div class="course-row">
-                <div class="course-icon">🖥️</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Digital Illustration</div>
                   <div class="course-sub">Advanced • 12 lessons</div>
                 </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Digital Illustration','🖥️')">Enroll</button>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Digital Illustration','')">Enroll</button>
               </div>
               <div class="course-row">
-                <div class="course-icon">🏛️</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Art History & Context</div>
                   <div class="course-sub">Beginner • 6 lessons</div>
                 </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Art History & Context','🏛️')">Enroll</button>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Art History & Context','')">Enroll</button>
               </div>
             </div>
           </div>
@@ -367,12 +367,12 @@
 
         <!-- MENTORING (mentor role only) -->
         <div id="section-mentoring" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Mentoring Sessions ⭐</h2>
+          <h2 style="margin-bottom:2rem;">My Mentoring Sessions</h2>
           <div class="content-block">
             <div class="section-heading">Upcoming Sessions</div>
             <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
               <div class="course-row">
-                <div class="course-icon">🎨</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Watercolor with Maya</div>
                   <div class="course-sub">Tomorrow, 4:00 PM • 1-on-1</div>
@@ -380,7 +380,7 @@
                 <span class="chip">Confirmed</span>
               </div>
               <div class="course-row">
-                <div class="course-icon">✏️</div>
+                <div class="course-icon"></div>
                 <div class="course-info">
                   <div class="course-name">Group Sketching Workshop</div>
                   <div class="course-sub">Sat June 21, 2:00 PM • 8 students</div>
@@ -443,7 +443,7 @@
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
-    <div class="modal-header"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🎨</div><h2>The Art Lab</h2><p>Create, learn, and grow with a community of student artists.</p></div>
+    <div class="modal-header"><h2>The Art Lab</h2><p>Create, learn, and grow with a community of student artists.</p></div>
     <div class="modal-body">
       <div class="modal-tabs">
         <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
@@ -462,8 +462,8 @@
         <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
         <div style="margin-bottom:1.25rem;"><label style="display:block;font-weight:600;font-size:0.88rem;color:var(--dark);margin-bottom:0.5rem;">I am a...</label>
           <div class="role-select">
-            <div class="role-option selected" data-role="student" onclick="selectRole('student')"><span class="role-icon">🎨</span>Student</div>
-            <div class="role-option" data-role="mentor" onclick="selectRole('mentor')"><span class="role-icon">⭐</span>Mentor</div>
+            <div class="role-option selected" data-role="student" onclick="selectRole('student')">Student</div>
+            <div class="role-option" data-role="mentor" onclick="selectRole('mentor')">Mentor</div>
           </div>
         </div>
         <form onsubmit="handleSignup(event)">
@@ -480,14 +480,43 @@
   </div>
 </div>
 
-<script src="js/auth.js"></script>
+
+  <!-- AVATAR MODAL -->
+  <div class="avatar-modal-overlay" id="avatarModal">
+    <div class="avatar-modal">
+      <button class="av-modal-close" onclick="closeAvatarModal()">✕</button>
+      <div class="avatar-modal-header"><h3>Draw your face</h3><p>Use the pens below to create your avatar!</p></div>
+      <div class="avatar-canvas-wrap"><canvas id="faceCanvas"></canvas></div>
+      <div class="avatar-tools" style="flex-direction:column;gap:0.6rem">
+      <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center;flex-wrap:wrap">
+        <button class="av-color active" data-color="#3c4361" style="background:#3c4361" title="Navy"></button>
+        <button class="av-color" data-color="#67402b" style="background:#67402b" title="Brown"></button>
+        <button class="av-color" data-color="#FF4D6D" style="background:#FF4D6D" title="Red"></button>
+        <button class="av-color" data-color="#27AE60" style="background:#27AE60" title="Green"></button>
+        <button class="av-color" data-color="#f4b8fc" style="background:#f4b8fc;border:2px solid #67402b" title="Lavender"></button>
+        <button class="av-color" data-color="#fbdea7" style="background:#fbdea7;border:2px solid #67402b" title="Yellow"></button>
+        <button class="av-color" data-color="#000000" style="background:#000" title="Black"></button>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center">
+        <button class="av-tool-btn" data-mode="erase">Erase</button>
+        <button class="av-tool-btn" id="avClear">Clear</button>
+      </div>
+      </div>
+      <div class="avatar-modal-footer">
+        <button class="btn btn-outline btn-full" onclick="closeAvatarModal()">Cancel</button>
+        <button class="btn btn-primary btn-full" id="avSave">Save Avatar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
 <script src="js/main.js"></script>
 <script>
 const COURSES_DATA = {
-  'watercolor-101': { name: 'Watercolor 101', icon: '🎨', level: 'Beginner', lessons: 9, done: 3 },
-  'sketching-basics': { name: 'Sketching Basics', icon: '✏️', level: 'Beginner', lessons: 10, done: 6 },
+  'watercolor-101': { name: 'Watercolor 101', icon: '+', level: 'Beginner', lessons: 9, done: 3 },
+  'sketching-basics': { name: 'Sketching Basics', icon: '', level: 'Beginner', lessons: 10, done: 6 },
 };
-const PORTFOLIO_EMOJIS = ['🌸','🌊','🎭','🌅','🦋','🌿','🔥','⭐'];
+const PORTFOLIO_EMOJIS = ['','','','','','','',''];
 let portfolioPieces = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -509,8 +538,8 @@ function populateDash(user) {
   const initials = (user.firstName[0] + user.lastName[0]).toUpperCase();
   document.getElementById('dashAvatar').textContent = initials;
   document.getElementById('dashName').textContent = user.firstName + ' ' + user.lastName;
-  document.getElementById('dashRole').textContent = user.role === 'mentor' ? '⭐ Mentor' : '🎨 Student';
-  document.getElementById('welcomeMsg').textContent = `Welcome back, ${user.firstName}! 🎨`;
+  document.getElementById('dashRole').textContent = user.role === 'mentor' ? 'Mentor' : 'Student';
+  document.getElementById('welcomeMsg').textContent = `Welcome back, ${user.firstName}`;
 
   // Stats
   document.getElementById('statCourses').textContent = (user.enrolledCourses || []).length;
@@ -575,7 +604,7 @@ function buildCoursesList(courseIds) {
   if (!list) return;
   let html = '';
   courseIds.forEach(id => {
-    const c = COURSES_DATA[id] || { name: id, icon: '📚', level: 'Beginner', lessons: 8, done: 1 };
+    const c = COURSES_DATA[id] || { name: id, icon: '→', level: 'Beginner', lessons: 8, done: 1 };
     const pct = Math.round((c.done/c.lessons)*100);
     html += `<div class="course-row">
       <div class="course-icon">${c.icon}</div>
@@ -603,26 +632,26 @@ function simulateUpload() { showToast('File ready to upload!', '📎'); }
 
 function saveUpload() {
   const title = document.getElementById('pieceTitle').value;
-  if (!title) { showToast('Please give your piece a name!', '⚠️'); return; }
+  if (!title) { showToast('Please give your piece a name!'); return; }
   const user = Auth.currentUser();
   const newCount = (user.uploadedPieces || 0) + 1;
   Auth.updateUser({ uploadedPieces: newCount });
-  Auth.addNotification({ text: `Your piece "${title}" is now live in the Gallery!`, time: 'Just now', icon: '🎨' });
+  Auth.addNotification({ text: `Your piece "${title}" is now live in the Gallery!`, time: 'Just now', icon: '+' });
   document.getElementById('uploadModal').classList.remove('open');
   buildPortfolioGrid(newCount);
   document.getElementById('statPieces').textContent = newCount;
-  showToast(`"${title}" uploaded to Gallery!`, '🎨');
+  showToast(`"${title}" uploaded to Gallery!`);
 }
 
 function enrollCourse(name, icon) {
   const user = Auth.currentUser();
   const key = name.toLowerCase().replace(/\s+/g,'-');
   const courses = user.enrolledCourses || [];
-  if (courses.includes(key)) { showToast('Already enrolled!', 'ℹ️'); return; }
+  if (courses.includes(key)) { showToast('Already enrolled!'); return; }
   COURSES_DATA[key] = { name, icon, level: 'Intermediate', lessons: 8, done: 0 };
   courses.push(key);
   Auth.updateUser({ enrolledCourses: courses });
-  Auth.addNotification({ text: `Enrolled in ${name} — good luck! 🚀`, time: 'Just now', icon });
+  Auth.addNotification({ text: `Enrolled in ${name} — good luck!`, time: 'Just now', icon });
   document.getElementById('statCourses').textContent = courses.length;
   buildCoursesList(courses);
   showToast(`Enrolled in ${name}!`, icon);

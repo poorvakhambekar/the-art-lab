@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery — The Art Lab</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E8B4C0'/><circle cx='50' cy='50' r='28' fill='%23D4899A'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
@@ -110,7 +110,7 @@
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
-      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20">🎨</text></svg>
+      <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="var(--primary)"/></svg>
       The Art Lab
     </a>
     <ul class="nav-links">
@@ -121,21 +121,9 @@
       <li><a href="dashboard.html">My Page</a></li>
     </ul>
     <div class="nav-right">
-      <!-- Cursor picker -->
-      <div style="position:relative;">
-        <button class="palette-btn" id="cursorPickerBtn" title="Choose your cursor">✏️</button>
-        <div class="cursor-picker-popup" id="cursorPickerPopup">
-          <div class="cursor-picker-label">Your cursor</div>
-          <div class="cursor-option" data-cursor="paintbrush" onclick="setCursorType('paintbrush')"><span class="cursor-icon">🖌️</span>Paintbrush</div>
-          <div class="cursor-option" data-cursor="pencil"     onclick="setCursorType('pencil')">    <span class="cursor-icon">✏️</span>Pencil</div>
-          <div class="cursor-option" data-cursor="pen"        onclick="setCursorType('pen')">        <span class="cursor-icon">🖊️</span>Ink Pen</div>
-          <div class="cursor-option" data-cursor="crayon"     onclick="setCursorType('crayon')">    <span class="cursor-icon">🖍️</span>Crayon</div>
-          <div class="cursor-option" data-cursor="wand"       onclick="setCursorType('wand')">      <span class="cursor-icon">🪄</span>Magic Wand</div>
-          <div class="cursor-option" data-cursor="scissors"   onclick="setCursorType('scissors')">  <span class="cursor-icon">✂️</span>Scissors</div>
-        </div>
       </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette">🎭</button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
           <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
@@ -177,8 +165,8 @@
         <button class="filter-btn" onclick="filterGallery(this,'mixed')">Mixed Media</button>
       </div>
       <div style="margin-left:auto;display:flex;gap:0.5rem;">
-        <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">🔥 Most Liked</button>
-        <button class="filter-btn" id="sortNew" onclick="sortBy('new')">✨ Newest</button>
+        <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">Most Liked</button>
+        <button class="filter-btn" id="sortNew" onclick="sortBy('new')">Newest</button>
       </div>
     </div>
 
@@ -198,7 +186,7 @@
 <div class="piece-modal" id="pieceModal">
   <button class="piece-modal-close" onclick="closePieceModal()">✕</button>
   <div class="piece-modal-inner">
-    <div class="piece-modal-canvas" id="modalCanvas">🌸</div>
+    <div class="piece-modal-canvas" id="modalCanvas"></div>
     <div class="piece-modal-info">
       <div>
         <h2 id="modalTitle" style="margin-bottom:0.25rem;font-size:1.5rem;"></h2>
@@ -211,7 +199,7 @@
       </div>
       <div style="display:flex;gap:1rem;">
         <button class="piece-like-btn" id="modalLikeBtn" style="flex:1;justify-content:center;padding:0.65rem;" onclick="modalLike()">
-          <span class="lheart" id="modalHeart">🤍</span>
+          <span class="lheart" id="modalHeart">♡</span>
           <span id="modalLikeCount">0</span> likes
         </button>
         <button class="piece-view-btn" style="flex:1;justify-content:center;padding:0.65rem;background:var(--accent);border-color:var(--accent);" onclick="sharepiece()">
@@ -237,7 +225,7 @@
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
-    <div class="modal-header"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🎨</div><h2>The Art Lab</h2><p>Sign in to like and comment on art.</p></div>
+    <div class="modal-header"><h2>The Art Lab</h2><p>Sign in to like and comment on art.</p></div>
     <div class="modal-body">
       <div class="modal-tabs">
         <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
@@ -254,8 +242,8 @@
       <div class="modal-tab-content" id="signupForm">
         <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
         <div class="role-select" style="margin-bottom:1.25rem;">
-          <div class="role-option selected" data-role="student" onclick="selectRole('student')"><span class="role-icon">🎨</span>Student</div>
-          <div class="role-option" data-role="mentor" onclick="selectRole('mentor')"><span class="role-icon">⭐</span>Mentor</div>
+          <div class="role-option selected" data-role="student" onclick="selectRole('student')">Student</div>
+          <div class="role-option" data-role="mentor" onclick="selectRole('mentor')">Mentor</div>
         </div>
         <form onsubmit="handleSignup(event)">
           <div class="form-row">
@@ -284,22 +272,51 @@
   </div>
 </footer>
 
-<script src="js/auth.js"></script>
+
+  <!-- AVATAR MODAL -->
+  <div class="avatar-modal-overlay" id="avatarModal">
+    <div class="avatar-modal">
+      <button class="av-modal-close" onclick="closeAvatarModal()">✕</button>
+      <div class="avatar-modal-header"><h3>Draw your face</h3><p>Use the pens below to create your avatar!</p></div>
+      <div class="avatar-canvas-wrap"><canvas id="faceCanvas"></canvas></div>
+      <div class="avatar-tools" style="flex-direction:column;gap:0.6rem">
+      <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center;flex-wrap:wrap">
+        <button class="av-color active" data-color="#3c4361" style="background:#3c4361" title="Navy"></button>
+        <button class="av-color" data-color="#67402b" style="background:#67402b" title="Brown"></button>
+        <button class="av-color" data-color="#FF4D6D" style="background:#FF4D6D" title="Red"></button>
+        <button class="av-color" data-color="#27AE60" style="background:#27AE60" title="Green"></button>
+        <button class="av-color" data-color="#f4b8fc" style="background:#f4b8fc;border:2px solid #67402b" title="Lavender"></button>
+        <button class="av-color" data-color="#fbdea7" style="background:#fbdea7;border:2px solid #67402b" title="Yellow"></button>
+        <button class="av-color" data-color="#000000" style="background:#000" title="Black"></button>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;justify-content:center">
+        <button class="av-tool-btn" data-mode="erase">Erase</button>
+        <button class="av-tool-btn" id="avClear">Clear</button>
+      </div>
+      </div>
+      <div class="avatar-modal-footer">
+        <button class="btn btn-outline btn-full" onclick="closeAvatarModal()">Cancel</button>
+        <button class="btn btn-primary btn-full" id="avSave">Save Avatar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
 <script src="js/main.js"></script>
 <script>
 const PIECES = [
-  { id:'p1', emoji:'🌸', title:'Spring Bloom', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:47, trending:true, statement:'I wanted to capture the fleeting beauty of cherry blossoms before they fade — watercolor felt like the only medium that could hold that impermanence.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette 💕'}], w:1, h:1.4 },
-  { id:'p2', emoji:'🌊', title:'Deep Current', artist:'James L.', artistId:'jl', medium:'watercolor', likes:34, trending:false, statement:'Ocean motion rendered in layers of wet ink — this took 4 sessions to get right.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}], w:1, h:0.85 },
-  { id:'p3', emoji:'✏️', title:'Self Portrait #3', artist:'Sofia B.', artistId:'sb', medium:'sketching', likes:62, trending:true, statement:'Part of my ongoing self-portrait series — drawing yourself is the hardest and most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw — love it.'},{author:'Tyler D.',text:'Those eyes!! 🤩'},{author:'Mia K.',text:'Your line work has improved so much.'}], w:1, h:1.2 },
-  { id:'p4', emoji:'🖊️', title:'City Grid', artist:'Maya R.', artistId:'mr', medium:'inking', likes:28, trending:false, statement:'Stippled cityscapes exploring urban density and isolation.', comments:[], w:1, h:0.9 },
-  { id:'p5', emoji:'🎭', title:'Mask and Memory', artist:'Sam K.', artistId:'sk', medium:'mixed', likes:51, trending:true, statement:'Collage, ink, and watercolor — exploring identity and cultural memory through layered textures.', comments:[{author:'Amara W.',text:'The textures are unreal!'},{author:'Maya R.',text:'Museum worthy 🏛️'}], w:1, h:1.5 },
-  { id:'p6', emoji:'🖥️', title:'Neon Reverie', artist:'Tyler D.', artistId:'td', medium:'digital', likes:39, trending:false, statement:'A late-night Procreate session exploring what a dream city might look like at 3AM.', comments:[{author:'James L.',text:'The lighting is perfect.'}], w:1, h:1.0 },
-  { id:'p7', emoji:'🌿', title:'Growth', artist:'Priya R.', artistId:'pr', medium:'watercolor', likes:29, trending:false, statement:'Botanical studies of plants that grow in unexpected places — inspired by weeds in the sidewalk.', comments:[{author:'Sofia B.',text:'So peaceful to look at 🌿'}], w:1, h:1.3 },
-  { id:'p8', emoji:'🔥', title:'Ignition', artist:'Leo C.', artistId:'lc', medium:'inking', likes:44, trending:false, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Maya R.',text:'I can literally feel the heat!'},{author:'Mia K.',text:'Your brushwork is insane.'}], w:1, h:0.8 },
-  { id:'p9', emoji:'⭐', title:'Constellation', artist:'Amara W.', artistId:'aw', medium:'digital', likes:56, trending:true, statement:'Mapping personal mythology onto star charts — each star is a memory.', comments:[{author:'Tyler D.',text:'This belongs on a poster.'},{author:'Priya R.',text:'Absolutely ethereal ✨'}], w:1, h:1.1 },
-  { id:'p10', emoji:'🦋', title:'Metamorphosis', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:33, trending:false, statement:'A study in transition — inspired by one of those weeks where everything changes at once.', comments:[], w:1, h:1.6 },
-  { id:'p11', emoji:'🌅', title:'Golden Hour', artist:'James L.', artistId:'jl', medium:'sketching', likes:22, trending:false, statement:'Pencil studies of light at dusk — trying to capture warmth through value alone.', comments:[{author:'Sam K.',text:'The gradients are so smooth!'}], w:1, h:0.9 },
-  { id:'p12', emoji:'🎆', title:'Fracture', artist:'Sofia B.', artistId:'sb', medium:'mixed', likes:48, trending:true, statement:'Mixed media exploration of breaking points — sometimes things have to fracture before they can reform beautifully.', comments:[{author:'Leo C.',text:'Stunning. So powerful.'},{author:'Amara W.',text:'This gives me chills.'}], w:1, h:1.2 },
+  { id:'p1', img:'images/IMG_3720.jpg',  title:'Soft Blue', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:47, trending:true, statement:'I wanted to capture the fleeting beauty of a moment — watercolor felt like the only medium that could hold that impermanence.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette'}], w:1, h:1.4 },
+  { id:'p2', img:'images/IMG_5139.jpg',  title:'Bloom', artist:'James L.', artistId:'jl', medium:'watercolor', likes:34, trending:false, statement:'Layers of color rendered in wet ink — this took 4 sessions to get right.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}], w:1, h:0.85 },
+  { id:'p3', img:'images/IMG_5300.jpg',  title:'Portrait in Red', artist:'Sofia B.', artistId:'sb', medium:'sketching', likes:62, trending:true, statement:'Part of my ongoing portrait series — drawing in oil pastels is the most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw — love it.'},{author:'Tyler D.',text:'Those eyes!!'},{author:'Mia K.',text:'Your line work has improved so much.'}], w:1, h:1.2 },
+  { id:'p4', img:'images/IMG_0059.jpg',  title:'Zentangle', artist:'Maya R.', artistId:'mr', medium:'inking', likes:28, trending:false, statement:'Ink patterns exploring density and the meditative nature of repetition.', comments:[], w:1, h:0.9 },
+  { id:'p5', img:'images/purple_piece.jpg', title:'Purple Study', artist:'Sam K.', artistId:'sk', medium:'mixed', likes:51, trending:true, statement:'Oil pastel and ink — exploring identity and cultural memory through layered textures.', comments:[{author:'Amara W.',text:'The textures are unreal!'},{author:'Maya R.',text:'Museum worthy'}], w:1, h:1.5 },
+  { id:'p6', img:'images/two_faces.jpg', title:'Two Faces', artist:'Tyler D.', artistId:'td', medium:'sketching', likes:39, trending:false, statement:'A dual portrait exploring how identity shifts between the public and private self.', comments:[{author:'James L.',text:'The composition is perfect.'}], w:1, h:1.0 },
+  { id:'p7', img:'images/IMG_5400.jpg', title:'Studio Piece', artist:'Priya R.', artistId:'pr', medium:'watercolor', likes:29, trending:false, statement:'A piece born from a long studio session — letting the medium lead rather than forcing it.', comments:[{author:'Sofia B.',text:'So peaceful to look at'}], w:1, h:1.3 },
+  { id:'p8', img:'images/2025-01-04_23-14-44_284.jpg', title:'Ignition', artist:'Leo C.', artistId:'lc', medium:'inking', likes:44, trending:false, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Maya R.',text:'I can literally feel the heat!'},{author:'Mia K.',text:'Your brushwork is insane.'}], w:1, h:0.8 },
+  { id:'p9', title:'Constellation', artist:'Amara W.', artistId:'aw', medium:'digital', likes:56, trending:true, statement:'Mapping personal mythology onto star charts — each star is a memory.', comments:[{author:'Tyler D.',text:'This belongs on a poster.'},{author:'Priya R.',text:'Absolutely ethereal'}], w:1, h:1.1 },
+  { id:'p10', title:'Metamorphosis', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:33, trending:false, statement:'A study in transition — inspired by one of those weeks where everything changes at once.', comments:[], w:1, h:1.6 },
+  { id:'p11', title:'Golden Hour', artist:'James L.', artistId:'jl', medium:'sketching', likes:22, trending:false, statement:'Pencil studies of light at dusk — trying to capture warmth through value alone.', comments:[{author:'Sam K.',text:'The gradients are so smooth!'}], w:1, h:0.9 },
+  { id:'p12', title:'Fracture', artist:'Sofia B.', artistId:'sb', medium:'mixed', likes:48, trending:true, statement:'Mixed media exploration of breaking points — sometimes things have to fracture before they can reform beautifully.', comments:[{author:'Leo C.',text:'Stunning. So powerful.'},{author:'Amara W.',text:'This gives me chills.'}], w:1, h:1.2 },
 ];
 
 const GRADIENTS = [
@@ -340,17 +357,19 @@ function renderGallery(pieces) {
     const grad = GRADIENTS[i % GRADIENTS.length];
     return `
       <div class="gallery-piece" data-id="${p.id}" data-medium="${p.medium}" data-title="${p.title.toLowerCase()} ${p.artist.toLowerCase()}" onclick="openPiece('${p.id}')">
-        ${p.trending ? '<div class="trending-badge">🔥 Trending</div>' : ''}
-        <div class="piece-canvas" style="height:${h}px;background:${grad};display:flex;align-items:center;justify-content:center;font-size:${Math.floor(h/3.5)}px;">${p.emoji}</div>
+        ${p.trending ? '<div class="trending-badge">Trending</div>' : ''}
+        <div class="piece-canvas" style="height:${h}px;${p.img ? '' : 'background:'+grad+';'}">
+          ${p.img ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}
+        </div>
         <div class="piece-overlay">
           <div class="piece-title">${p.title}</div>
           <div class="piece-artist">by ${p.artist}</div>
           <div class="piece-actions" onclick="event.stopPropagation()">
             <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
-              <span class="lheart">${isLiked?'❤️':'🤍'}</span>
+              <span class="lheart">${isLiked?'♥':'♡'}</span>
               <span class="lcount">${totalLikes}</span>
             </button>
-            <button class="piece-view-btn" onclick="openPiece('${p.id}')">👁 View</button>
+            <button class="piece-view-btn" onclick="openPiece('${p.id}')">View</button>
           </div>
         </div>
       </div>`;
@@ -371,13 +390,13 @@ function quickLike(e, pieceId) {
   const piece = PIECES.find(p => p.id === pieceId);
   if (liked) {
     allLikes[pieceId + '_count'] = (allLikes[pieceId + '_count'] || 0) + 1;
-    Auth.addNotification({ text: `Someone liked "${piece?.title}"! ❤️`, time: 'Just now', icon: '❤️' });
+    Auth.addNotification({ text: `Someone liked "${piece?.title}"!`, time: 'Just now', icon: '♥' });
   } else {
     allLikes[pieceId + '_count'] = Math.max(0, (allLikes[pieceId + '_count'] || 0) - 1);
   }
   saveLikes(allLikes);
   btn.classList.toggle('liked', liked);
-  heart.textContent = liked ? '❤️' : '🤍';
+  heart.textContent = liked ? '♥' : '♡';
   const base = piece?.likes || 0;
   count.textContent = base + (allLikes[pieceId + '_count'] || 0);
 }
@@ -400,7 +419,7 @@ function openPiece(id) {
   const totalLikes = piece.likes + (allLikes[id+'_count'] || 0);
   const likeBtn = document.getElementById('modalLikeBtn');
   likeBtn.classList.toggle('liked', isLiked);
-  document.getElementById('modalHeart').textContent = isLiked ? '❤️' : '🤍';
+  document.getElementById('modalHeart').textContent = isLiked ? '♥' : '♡';
   document.getElementById('modalLikeCount').textContent = totalLikes;
 
   renderComments(id, piece.comments);
@@ -450,14 +469,14 @@ function modalLike() {
   const piece = PIECES.find(p => p.id === currentPieceId);
   if (liked) {
     allLikes[currentPieceId + '_count'] = (allLikes[currentPieceId + '_count'] || 0) + 1;
-    Auth.addNotification({ text: `You liked "${piece?.title}" ❤️`, time: 'Just now', icon: '❤️' });
+    Auth.addNotification({ text: `You liked "${piece?.title}"`, time: 'Just now', icon: '♥' });
   } else {
     allLikes[currentPieceId + '_count'] = Math.max(0, (allLikes[currentPieceId + '_count'] || 0) - 1);
   }
   saveLikes(allLikes);
   const btn = document.getElementById('modalLikeBtn');
   btn.classList.toggle('liked', liked);
-  document.getElementById('modalHeart').textContent = liked ? '❤️' : '🤍';
+  document.getElementById('modalHeart').textContent = liked ? '♥' : '♡';
   const base = piece?.likes || 0;
   document.getElementById('modalLikeCount').textContent = base + (allLikes[currentPieceId + '_count'] || 0);
   // update grid too
@@ -501,7 +520,7 @@ function sortBy(type) {
 }
 
 function loadMore() {
-  showToast('All pieces loaded — check back soon for new submissions!', '🎨');
+  showToast('All pieces loaded — check back soon for new submissions!');
 }
 
 // Close modal on backdrop click
