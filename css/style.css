@@ -495,30 +495,64 @@ nav.scrolled { box-shadow: 0 4px 24px var(--shadow); }
   letter-spacing: 0.05em; text-transform: uppercase;
 }
 
-/* ─── TESTIMONIALS ──────────────────────────────────────────────────────── */
-.testimonials { background: var(--dark); overflow: hidden; }
-.testimonials h2 { color: var(--white); text-align: center; margin-bottom: 3rem; }
-.testimonial-track {
-  display: flex; gap: 1.5rem;
-  animation: scroll 30s linear infinite;
-  width: max-content;
+/* ─── TESTIMONIALS CAROUSEL ─────────────────────────────────────────────── */
+.testimonials { background: var(--bg); overflow: hidden; }
+.testimonials h2 { color: var(--dark); margin-bottom: 0.5rem; }
+.testi-carousel {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  max-width: 1300px; margin: 2.5rem auto 0; padding: 0 1rem;
+  min-height: 320px;
+  gap: 1.5rem;
 }
-.testimonial-track:hover { animation-play-state: paused; }
-@keyframes scroll { from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-.testimonial-card {
-  background: rgba(255,255,255,0.07); border-radius: var(--radius);
-  padding: 1.75rem; min-width: 300px; max-width: 340px;
-  border: 1px solid rgba(255,255,255,0.1);
+.testi-stage {
+  position: relative;
+  width: 100%; height: 320px;
+  display: flex; align-items: center; justify-content: center;
 }
-.testimonial-card p { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-bottom: 1.25rem; }
-.testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
-.testimonial-avatar {
-  width: 40px; height: 40px; border-radius: 50%;
+.testi-card {
+  position: absolute;
+  width: 360px; max-width: 85vw;
+  background: var(--card); border-radius: var(--radius);
+  padding: 2rem; border: 4px solid transparent;
+  box-shadow: 0 8px 32px var(--shadow);
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.5s ease, box-shadow 0.4s ease;
+  will-change: transform, opacity;
+}
+.testi-card.testi-center {
+  box-shadow: 0 12px 40px rgba(44,26,26,0.18);
+}
+.testi-card.testi-side { pointer-events: none; }
+.testi-card.testi-hidden { pointer-events: none; }
+.testi-stars {
+  font-size: 1.2rem; letter-spacing: 0.1em;
+  color: #F0B89A; margin-bottom: 0.75rem;
+}
+.testi-card p {
+  color: var(--mid); font-size: 1rem;
+  line-height: 1.6; margin-bottom: 1.25rem;
+}
+.testi-author { display: flex; align-items: center; gap: 0.75rem; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
   background: var(--primary); display: flex; align-items: center; justify-content: center;
   font-weight: 700; color: var(--accent); font-size: 0.85rem;
+  border: 2.5px solid var(--dark);
 }
-.testimonial-name { font-weight: 600; color: var(--white); font-size: 0.9rem; }
-.testimonial-role { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+.testi-name { font-weight: 700; color: var(--dark); font-size: 0.95rem; }
+.testi-role { font-size: 0.78rem; color: var(--mid); }
+.testi-arrow {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 2px solid var(--accent); background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent); flex-shrink: 0;
+  transition: var(--transition); z-index: 5;
+}
+.testi-arrow:hover {
+  background: var(--accent); color: var(--white);
+  transform: scale(1.1);
+}
 
 /* ─── GALLERY ───────────────────────────────────────────────────────────── */
 .gallery-grid {
@@ -820,17 +854,17 @@ nav.scrolled { box-shadow: 0 4px 24px var(--shadow); }
 
 /* ─── FOOTER ────────────────────────────────────────────────────────────── */
 footer {
-  background: var(--dark); color: rgba(255,255,255,0.7);
+  background: var(--primary); color: var(--dark);
   padding: 4rem 0 2rem;
 }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-.footer-brand h3 { font-family: 'Abril Fatface', serif; color: var(--white); font-size: 1.6rem; margin-bottom: 0.75rem; }
-.footer-brand p { font-size: 0.9rem; max-width: 280px; }
-.footer-col h4 { color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+.footer-brand h3 { font-family: 'Abril Fatface', serif; color: var(--dark); font-size: 1.6rem; margin-bottom: 0.75rem; }
+.footer-brand p { font-size: 0.9rem; max-width: 280px; color: var(--accent); }
+.footer-col h4 { color: var(--dark); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.footer-col ul li a { font-size: 0.88rem; transition: var(--transition); }
-.footer-col ul li a:hover { color: var(--white); }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.82rem; }
+.footer-col ul li a { font-size: 0.88rem; color: var(--accent); transition: var(--transition); }
+.footer-col ul li a:hover { color: var(--dark); }
+.footer-bottom { border-top: 1px solid rgba(44,26,26,0.15); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--accent); }
 
 /* ─── NOTIFICATIONS ─────────────────────────────────────────────────────── */
 .notif-badge {
@@ -1201,7 +1235,10 @@ footer {
   transition: opacity 0.55s ease, transform 0.55s ease;
   transition-delay: calc(var(--wi) * 0.48s + 0.6s);
 }
-.lcm-item.visible { opacity: 1; transform: none; }
+.lcm-item.visible { opacity: 1; transform: rotate(var(--tilt, 0deg)); }
+.lcm-item:nth-child(1) { --tilt: -4deg; }
+.lcm-item:nth-child(2) { --tilt: 2deg; }
+.lcm-item:nth-child(3) { --tilt: -3deg; }
 .lcm-label {
   display: block;
   font-family: 'Abril Fatface', serif;
@@ -1355,3 +1392,10 @@ footer {
   font-size: 0.8rem; font-weight: 600; color: var(--accent);
   text-align: center; line-height: 1.3;
 }
+
+/* ── Feature pills ───────────────────────────────────────────────────────── */
+.feature-pill {
+  padding: 1.75rem 2rem;
+  display: flex; align-items: center; justify-content: center; gap: 1.25rem;
+.feature-pill h3 { margin: 0; font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
+.feature-icon { flex-shrink: 0; }
