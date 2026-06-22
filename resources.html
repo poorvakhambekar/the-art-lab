@@ -288,27 +288,27 @@
 <script src="js/main.js"></script>
 <script>
 const RESOURCES = [
-  { id:1, type:'video', emoji:'', title:'Wet-on-Wet Watercolor', desc:'Master blooms and soft edges in this 18-minute demo.', duration:'18 min', level:'Beginner', medium:'watercolor' },
-  { id:2, type:'video', emoji:'', title:'Gesture Drawing Fundamentals', desc:'Loosen your hand and capture movement with confidence.', duration:'22 min', level:'Beginner', medium:'sketching' },
-  { id:3, type:'lesson', emoji:'', title:'Understanding Color Theory', desc:'Primary, secondary, complementary — and why it all matters.', duration:'15 min', level:'Beginner', medium:'all' },
-  { id:4, type:'video', emoji:'', title:'Stippling Techniques for Ink', desc:'Create stunning texture with just a pen and patience.', duration:'24 min', level:'Intermediate', medium:'inking' },
-  { id:5, type:'quiz', emoji:'', title:'Color Theory Quiz', desc:'Test your knowledge of color wheels, values, and harmony.', duration:'5 questions', level:'Beginner', medium:'all' },
-  { id:6, type:'download', emoji:'', title:'Watercolor Worksheet Pack', desc:'Step-by-step practice sheets for 6 watercolor techniques.', duration:'PDF, 12 pages', level:'Beginner', medium:'watercolor' },
-  { id:7, type:'video', emoji:'', title:'Creating Depth with Layers', desc:'Discover how to build luminous washes that glow from within.', duration:'31 min', level:'Intermediate', medium:'watercolor' },
-  { id:8, type:'lesson', emoji:'', title:'Composition: Rule of Thirds', desc:'How to arrange your subject for maximum visual impact.', duration:'10 min', level:'Beginner', medium:'all' },
-  { id:9, type:'download', emoji:'', title:'Gesture Drawing Reference Sheet', desc:'60 gesture poses for daily warm-up practice.', duration:'PDF, 8 pages', level:'All levels', medium:'sketching' },
-  { id:10, type:'video', emoji:'', title:'Procreate Brush Basics', desc:'Set up your digital workspace and learn core brush controls.', duration:'20 min', level:'Beginner', medium:'digital' },
-  { id:11, type:'lesson', emoji:'', title:'Finding Your Art Style', desc:'Exercises to identify what makes your work distinctly yours.', duration:'12 min', level:'All levels', medium:'all' },
-  { id:12, type:'download', emoji:'', title:'Portfolio Planning Template', desc:'Map out your artistic goals and track growth month by month.', duration:'PDF, 4 pages', level:'All levels', medium:'all' },
+  { id:1, type:'video', img:'images/download.jpg', title:'Wet-on-Wet Watercolor', desc:'Master blooms and soft edges in this 18-minute demo.', duration:'18 min', level:'Beginner', medium:'watercolor' },
+  { id:2, type:'video', img:'images/art_8.jpg', title:'Gesture Drawing Fundamentals', desc:'Loosen your hand and capture movement with confidence.', duration:'22 min', level:'Beginner', medium:'sketching' },
+  { id:3, type:'lesson', img:'images/download_copy_2.jpg', title:'Understanding Color Theory', desc:'Primary, secondary, complementary — and why it all matters.', duration:'15 min', level:'Beginner', medium:'all' },
+  { id:4, type:'video', img:'images/IMG_0059.jpg', title:'Stippling Techniques for Ink', desc:'Create stunning texture with just a pen and patience.', duration:'24 min', level:'Intermediate', medium:'inking' },
+  { id:5, type:'quiz', img:'images/download_copy.jpg', title:'Color Theory Quiz', desc:'Test your knowledge of color wheels, values, and harmony.', duration:'5 questions', level:'Beginner', medium:'all' },
+  { id:6, type:'download', img:'images/pondering.jpg', title:'Watercolor Worksheet Pack', desc:'Step-by-step practice sheets for 6 watercolor techniques.', duration:'PDF, 12 pages', level:'Beginner', medium:'watercolor' },
+  { id:7, type:'video', img:'images/purple_piece.jpg', title:'Creating Depth with Layers', desc:'Discover how to build luminous washes that glow from within.', duration:'31 min', level:'Intermediate', medium:'watercolor' },
+  { id:8, type:'lesson', img:'images/two_faces.jpg', title:'Composition: Rule of Thirds', desc:'How to arrange your subject for maximum visual impact.', duration:'10 min', level:'Beginner', medium:'all' },
+  { id:9, type:'download', img:'images/art_16.jpg', title:'Gesture Drawing Reference Sheet', desc:'60 gesture poses for daily warm-up practice.', duration:'PDF, 8 pages', level:'All levels', medium:'sketching' },
+  { id:10, type:'video', img:'images/art_5.jpg', title:'Procreate Brush Basics', desc:'Set up your digital workspace and learn core brush controls.', duration:'20 min', level:'Beginner', medium:'digital' },
+  { id:11, type:'lesson', img:'images/IMG_5300.jpg', title:'Finding Your Art Style', desc:'Exercises to identify what makes your work distinctly yours.', duration:'12 min', level:'All levels', medium:'all' },
+  { id:12, type:'download', img:'images/IMG_3720.jpg', title:'Portfolio Planning Template', desc:'Map out your artistic goals and track growth month by month.', duration:'PDF, 4 pages', level:'All levels', medium:'all' },
 ];
 
 const COURSES = [
-  { emoji:'', title:'Watercolor 101', level:'Beginner', lessons:9, students:234, desc:'From color mixing to wet-on-wet — the complete beginner watercolor path.', tags:['Color mixing','Blending','Composition'] },
-  { emoji:'', title:'Sketching Basics', level:'Beginner', lessons:10, students:312, desc:'Proportion, shading, and gesture — everything you need to draw with confidence.', tags:['Gesture','Shading','Perspective'] },
-  { emoji:'', title:'Inking & Line Art', level:'Intermediate', lessons:8, students:189, desc:'Stippling, crosshatching, and bold graphic illustration with ink.', tags:['Stippling','Hatching','Bold line'] },
-  { emoji:'', title:'Digital Illustration', level:'Advanced', lessons:12, students:156, desc:'Procreate workflow, color theory in digital, and building your portfolio.', tags:['Procreate','Digital color','Portfolio'] },
-  { emoji:'', title:'Mixed Media Collage', level:'Intermediate', lessons:10, students:98, desc:'Combine painting, drawing, and found materials into expressive collages.', tags:['Texture','Layering','Experimental'] },
-  { emoji:'', title:'Art History & Context', level:'Beginner', lessons:6, students:203, desc:'The movements, masters, and ideas that shaped art as we know it.', tags:['History','Movements','Analysis'] },
+  { img:'images/download.jpg', title:'Watercolor 101', level:'Beginner', lessons:9, students:234, desc:'From color mixing to wet-on-wet — the complete beginner watercolor path.', tags:['Color mixing','Blending','Composition'] },
+  { img:'images/pondering.jpg', title:'Sketching Basics', level:'Beginner', lessons:10, students:312, desc:'Proportion, shading, and gesture — everything you need to draw with confidence.', tags:['Gesture','Shading','Perspective'] },
+  { img:'images/IMG_0059.jpg', title:'Inking & Line Art', level:'Intermediate', lessons:8, students:189, desc:'Stippling, crosshatching, and bold graphic illustration with ink.', tags:['Stippling','Hatching','Bold line'] },
+  { img:'images/art_5.jpg', title:'Digital Illustration', level:'Advanced', lessons:12, students:156, desc:'Procreate workflow, color theory in digital, and building your portfolio.', tags:['Procreate','Digital color','Portfolio'] },
+  { img:'images/screenshot_art_3.jpg', title:'Mixed Media Collage', level:'Intermediate', lessons:10, students:98, desc:'Combine painting, drawing, and found materials into expressive collages.', tags:['Texture','Layering','Experimental'] },
+  { img:'images/art_9.jpg', title:'Art History & Context', level:'Beginner', lessons:6, students:203, desc:'The movements, masters, and ideas that shaped art as we know it.', tags:['History','Movements','Analysis'] },
 ];
 
 const DOWNLOADS = [
@@ -368,8 +368,8 @@ function renderResourceGrid() {
     const badges = { video:'badge-video', quiz:'badge-quiz', download:'badge-download', lesson:'badge-lesson' };
     const labels = { video:'Video', quiz:'Quiz', download:'Download', lesson:'Lesson' };
     return `<div class="resource-card" data-type="${r.type}" data-title="${r.title.toLowerCase()}">
-      <div class="resource-thumb" style="background:linear-gradient(135deg,var(--primary),var(--highlight));">
-        <span style="font-size:2.5rem;">${r.emoji}</span>
+      <div class="resource-thumb" style="${r.img ? '' : 'background:linear-gradient(135deg,var(--primary),var(--highlight));'}">
+        ${r.img ? `<img src="${r.img}" alt="${r.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}
         ${r.type==='video' ? `<div class="play-btn" onclick="openVideo('${r.title}','${r.desc}')">▶</div>` : ''}
       </div>
       <div class="resource-body">
@@ -387,7 +387,7 @@ function renderResourceGrid() {
 function renderCourses() {
   document.getElementById('coursesGrid').innerHTML = COURSES.map(c => `
     <div class="card">
-      <div style="background:linear-gradient(135deg,var(--primary),var(--highlight));padding:2rem;text-align:center;font-size:3rem;">${c.emoji}</div>
+      <div style="height:180px;overflow:hidden;">${c.img ? `<img src="${c.img}" alt="${c.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}</div>
       <div class="card-body">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
           <h3 style="font-size:1.1rem;">${c.title}</h3>

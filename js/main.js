@@ -301,6 +301,16 @@ function initBrushstroke() {
     obs.disconnect();
   }, { threshold: 0.25 });
   obs.observe(scene);
+
+  const graph = document.getElementById('impactGraph');
+  if (graph) {
+    const gObs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      graph.classList.add('animated');
+      gObs.disconnect();
+    }, { threshold: 0.3 });
+    gObs.observe(graph);
+  }
 }
 
 /* ── Init ────────────────────────────────────────────────────────────── */
