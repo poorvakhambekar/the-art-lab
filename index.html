@@ -34,20 +34,26 @@
     </ul>
     <div class="nav-right">
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
           <div class="palette-option active" data-palette="warm">
-            <div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default
           </div>
           <div class="palette-option" data-palette="ocean">
-            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool
           </div>
           <div class="palette-option" data-palette="forest">
-            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh
           </div>
           <div class="palette-option" data-palette="sunset">
-            <div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset
+          </div>
+          <div class="palette-option" data-palette="dark">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode
+          </div>
+          <div class="palette-option" data-palette="highcontrast">
+            <div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast
           </div>
         </div>
       </div>
@@ -58,7 +64,6 @@
 
 <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
 <section class="hero">
-
   <!-- Main title -->
   <div class="hero-stage">
 <div class="hero-bigtitle">
@@ -143,7 +148,6 @@
   <div class="container">
     <div class="section-tag lcm-tag">Our Model</div>
     <div class="lcm-scene" id="lcmScene">
-      <!-- Super thick brushstroke -->
       <svg class="lcm-brush" viewBox="0 0 1200 210" preserveAspectRatio="none" fill="none">
         <path class="brush-path"
               d="M-5 105 C150 38,350 168,600 105 C850 42,1050 168,1205 108"
@@ -154,7 +158,6 @@
               stroke="rgba(255,255,255,0.18)" stroke-width="40" stroke-linecap="round"
               stroke-dasharray="1660" stroke-dashoffset="1660"/>
       </svg>
-      <!-- Words overlaid on the stroke -->
       <div class="lcm-overlay">
         <div class="lcm-item" style="--wi:0">
           <span class="lcm-label">Learn</span>
@@ -240,19 +243,19 @@
       <div class="reveal" style="display:grid;gap:1.5rem;">
         <div class="card feature-pill">
           <div class="feature-icon">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="var(--primary-d)" stroke-width="2.5" fill="rgba(232,180,192,0.15)"/><path d="M28 16v14M22 26l6 6 6-6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="20" y1="38" x2="36" y2="38" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 10v18M18 24l6 6 6-6" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><line x1="14" y1="36" x2="34" y2="36" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"/></svg>
           </div>
           <h3>Free for Every Student</h3>
         </div>
         <div class="card feature-pill">
           <div class="feature-icon">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="var(--primary-d)" stroke-width="2.5" fill="rgba(232,180,192,0.15)"/><circle cx="22" cy="22" r="5" stroke="var(--accent)" stroke-width="2.2"/><circle cx="34" cy="22" r="5" stroke="var(--accent)" stroke-width="2.2"/><path d="M14 40c0-5 4-9 8-9h0c2 2 6 2 8 0h0c4 0 8 4 8 9" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="18" cy="18" r="5" stroke="#F5D5A0" stroke-width="2.5"/><circle cx="30" cy="18" r="5" stroke="#F5D5A0" stroke-width="2.5"/><path d="M10 38c0-5 4-9 8-9 2 2 6 2 8 0h0c2 2 6 2 8 0 4 0 8 4 8 9" stroke="#F5D5A0" stroke-width="2.5" stroke-linecap="round"/></svg>
           </div>
           <h3>Peer-Powered Learning</h3>
         </div>
         <div class="card feature-pill">
           <div class="feature-icon">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="var(--primary-d)" stroke-width="2.5" fill="rgba(232,180,192,0.15)"/><circle cx="28" cy="22" r="4" stroke="var(--accent)" stroke-width="2.2"/><path d="M20 28h16M28 28v10M22 38l6-4 6 4" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="16" r="5" stroke="var(--primary-d)" stroke-width="2.5"/><path d="M14 24h20M24 24v12M18 36l6-4 6 4" stroke="var(--primary-d)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>Accessible by Design</h3>
         </div>

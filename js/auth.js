@@ -97,7 +97,7 @@ function initAuthUI() {
     authArea.innerHTML = `
       <div style="position:relative">
         <button class="palette-btn" id="notifBtn" title="Notifications" style="position:relative;display:flex;align-items:center;justify-content:center">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           ${unread > 0 ? `<span class="notif-badge">${unread}</span>` : ''}
         </button>
         <div class="notif-panel" id="notifPanel">
@@ -109,7 +109,7 @@ function initAuthUI() {
         <button class="user-btn" id="userBtn" title="${user.firstName}" style="${avatarStyle}">${user.avatar ? '' : initials}</button>
         <div class="user-popup" id="userPopup">
           <div class="user-popup-header">
-            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bg2)">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0;padding-bottom:0">
               <div id="popupAvatarWrap" style="width:52px;height:52px;border-radius:50%;overflow:hidden;border:2px solid var(--accent);flex-shrink:0;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:var(--accent)">
                 ${user.avatar ? `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover" alt="avatar">` : initials}
               </div>
@@ -329,4 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => openAuthModal('login'), 300);
   }
   initAuthUI();
+  const user = Auth.currentUser();
+  document.querySelectorAll('.nav-links a[href="dashboard.html"]').forEach(a => {
+    if (!user) a.parentElement.style.display = 'none';
+  });
 });

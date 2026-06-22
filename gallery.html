@@ -9,48 +9,46 @@
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .gallery-masonry { columns: 4 200px; gap: 1.25rem; }
-    .gallery-piece {
-      break-inside: avoid; margin-bottom: 1.25rem;
+    /* Pinterest masonry via grid */
+    .gallery-masonry {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .gallery-pin {
       border-radius: var(--radius); overflow: hidden;
-      position: relative; cursor: pointer;
-      box-shadow: 0 4px 20px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; background: var(--card);
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: box-shadow 0.3s ease;
     }
-    .gallery-piece:hover { transform: translateY(-4px); box-shadow: 0 12px 36px var(--shadow); }
-    .piece-canvas {
-      width: 100%; display: block;
-      background: linear-gradient(135deg, var(--primary), var(--highlight));
-    }
-    .piece-overlay {
+    .gallery-pin:hover { box-shadow: 0 12px 36px var(--shadow); }
+    .pin-img-wrap { position: relative; overflow: hidden; }
+    .pin-img-wrap img { width: 100%; display: block; }
+    .pin-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(44,26,26,0.88) 0%, rgba(44,26,26,0) 55%);
-      opacity: 0; transition: opacity 0.3s ease;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 1.1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 40%);
+      opacity: 0; transition: opacity 0.25s ease;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+      padding: 0.75rem;
+      pointer-events: none;
     }
-    .gallery-piece:hover .piece-overlay { opacity: 1; }
-    .piece-title { color: var(--white); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem; }
-    .piece-artist { color: rgba(255,255,255,0.72); font-size: 0.78rem; margin-bottom: 0.6rem; }
-    .piece-actions { display: flex; gap: 0.5rem; }
+    .gallery-pin:hover .pin-overlay { opacity: 1; pointer-events: auto; }
+    .pin-actions { display: flex; gap: 0.5rem; }
+    .pin-info { padding: 0.75rem 0.85rem; }
+    .pin-title { font-weight: 700; font-size: 0.9rem; color: var(--dark); margin-bottom: 0.15rem; }
+    .pin-artist { font-size: 0.78rem; color: var(--mid); }
     .piece-like-btn {
       display: inline-flex; align-items: center; gap: 0.35rem;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
-      padding: 0.35rem 0.85rem; color: var(--white);
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(6px);
+      border: none; border-radius: 50px;
+      padding: 0.4rem 0.85rem; color: var(--dark);
       font-size: 0.8rem; font-weight: 600;
       transition: background 0.2s, transform 0.15s;
     }
-    .piece-like-btn:hover, .piece-like-btn.liked { background: rgba(255,77,109,0.7); border-color: transparent; }
+    .piece-like-btn:hover { background: #fff; }
+    .piece-like-btn.liked { background: rgba(255,77,109,0.85); color: #fff; }
     .piece-like-btn.liked .lheart { animation: heartPop 0.3s ease; }
-    .piece-view-btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
-      padding: 0.35rem 0.85rem; color: var(--white);
-      font-size: 0.8rem; font-weight: 600; transition: background 0.2s;
-    }
-    .piece-view-btn:hover { background: rgba(255,255,255,0.25); }
     @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
 
     /* Piece Detail Modal */
@@ -121,15 +119,16 @@
       <li><a href="dashboard.html">My Page</a></li>
     </ul>
     <div class="nav-right">
-      </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
-          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm</div>
-          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh</div>
-          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="highcontrast"><div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -158,11 +157,6 @@
       </div>
       <div class="filter-bar" style="margin:0;">
         <button class="filter-btn active" onclick="filterGallery(this,'all')">All</button>
-        <button class="filter-btn" onclick="filterGallery(this,'watercolor')">Watercolor</button>
-        <button class="filter-btn" onclick="filterGallery(this,'sketching')">Sketching</button>
-        <button class="filter-btn" onclick="filterGallery(this,'digital')">Digital</button>
-        <button class="filter-btn" onclick="filterGallery(this,'inking')">Inking</button>
-        <button class="filter-btn" onclick="filterGallery(this,'mixed')">Mixed Media</button>
       </div>
       <div style="margin-left:auto;display:flex;gap:0.5rem;">
         <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">Most Liked</button>
@@ -259,18 +253,6 @@
   </div>
 </div>
 
-<footer style="background:var(--dark);color:rgba(255,255,255,0.6);padding:2rem 0;">
-  <div class="container">
-    <div class="footer-bottom" style="border:none;padding:0;">
-      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
-      <div style="display:flex;gap:2rem;">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
-        <a href="sessions.html" style="color:rgba(255,255,255,0.6);">Sessions</a>
-        <a href="resources.html" style="color:rgba(255,255,255,0.6);">Resources</a>
-      </div>
-    </div>
-  </div>
-</footer>
 
 
   <!-- AVATAR MODAL -->
@@ -305,32 +287,29 @@
 <script src="js/main.js"></script>
 <script>
 const PIECES = [
-  { id:'p1', img:'images/IMG_3720.jpg',  title:'Soft Blue', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:47, trending:true, statement:'I wanted to capture the fleeting beauty of a moment — watercolor felt like the only medium that could hold that impermanence.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette'}], w:1, h:1.4 },
-  { id:'p2', img:'images/IMG_5139.jpg',  title:'Bloom', artist:'James L.', artistId:'jl', medium:'watercolor', likes:34, trending:false, statement:'Layers of color rendered in wet ink — this took 4 sessions to get right.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}], w:1, h:0.85 },
-  { id:'p3', img:'images/IMG_5300.jpg',  title:'Portrait in Red', artist:'Sofia B.', artistId:'sb', medium:'sketching', likes:62, trending:true, statement:'Part of my ongoing portrait series — drawing in oil pastels is the most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw — love it.'},{author:'Tyler D.',text:'Those eyes!!'},{author:'Mia K.',text:'Your line work has improved so much.'}], w:1, h:1.2 },
-  { id:'p4', img:'images/IMG_0059.jpg',  title:'Zentangle', artist:'Maya R.', artistId:'mr', medium:'inking', likes:28, trending:false, statement:'Ink patterns exploring density and the meditative nature of repetition.', comments:[], w:1, h:0.9 },
-  { id:'p5', img:'images/purple_piece.jpg', title:'Purple Study', artist:'Sam K.', artistId:'sk', medium:'mixed', likes:51, trending:true, statement:'Oil pastel and ink — exploring identity and cultural memory through layered textures.', comments:[{author:'Amara W.',text:'The textures are unreal!'},{author:'Maya R.',text:'Museum worthy'}], w:1, h:1.5 },
-  { id:'p6', img:'images/two_faces.jpg', title:'Two Faces', artist:'Tyler D.', artistId:'td', medium:'sketching', likes:39, trending:false, statement:'A dual portrait exploring how identity shifts between the public and private self.', comments:[{author:'James L.',text:'The composition is perfect.'}], w:1, h:1.0 },
-  { id:'p7', img:'images/IMG_5400.jpg', title:'Studio Piece', artist:'Priya R.', artistId:'pr', medium:'watercolor', likes:29, trending:false, statement:'A piece born from a long studio session — letting the medium lead rather than forcing it.', comments:[{author:'Sofia B.',text:'So peaceful to look at'}], w:1, h:1.3 },
-  { id:'p8', img:'images/2025-01-04_23-14-44_284.jpg', title:'Ignition', artist:'Leo C.', artistId:'lc', medium:'inking', likes:44, trending:false, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Maya R.',text:'I can literally feel the heat!'},{author:'Mia K.',text:'Your brushwork is insane.'}], w:1, h:0.8 },
-  { id:'p9', title:'Constellation', artist:'Amara W.', artistId:'aw', medium:'digital', likes:56, trending:true, statement:'Mapping personal mythology onto star charts — each star is a memory.', comments:[{author:'Tyler D.',text:'This belongs on a poster.'},{author:'Priya R.',text:'Absolutely ethereal'}], w:1, h:1.1 },
-  { id:'p10', title:'Metamorphosis', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:33, trending:false, statement:'A study in transition — inspired by one of those weeks where everything changes at once.', comments:[], w:1, h:1.6 },
-  { id:'p11', title:'Golden Hour', artist:'James L.', artistId:'jl', medium:'sketching', likes:22, trending:false, statement:'Pencil studies of light at dusk — trying to capture warmth through value alone.', comments:[{author:'Sam K.',text:'The gradients are so smooth!'}], w:1, h:0.9 },
-  { id:'p12', title:'Fracture', artist:'Sofia B.', artistId:'sb', medium:'mixed', likes:48, trending:true, statement:'Mixed media exploration of breaking points — sometimes things have to fracture before they can reform beautifully.', comments:[{author:'Leo C.',text:'Stunning. So powerful.'},{author:'Amara W.',text:'This gives me chills.'}], w:1, h:1.2 },
+  { id:'p1', img:'images/IMG_3720.jpg', title:'Soft Blue', artist:'Mia K.', likes:47, statement:'Watercolor — capturing the fleeting beauty of a moment.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette'}] },
+  { id:'p2', img:'images/IMG_5139.jpg', title:'Bloom', artist:'Jaya S.', likes:34, statement:'Layers of color rendered in wet ink — this took 4 sessions.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}] },
+  { id:'p3', img:'images/IMG_5300.jpg', title:'Portrait in Red', artist:'Chloe D.', likes:62, statement:'Oil pastels — drawing is the most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw!'},{author:'Tyler C.',text:'Those eyes!!'}] },
+  { id:'p4', img:'images/IMG_0059.jpg', title:'Zentangle', artist:'Nina H.', likes:28, statement:'Ink patterns exploring density and the meditative nature of repetition.', comments:[] },
+  { id:'p5', img:'images/purple_piece.jpg', title:'Purple Study', artist:'Lydia F.', likes:51, statement:'Oil pastel and ink — exploring identity through layered textures.', comments:[{author:'Robin T.',text:'The textures are unreal!'}] },
+  { id:'p6', img:'images/two_faces.jpg', title:'Two Faces', artist:'Chloe D.', likes:39, statement:'A dual portrait exploring how identity shifts.', comments:[{author:'Jaya S.',text:'The composition is perfect.'}] },
+  { id:'p7', img:'images/IMG_5400.jpg', title:'Studio Piece', artist:'Jaya S.', likes:29, statement:'Letting the medium lead rather than forcing it.', comments:[{author:'Sofia B.',text:'So peaceful to look at'}] },
+  { id:'p8', img:'images/2025-01-04_23-14-44_284.jpg', title:'Ignition', artist:'Tyler C.', likes:44, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Nina H.',text:'I can feel the heat!'}] },
+  { id:'p9', img:'images/art_5.jpg', title:'Fists', artist:'Lydia F.', likes:56, statement:'Digital painting — power and defiance in vivid color.', comments:[{author:'Robin T.',text:'This belongs on a poster.'}] },
+  { id:'p10', img:'images/art_8.jpg', title:'Blue Profile', artist:'Robin T.', likes:33, statement:'Pastel portrait study in cool tones.', comments:[] },
+  { id:'p11', img:'images/art_9.jpg', title:'Tangled Forest', artist:'Tyler C.', likes:22, statement:'Acrylic on canvas — branches as metaphor for connection.', comments:[{author:'Lydia F.',text:'The depth is incredible.'}] },
+  { id:'p12', img:'images/art_16.jpg', title:'Night Walk', artist:'Nina H.', likes:48, statement:'Chalk on black paper — capturing movement in darkness.', comments:[{author:'Chloe D.',text:'Stunning atmosphere.'}] },
+  { id:'p13', img:'images/pondering.jpg', title:'Pondering', artist:'Jaya S.', likes:41, statement:'Oil pastel portrait — warm light study.', comments:[{author:'Lydia F.',text:'The colors are so warm!'}] },
+  { id:'p14', img:'images/download.jpg', title:'Watercolor Dots', artist:'Mia K.', likes:37, statement:'Watercolor dot portrait — pointillism meets impressionism.', comments:[] },
+  { id:'p15', img:'images/download_copy.jpg', title:'Cascade', artist:'Robin T.', likes:26, statement:'Flowing abstract watercolor study.', comments:[{author:'Nina H.',text:'Love the movement.'}] },
+  { id:'p16', img:'images/download_copy_2.jpg', title:'Amber Light', artist:'Lydia F.', likes:31, statement:'Warm-toned portrait capturing golden hour.', comments:[] },
+  { id:'p17', img:'images/download_copy_3.jpg', title:'Reflection', artist:'Chloe D.', likes:45, statement:'Mixed media self-portrait exploring inner dialogue.', comments:[{author:'Jaya S.',text:'So powerful.'}] },
+  { id:'p18', img:'images/screenshot_art_1.jpg', title:'Collage I', artist:'Nina H.', likes:38, statement:'Mixed media collage — layering memories.', comments:[] },
+  { id:'p19', img:'images/screenshot_art_2.jpg', title:'Collage II', artist:'Tyler C.', likes:29, statement:'Continuation of the collage series.', comments:[] },
+  { id:'p20', img:'images/screenshot_art_3.jpg', title:'Garden Girl', artist:'Chloe D.', likes:52, statement:'Vibrant gouache illustration.', comments:[{author:'Lydia F.',text:'The flowers are incredible!'}] },
+  { id:'p21', img:'images/sessions_hero.jpg', title:'Warm Portrait', artist:'Robin T.', likes:43, statement:'Pastel on toned paper — studying warm light.', comments:[] },
+  { id:'p22', img:'images/resources_hero.jpg', title:'In the Studio', artist:'Jaya S.', likes:35, statement:'Behind the scenes — painting in progress.', comments:[] },
 ];
-
-const GRADIENTS = [
-  'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
-  'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
-  'linear-gradient(135deg,#A8C897,#D0EDBB)',
-  'linear-gradient(135deg,#F0B89A,#F9D8A8)',
-  'linear-gradient(135deg,#C8A8E8,#E8C8F5)',
-  'linear-gradient(135deg,#E8D4A0,#F5E8C0)',
-  'linear-gradient(135deg,#A8E8D4,#C8F5E8)',
-  'linear-gradient(135deg,#E8A8A8,#F5C8C8)',
-];
-
-const HEIGHTS = [180, 220, 260, 300, 240, 200, 280, 160];
 
 let displayedPieces = [...PIECES];
 let currentPieceId = null;
@@ -353,24 +332,22 @@ function renderGallery(pieces) {
   grid.innerHTML = pieces.map((p, i) => {
     const isLiked = Auth.isLiked(p.id) || allLikes[p.id];
     const totalLikes = p.likes + (allLikes[p.id+'_count'] || 0);
-    const h = HEIGHTS[i % HEIGHTS.length];
-    const grad = GRADIENTS[i % GRADIENTS.length];
     return `
-      <div class="gallery-piece" data-id="${p.id}" data-medium="${p.medium}" data-title="${p.title.toLowerCase()} ${p.artist.toLowerCase()}" onclick="openPiece('${p.id}')">
-        ${p.trending ? '<div class="trending-badge">Trending</div>' : ''}
-        <div class="piece-canvas" style="height:${h}px;${p.img ? '' : 'background:'+grad+';'}">
-          ${p.img ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}
-        </div>
-        <div class="piece-overlay">
-          <div class="piece-title">${p.title}</div>
-          <div class="piece-artist">by ${p.artist}</div>
-          <div class="piece-actions" onclick="event.stopPropagation()">
-            <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
-              <span class="lheart">${isLiked?'♥':'♡'}</span>
-              <span class="lcount">${totalLikes}</span>
-            </button>
-            <button class="piece-view-btn" onclick="openPiece('${p.id}')">View</button>
+      <div class="gallery-pin" onclick="openPiece('${p.id}')">
+        <div class="pin-img-wrap">
+          <img src="${p.img}" alt="${p.title}" loading="lazy">
+          <div class="pin-overlay">
+            <div class="pin-actions" onclick="event.stopPropagation()">
+              <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
+                <span class="lheart">${isLiked?'♥':'♡'}</span>
+                <span class="lcount">${totalLikes}</span>
+              </button>
+            </div>
           </div>
+        </div>
+        <div class="pin-info">
+          <div class="pin-title">${p.title}</div>
+          <div class="pin-artist">by ${p.artist}</div>
         </div>
       </div>`;
   }).join('');
@@ -406,14 +383,18 @@ function openPiece(id) {
   if (!piece) return;
   currentPieceId = id;
   const allLikes = getLikes();
-  const i = PIECES.indexOf(piece);
-  const grad = GRADIENTS[i % GRADIENTS.length];
-  document.getElementById('modalCanvas').style.background = grad;
-  document.getElementById('modalCanvas').textContent = piece.emoji;
+  const canvas = document.getElementById('modalCanvas');
+  if (piece.img) {
+    canvas.style.background = 'var(--dark)';
+    canvas.innerHTML = `<img src="${piece.img}" alt="${piece.title}" style="width:100%;height:100%;object-fit:contain;">`;
+  } else {
+    canvas.style.background = 'var(--bg2)';
+    canvas.textContent = '';
+  }
   document.getElementById('modalTitle').textContent = piece.title;
-  document.getElementById('modalArtist').textContent = `by ${piece.artist} · ${piece.medium.charAt(0).toUpperCase()+piece.medium.slice(1)}`;
+  document.getElementById('modalArtist').textContent = `by ${piece.artist}`;
   document.getElementById('modalStatement').textContent = piece.statement;
-  document.getElementById('modalTags').innerHTML = `<span class="chip">${piece.medium}</span>`;
+  document.getElementById('modalTags').innerHTML = '';
 
   const isLiked = Auth.isLiked(id) || allLikes[id];
   const totalLikes = piece.likes + (allLikes[id+'_count'] || 0);
@@ -529,5 +510,47 @@ document.getElementById('pieceModal').addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePieceModal(); });
 </script>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images &amp; icons: Unsplash, The Noun Project</div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Art Lab &mdash; Homestead High School FBLA</span>
+      <span>Poorva Khambekar &middot; Mishti Doshi &middot; Claire Xu</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
