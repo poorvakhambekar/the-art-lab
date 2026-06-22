@@ -564,6 +564,13 @@ nav.scrolled { box-shadow: 0 4px 24px var(--shadow); }
   animation: scroll 30s linear infinite;
   width: max-content;
 }
+.testi-carousel {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  max-width: 1300px; margin: 2.5rem auto 0; padding: 0 1rem;
+  min-height: 320px;
+  gap: 1.5rem;
+}
 .testi-stage {
   position: relative;
   width: 100%; height: 320px;
