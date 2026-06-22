@@ -9,18 +9,73 @@
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .upload-zone {
-      border: 3px dashed var(--primary-d); border-radius: var(--radius);
-      padding: 2.5rem; text-align: center;
-      background: rgba(232,180,192,0.07);
-      transition: var(--transition); cursor: pointer;
+    /* Pinterest masonry via grid */
+    .gallery-masonry {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      align-items: start;
     }
-    .upload-zone:hover { background: rgba(232,180,192,0.15); border-color: var(--accent); }
-    .upload-zone .upload-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .course-row {
-      display: flex; align-items: center; gap: 1.25rem;
-      padding: 1.25rem; border-radius: var(--radius-sm);
-      background: var(--bg); margin-bottom: 0.75rem;
+    .gallery-pin {
+      border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; background: var(--card);
+      box-shadow: 0 2px 12px var(--shadow);
+      transition: box-shadow 0.3s ease;
+    }
+    .gallery-pin:hover { box-shadow: 0 12px 36px var(--shadow); }
+    .pin-img-wrap { position: relative; overflow: hidden; }
+    .pin-img-wrap img { width: 100%; display: block; }
+    .pin-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 40%);
+      opacity: 0; transition: opacity 0.25s ease;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+      padding: 0.75rem;
+      pointer-events: none;
+    }
+    .gallery-pin:hover .pin-overlay { opacity: 1; pointer-events: auto; }
+    .pin-actions { display: flex; gap: 0.5rem; }
+    .pin-info { padding: 0.75rem 0.85rem; }
+    .pin-title { font-weight: 700; font-size: 0.9rem; color: var(--dark); margin-bottom: 0.15rem; }
+    .pin-artist { font-size: 0.78rem; color: var(--mid); }
+    .piece-like-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(6px);
+      border: none; border-radius: 50px;
+      padding: 0.4rem 0.85rem; color: var(--dark);
+      font-size: 0.8rem; font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .piece-like-btn:hover { background: #fff; }
+    .piece-like-btn.liked { background: rgba(255,77,109,0.85); color: #fff; }
+    .piece-like-btn.liked .lheart { animation: heartPop 0.3s ease; }
+    @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
+
+    /* Piece Detail Modal */
+    .piece-modal {
+      display: none; position: fixed; inset: 0; z-index: 9500;
+      background: rgba(20,10,10,0.92); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .piece-modal.open { display: flex; animation: fadeIn 0.2s ease; }
+    .piece-modal-inner {
+      display: grid; grid-template-columns: 1fr 380px; gap: 0;
+      background: var(--card); border-radius: 24px; overflow: hidden;
+      max-width: 900px; width: 100%; max-height: 90vh;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+      animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .piece-modal-canvas {
+      background: linear-gradient(135deg, var(--primary), var(--highlight));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem; min-height: 400px;
+    }
+    .piece-modal-info { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+    .piece-modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,0.15); border: none;
+      color: white; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
       transition: var(--transition);
     }
     .course-row:hover { background: var(--bg2); }
@@ -62,6 +117,14 @@
     .goal-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--primary-d); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: var(--transition); cursor: pointer; }
     .goal-check.done { background: var(--accent); border-color: var(--accent); color: white; }
   </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MBBD9X6MBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MBBD9X6MBG');
+</script>
 </head>
 <body>
 
@@ -84,12 +147,15 @@
     </ul>
     <div class="nav-right">
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
-          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
-          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="highcontrast"><div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -115,300 +181,19 @@
   <div class="container" style="padding-top:0;">
     <div class="dash-layout">
 
-      <!-- SIDEBAR -->
-      <aside class="dash-sidebar" id="dashSidebar">
-        <div class="dash-avatar" id="dashAvatar">PK</div>
-        <div class="dash-name" id="dashName">Poorva K.</div>
-        <div class="dash-role" id="dashRole">Student</div>
-        <ul class="dash-nav">
-          <li><a href="#overview" class="active" onclick="showSection('overview',this)"><span class="nav-icon">🏠</span>Overview</a></li>
-          <li><a href="#progress" onclick="showSection('progress',this)"><span class="nav-icon">📈</span>Progress</a></li>
-          <li><a href="#portfolio" onclick="showSection('portfolio',this)">Portfolio</a></li>
-          <li><a href="#courses" onclick="showSection('courses',this)">My Courses</a></li>
-          <li><a href="#goals" onclick="showSection('goals',this)"><span class="nav-icon">🎯</span>Goals</a></li>
-          <li id="mentorNavItem" class="hidden"><a href="#mentoring" onclick="showSection('mentoring',this)">My Sessions</a></li>
-          <li style="margin-top:1rem;"><a href="#" onclick="Auth.logout()" style="color:var(--mid);">Sign Out</a></li>
-        </ul>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <main class="dash-content">
-
-        <!-- OVERVIEW -->
-        <div id="section-overview">
-          <div style="margin-bottom:2rem;">
-            <h2 id="welcomeMsg">Welcome back!</h2>
-            <p style="margin-top:0.25rem;">Here's what's happening in your creative journey.</p>
-          </div>
-
-          <!-- Mentor badge (hidden for students) -->
-          <div class="mentor-badge hidden" id="mentorBanner">
-            <h3>You're a Mentor</h3>
-            <p>Thank you for giving back to the community. Your sessions are making a difference.</p>
-          </div>
-
-          <!-- Journey path -->
-          <div class="content-block">
-            <div class="section-heading">Your Journey</div>
-            <div class="journey-steps" id="journeySteps">
-              <div class="journey-step done">
-                <div class="journey-step-circle">01</div>
-                <h4>Learner</h4>
-              </div>
-              <div class="journey-connector done"></div>
-              <div class="journey-step current" id="journeyCreate">
-                <div class="journey-step-circle">02</div>
-                <h4>Creator</h4>
-              </div>
-              <div class="journey-connector" id="connectorMentor"></div>
-              <div class="journey-step" id="journeyMentor">
-                <div class="journey-step-circle">03</div>
-                <h4>Mentor</h4>
-              </div>
-            </div>
-            <p style="margin-top:1.5rem;font-size:0.88rem;" id="journeyMsg">You're a Creator — keep uploading artwork and attending sessions to unlock Mentor status!</p>
-          </div>
-
-          <!-- Stats -->
-          <div class="stats-row" id="statsRow">
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statCourses">2</div>
-              <div class="stat-label">Courses Enrolled</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statPieces">0</div>
-              <div class="stat-label">Pieces Uploaded</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statSessions">0</div>
-              <div class="stat-label">Sessions Attended</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statLikes">0</div>
-              <div class="stat-label">Likes Received</div>
-            </div>
-          </div>
-
-          <!-- Quick links -->
-          <div class="grid-2" style="gap:1.25rem;">
-            <a href="sessions.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div><h4>Book a Session</h4><p style="font-size:0.85rem;margin:0;">Find a mentor or join a group study</p></div>
-            </a>
-            <a href="resources.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div><h4>Browse Resources</h4><p style="font-size:0.85rem;margin:0;">Videos, quizzes, and downloadables</p></div>
-            </a>
-          </div>
-
-          <!-- Art inspiration strip -->
-          <div style="margin-top:2rem;">
-            <div class="section-heading">Community Art</div>
-            <div class="dash-art-strip">
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_3720.jpg" alt="Soft Blue"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/purple_piece.jpg" alt="Purple Study"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_5300.jpg" alt="Portrait in Red"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/two_faces.jpg" alt="Two Faces"></a>
-              <a href="gallery.html" class="dash-art-thumb dash-art-more">
-                <span>See all in gallery</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- PROGRESS -->
-        <div id="section-progress" class="hidden">
-          <h2 style="margin-bottom:2rem;">Your Progress</h2>
-          <div class="content-block">
-            <div class="section-heading">Overall Level: <span id="levelBadge" style="color:var(--accent);">Beginner</span></div>
-            <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem;">
-              <div>
-                <div class="progress-label"><span>Watercolor 101</span><span id="wc101Pct">35%</span></div>
-                <div class="progress-bar"><div class="progress-fill" data-width="35"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">3 of 9 lessons complete</div>
-              </div>
-              <div>
-                <div class="progress-label"><span>Sketching Basics</span><span>60%</span></div>
-                <div class="progress-bar"><div class="progress-fill" data-width="60"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">6 of 10 lessons complete</div>
-              </div>
-              <div>
-                <div class="progress-label"><span>Portfolio Uploads</span><span id="portfolioPct">0%</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="portfolioBar" data-width="0"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">Goal: 5 pieces to reach Creator level</div>
-              </div>
-            </div>
-          </div>
-          <div class="content-block">
-            <div class="section-heading">Analytics at a Glance</div>
-            <div class="grid-2" style="gap:1rem;margin-top:0.5rem;">
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsTime">0 hrs</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Time on platform</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">Painting, Drawing</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Top interests</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsStreak">0 days</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Current streak</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsLiked">0</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Artworks you've liked</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PORTFOLIO -->
-        <div id="section-portfolio" class="hidden">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
-            <h2>My Portfolio</h2>
-            <button class="btn btn-primary btn-sm" onclick="showUploadModal()">+ Upload Piece</button>
-          </div>
-          <div class="content-block">
-            <p style="margin-bottom:1.5rem;font-size:0.9rem;">Your personal gallery — pieces you've uploaded, shared with the community, and are proud of.</p>
-            <div class="portfolio-grid" id="portfolioGrid">
-              <!-- filled by JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- COURSES -->
-        <div id="section-courses" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Courses</h2>
-          <div class="content-block">
-            <div class="section-heading">Enrolled Courses</div>
-            <div id="enrolledCoursesList"></div>
-          </div>
-          <div class="content-block">
-            <div class="section-heading">Discover More</div>
-            <div class="grid-2" style="gap:1rem;">
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Inking & Line Art</div>
-                  <div class="course-sub">Intermediate • 8 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Inking & Line Art','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Mixed Media Collage</div>
-                  <div class="course-sub">Intermediate • 10 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Mixed Media Collage','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Digital Illustration</div>
-                  <div class="course-sub">Advanced • 12 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Digital Illustration','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Art History & Context</div>
-                  <div class="course-sub">Beginner • 6 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Art History & Context','')">Enroll</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- GOALS -->
-        <div id="section-goals" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Goals 🎯</h2>
-          <div class="content-block">
-            <div class="section-heading">This Month's Goals</div>
-            <div id="goalsList">
-              <div class="goal-item">
-                <div class="goal-check done" onclick="toggleGoal(this)">✓</div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Complete 3 Watercolor lessons</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">In progress — 3/3 done</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Upload first artwork to Gallery</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Attend a Group Study session</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Book a 1-on-1 mentor session</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-outline btn-sm" style="margin-top:1.25rem;" onclick="addGoal()">+ Add Goal</button>
-          </div>
-        </div>
-
-        <!-- MENTORING (mentor role only) -->
-        <div id="section-mentoring" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Mentoring Sessions</h2>
-          <div class="content-block">
-            <div class="section-heading">Upcoming Sessions</div>
-            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Watercolor with Maya</div>
-                  <div class="course-sub">Tomorrow, 4:00 PM • 1-on-1</div>
-                </div>
-                <span class="chip">Confirmed</span>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Group Sketching Workshop</div>
-                  <div class="course-sub">Sat June 21, 2:00 PM • 8 students</div>
-                </div>
-                <span class="chip">Upcoming</span>
-              </div>
-            </div>
-          </div>
-          <div class="content-block">
-            <div class="section-heading">Student Reviews</div>
-            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
-              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
-                  <span style="font-weight:700;font-size:0.9rem;">★★★★★</span>
-                  <span style="font-size:0.82rem;color:var(--mid);">from Mia K.</span>
-                </div>
-                <p style="font-size:0.88rem;">"Amazing session! Really helped me understand wet-on-wet technique."</p>
-              </div>
-              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
-                  <span style="font-weight:700;font-size:0.9rem;">★★★★☆</span>
-                  <span style="font-size:0.82rem;color:var(--mid);">from James L.</span>
-                </div>
-                <p style="font-size:0.88rem;">"Very patient and clear explanations. Would definitely book again."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </main>
+    <!-- Controls -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem;">
+      <div class="search-bar" style="flex:1;min-width:200px;max-width:360px;">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search by title or artist…" id="gallerySearch" oninput="searchGallery()" />
+      </div>
+      <div class="filter-bar" style="margin:0;">
+        <button class="filter-btn active" onclick="filterGallery(this,'all')">All</button>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:0.5rem;">
+        <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">Most Liked</button>
+        <button class="filter-btn" id="sortNew" onclick="sortBy('new')">Newest</button>
+      </div>
     </div>
   </div>
 </div>
@@ -510,12 +295,40 @@
   <script src="js/auth.js"></script>
 <script src="js/main.js"></script>
 <script>
-const COURSES_DATA = {
-  'watercolor-101': { name: 'Watercolor 101', icon: '+', level: 'Beginner', lessons: 9, done: 3 },
-  'sketching-basics': { name: 'Sketching Basics', icon: '', level: 'Beginner', lessons: 10, done: 6 },
-};
-const PORTFOLIO_EMOJIS = ['','','','','','','',''];
-let portfolioPieces = [];
+const PIECES = [
+  { id:'p1', img:'images/IMG_3720.jpg', title:'Soft Blue', artist:'Mia K.', likes:47, statement:'Watercolor — capturing the fleeting beauty of a moment.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette'}] },
+  { id:'p2', img:'images/IMG_5139.jpg', title:'Bloom', artist:'Jaya S.', likes:34, statement:'Layers of color rendered in wet ink — this took 4 sessions.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}] },
+  { id:'p3', img:'images/IMG_5300.jpg', title:'Portrait in Red', artist:'Chloe D.', likes:62, statement:'Oil pastels — drawing is the most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw!'},{author:'Tyler C.',text:'Those eyes!!'}] },
+  { id:'p4', img:'images/IMG_0059.jpg', title:'Zentangle', artist:'Nina H.', likes:28, statement:'Ink patterns exploring density and the meditative nature of repetition.', comments:[] },
+  { id:'p5', img:'images/purple_piece.jpg', title:'Purple Study', artist:'Lydia F.', likes:51, statement:'Oil pastel and ink — exploring identity through layered textures.', comments:[{author:'Robin T.',text:'The textures are unreal!'}] },
+  { id:'p6', img:'images/two_faces.jpg', title:'Two Faces', artist:'Chloe D.', likes:39, statement:'A dual portrait exploring how identity shifts.', comments:[{author:'Jaya S.',text:'The composition is perfect.'}] },
+  { id:'p7', img:'images/IMG_5400.jpg', title:'Studio Piece', artist:'Jaya S.', likes:29, statement:'Letting the medium lead rather than forcing it.', comments:[{author:'Sofia B.',text:'So peaceful to look at'}] },
+  { id:'p8', img:'images/2025-01-04_23-14-44_284.jpg', title:'Ignition', artist:'Tyler C.', likes:44, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Nina H.',text:'I can feel the heat!'}] },
+  { id:'p9', img:'images/art_5.jpg', title:'Fists', artist:'Lydia F.', likes:56, statement:'Digital painting — power and defiance in vivid color.', comments:[{author:'Robin T.',text:'This belongs on a poster.'}] },
+  { id:'p10', img:'images/art_8.jpg', title:'Blue Profile', artist:'Robin T.', likes:33, statement:'Pastel portrait study in cool tones.', comments:[] },
+  { id:'p11', img:'images/art_9.jpg', title:'Tangled Forest', artist:'Tyler C.', likes:22, statement:'Acrylic on canvas — branches as metaphor for connection.', comments:[{author:'Lydia F.',text:'The depth is incredible.'}] },
+  { id:'p12', img:'images/art_16.jpg', title:'Night Walk', artist:'Nina H.', likes:48, statement:'Chalk on black paper — capturing movement in darkness.', comments:[{author:'Chloe D.',text:'Stunning atmosphere.'}] },
+  { id:'p13', img:'images/pondering.jpg', title:'Pondering', artist:'Jaya S.', likes:41, statement:'Oil pastel portrait — warm light study.', comments:[{author:'Lydia F.',text:'The colors are so warm!'}] },
+  { id:'p14', img:'images/download.jpg', title:'Watercolor Dots', artist:'Mia K.', likes:37, statement:'Watercolor dot portrait — pointillism meets impressionism.', comments:[] },
+  { id:'p15', img:'images/download_copy.jpg', title:'Cascade', artist:'Robin T.', likes:26, statement:'Flowing abstract watercolor study.', comments:[{author:'Nina H.',text:'Love the movement.'}] },
+  { id:'p16', img:'images/download_copy_2.jpg', title:'Amber Light', artist:'Lydia F.', likes:31, statement:'Warm-toned portrait capturing golden hour.', comments:[] },
+  { id:'p17', img:'images/download_copy_3.jpg', title:'Reflection', artist:'Chloe D.', likes:45, statement:'Mixed media self-portrait exploring inner dialogue.', comments:[{author:'Jaya S.',text:'So powerful.'}] },
+  { id:'p18', img:'images/screenshot_art_1.jpg', title:'Collage I', artist:'Nina H.', likes:38, statement:'Mixed media collage — layering memories.', comments:[] },
+  { id:'p19', img:'images/screenshot_art_2.jpg', title:'Collage II', artist:'Tyler C.', likes:29, statement:'Continuation of the collage series.', comments:[] },
+  { id:'p20', img:'images/screenshot_art_3.jpg', title:'Garden Girl', artist:'Chloe D.', likes:52, statement:'Vibrant gouache illustration.', comments:[{author:'Lydia F.',text:'The flowers are incredible!'}] },
+  { id:'p21', img:'images/sessions_hero.jpg', title:'Warm Portrait', artist:'Robin T.', likes:43, statement:'Pastel on toned paper — studying warm light.', comments:[] },
+  { id:'p22', img:'images/resources_hero.jpg', title:'In the Studio', artist:'Jaya S.', likes:35, statement:'Behind the scenes — painting in progress.', comments:[] },
+];
+
+let displayedPieces = [...PIECES];
+let currentPieceId = null;
+const COMMENTS_KEY = 'artlab_gallery_comments';
+const LIKES_KEY = 'artlab_gallery_likes';
+
+function getLikes() { return JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'); }
+function saveLikes(l) { localStorage.setItem(LIKES_KEY, JSON.stringify(l)); }
+function getComments() { return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }
+function saveComments(c) { localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
 
 document.addEventListener('DOMContentLoaded', () => {
   initAuthUI();
@@ -532,12 +345,32 @@ document.addEventListener('DOMContentLoaded', () => {
   showSection('overview', document.querySelector('.dash-nav li a'));
 });
 
-function populateDash(user) {
-  const initials = (user.firstName[0] + user.lastName[0]).toUpperCase();
-  document.getElementById('dashAvatar').textContent = initials;
-  document.getElementById('dashName').textContent = user.firstName + ' ' + user.lastName;
-  document.getElementById('dashRole').textContent = user.role === 'mentor' ? 'Mentor' : 'Student';
-  document.getElementById('welcomeMsg').textContent = `Welcome back, ${user.firstName}`;
+function renderGallery(pieces) {
+  const grid = document.getElementById('galleryGrid');
+  const allLikes = getLikes();
+  grid.innerHTML = pieces.map((p, i) => {
+    const isLiked = Auth.isLiked(p.id) || allLikes[p.id];
+    const totalLikes = p.likes + (allLikes[p.id+'_count'] || 0);
+    return `
+      <div class="gallery-pin" onclick="openPiece('${p.id}')">
+        <div class="pin-img-wrap">
+          <img src="${p.img}" alt="${p.title}" loading="lazy">
+          <div class="pin-overlay">
+            <div class="pin-actions" onclick="event.stopPropagation()">
+              <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
+                <span class="lheart">${isLiked?'♥':'♡'}</span>
+                <span class="lcount">${totalLikes}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="pin-info">
+          <div class="pin-title">${p.title}</div>
+          <div class="pin-artist">by ${p.artist}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
 
   // Stats
   document.getElementById('statCourses').textContent = (user.enrolledCourses || []).length;
@@ -574,24 +407,83 @@ function populateDash(user) {
 
   // Courses
   buildCoursesList(user.enrolledCourses || []);
+
+
+function openPiece(id) {
+  const piece = PIECES.find(p => p.id === id);
+  if (!piece) return;
+  currentPieceId = id;
+  const allLikes = getLikes();
+  const canvas = document.getElementById('modalCanvas');
+  if (piece.img) {
+    canvas.style.background = 'var(--dark)';
+    canvas.innerHTML = `<img src="${piece.img}" alt="${piece.title}" style="width:100%;height:100%;object-fit:contain;">`;
+  } else {
+    canvas.style.background = 'var(--bg2)';
+    canvas.textContent = '';
+  }
+  document.getElementById('modalTitle').textContent = piece.title;
+  document.getElementById('modalArtist').textContent = `by ${piece.artist}`;
+  document.getElementById('modalStatement').textContent = piece.statement;
+  document.getElementById('modalTags').innerHTML = '';
+
+  const isLiked = Auth.isLiked(id) || allLikes[id];
+  const totalLikes = piece.likes + (allLikes[id+'_count'] || 0);
+  const likeBtn = document.getElementById('modalLikeBtn');
+  likeBtn.classList.toggle('liked', isLiked);
+  document.getElementById('modalHeart').textContent = isLiked ? '♥' : '♡';
+  document.getElementById('modalLikeCount').textContent = totalLikes;
+
+  renderComments(id, piece.comments);
+  const user = Auth.currentUser();
+  document.getElementById('commentInput').style.display = user ? '' : 'none';
+  document.querySelector('.comment-input-area button').style.display = user ? '' : 'none';
+  document.getElementById('commentLoginHint').style.display = user ? 'none' : 'block';
+
+  document.getElementById('pieceModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-function buildPortfolioGrid(count) {
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
-  let html = '';
-  for (let i = 0; i < count; i++) {
-    const emoji = PORTFOLIO_EMOJIS[i % PORTFOLIO_EMOJIS.length];
-    const colors = [
-      'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
-      'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
-      'linear-gradient(135deg,#A8C897,#D0EDBB)',
-      'linear-gradient(135deg,#F0B89A,#F9D8A8)',
-    ];
-    html += `<div class="portfolio-piece" style="background:${colors[i%4]}">
-      ${emoji}
-      <div class="piece-overlay"><span style="color:white;font-size:1.5rem;">🔍</span></div>
-    </div>`;
+function renderComments(pieceId, defaultComments) {
+  const stored = getComments();
+  const all = [...(defaultComments || []), ...(stored[pieceId] || [])];
+  document.getElementById('commentCount').textContent = `(${all.length})`;
+  document.getElementById('commentsList').innerHTML = all.length
+    ? all.map(c => `<div class="comment-item"><div class="comment-author">${c.author}</div><div class="comment-text">${c.text}</div></div>`).join('')
+    : '<div style="font-size:0.85rem;color:var(--mid);padding:0.5rem 0;">No comments yet — be the first!</div>';
+}
+
+function submitComment() {
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const stored = getComments();
+  stored[currentPieceId] = stored[currentPieceId] || [];
+  const comment = { author: user.firstName + ' ' + user.lastName[0] + '.', text };
+  stored[currentPieceId].push(comment);
+  saveComments(stored);
+  const piece = PIECES.find(p => p.id === currentPieceId);
+  renderComments(currentPieceId, piece?.comments || []);
+  input.value = '';
+  Auth.addNotification({ text: `Your comment on "${piece?.title}" was posted!`, time: 'Just now', icon: '💬' });
+  showToast('Comment posted!', '💬');
+}
+
+function modalLike() {
+  if (!currentPieceId) return;
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  const allLikes = getLikes();
+  const liked = Auth.likeToggle(currentPieceId);
+  allLikes[currentPieceId] = liked;
+  const piece = PIECES.find(p => p.id === currentPieceId);
+  if (liked) {
+    allLikes[currentPieceId + '_count'] = (allLikes[currentPieceId + '_count'] || 0) + 1;
+    Auth.addNotification({ text: `You liked "${piece?.title}"`, time: 'Just now', icon: '♥' });
+  } else {
+    allLikes[currentPieceId + '_count'] = Math.max(0, (allLikes[currentPieceId + '_count'] || 0) - 1);
   }
   html += `<div class="portfolio-piece add-piece" onclick="showUploadModal()"><span style="font-size:1.5rem;">+</span><span>Upload</span></div>`;
   grid.innerHTML = html;
@@ -671,5 +563,47 @@ function addGoal() {
   list.appendChild(div);
 }
 </script>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images &amp; icons: Unsplash, The Noun Project</div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Art Lab &mdash; Homestead High School FBLA</span>
+      <span>Poorva Khambekar &middot; Mishti Doshi &middot; Claire Xu</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

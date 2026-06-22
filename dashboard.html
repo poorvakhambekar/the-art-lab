@@ -62,6 +62,14 @@
     .goal-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--primary-d); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: var(--transition); cursor: pointer; }
     .goal-check.done { background: var(--accent); border-color: var(--accent); color: white; }
   </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MBBD9X6MBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MBBD9X6MBG');
+</script>
 </head>
 <body>
 
@@ -84,12 +92,15 @@
     </ul>
     <div class="nav-right">
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
-          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
-          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="highcontrast"><div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -100,7 +111,9 @@
 <!-- LOCKED VIEW (shown when not logged in) -->
 <div id="lockedView" class="hidden" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:68px;">
   <div style="text-align:center;max-width:480px;padding:2rem;">
-    <div style="font-size:4rem;margin-bottom:1.5rem;">🔒</div>
+    <div style="font-size:2rem;margin-bottom:1.5rem;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
     <h2 style="margin-bottom:1rem;">Your creative space awaits.</h2>
     <p style="margin-bottom:2rem;">Sign in or create a free account to access your personal dashboard — track progress, manage your portfolio, and see your courses.</p>
     <div style="display:flex;gap:1rem;justify-content:center;">
@@ -112,303 +125,119 @@
 
 <!-- DASHBOARD VIEW -->
 <div id="dashView" class="hidden">
-  <div class="container" style="padding-top:0;">
-    <div class="dash-layout">
+  <div class="container" style="padding-top:88px;padding-bottom:3rem;">
 
-      <!-- SIDEBAR -->
-      <aside class="dash-sidebar" id="dashSidebar">
-        <div class="dash-avatar" id="dashAvatar">PK</div>
-        <div class="dash-name" id="dashName">Poorva K.</div>
-        <div class="dash-role" id="dashRole">Student</div>
-        <ul class="dash-nav">
-          <li><a href="#overview" class="active" onclick="showSection('overview',this)"><span class="nav-icon">🏠</span>Overview</a></li>
-          <li><a href="#progress" onclick="showSection('progress',this)"><span class="nav-icon">📈</span>Progress</a></li>
-          <li><a href="#portfolio" onclick="showSection('portfolio',this)">Portfolio</a></li>
-          <li><a href="#courses" onclick="showSection('courses',this)">My Courses</a></li>
-          <li><a href="#goals" onclick="showSection('goals',this)"><span class="nav-icon">🎯</span>Goals</a></li>
-          <li id="mentorNavItem" class="hidden"><a href="#mentoring" onclick="showSection('mentoring',this)">My Sessions</a></li>
-          <li style="margin-top:1rem;"><a href="#" onclick="Auth.logout()" style="color:var(--mid);">Sign Out</a></li>
-        </ul>
-      </aside>
-
-      <!-- MAIN CONTENT -->
-      <main class="dash-content">
-
-        <!-- OVERVIEW -->
-        <div id="section-overview">
-          <div style="margin-bottom:2rem;">
-            <h2 id="welcomeMsg">Welcome back!</h2>
-            <p style="margin-top:0.25rem;">Here's what's happening in your creative journey.</p>
+    <!-- PROFILE HEADER -->
+    <div class="card" style="padding:2rem;margin-bottom:2rem;">
+      <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;">
+        <div class="dash-avatar" id="dashAvatar" style="width:72px;height:72px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.4rem;color:var(--accent);border:2px solid var(--dark);overflow:hidden;flex-shrink:0;">PK</div>
+        <div>
+          <h2 id="dashName" style="margin-bottom:0.25rem;">Poorva Khambekar</h2>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span id="dashRole" style="font-size:0.88rem;color:var(--mid);font-weight:600;">LEVEL: INTERMEDIATE ARTIST</span>
           </div>
+        </div>
+        <a href="#" onclick="Auth.logout();return false;" class="btn btn-ghost btn-sm" style="margin-left:auto;">Sign Out</a>
+      </div>
+      <div style="margin-bottom:0.5rem;">
+        <div style="height:18px;background:var(--bg2);border-radius:50px;overflow:hidden;">
+          <div id="levelBar" style="height:100%;width:0%;background:var(--dark);border-radius:50px;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--mid);margin-top:0.35rem;font-weight:600;text-transform:uppercase;">
+          <span>Beginner</span><span>Intermediate</span><span>Advanced</span><span>Pro Mentor</span>
+        </div>
+      </div>
+    </div>
 
-          <!-- Mentor badge (hidden for students) -->
-          <div class="mentor-badge hidden" id="mentorBanner">
-            <h3>You're a Mentor</h3>
-            <p>Thank you for giving back to the community. Your sessions are making a difference.</p>
-          </div>
+    <!-- STATS ROW -->
+    <div class="grid-4" style="margin-bottom:2rem;" id="statsRow">
+      <div class="card" style="padding:1.5rem;text-align:center;border:2px solid #F5D5A0;">
+        <div style="font-family:'Abril Fatface',serif;font-size:2.5rem;color:var(--dark);" id="statCourses">2</div>
+        <div style="font-size:0.72rem;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Courses Enrolled</div>
+      </div>
+      <div class="card" style="padding:1.5rem;text-align:center;border:2px solid #E8B4C0;">
+        <div style="font-family:'Abril Fatface',serif;font-size:2.5rem;color:var(--dark);" id="statPieces">0</div>
+        <div style="font-size:0.72rem;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Artworks Uploaded</div>
+      </div>
+      <div class="card" style="padding:1.5rem;text-align:center;border:2px solid #A8CDE8;">
+        <div style="font-family:'Abril Fatface',serif;font-size:2.5rem;color:var(--dark);" id="statSessions">0</div>
+        <div style="font-size:0.72rem;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Sessions Attended</div>
+      </div>
+      <div class="card" style="padding:1.5rem;text-align:center;border:2px solid #A8C897;">
+        <div style="font-family:'Abril Fatface',serif;font-size:2.5rem;color:var(--dark);" id="statLikes">0</div>
+        <div style="font-size:0.72rem;color:var(--mid);font-weight:700;text-transform:uppercase;letter-spacing:0.05em;">Hours Logged</div>
+      </div>
+    </div>
 
-          <!-- Journey path -->
-          <div class="content-block">
-            <div class="section-heading">Your Journey</div>
-            <div class="journey-steps" id="journeySteps">
-              <div class="journey-step done">
-                <div class="journey-step-circle">01</div>
-                <h4>Learner</h4>
-              </div>
-              <div class="journey-connector done"></div>
-              <div class="journey-step current" id="journeyCreate">
-                <div class="journey-step-circle">02</div>
-                <h4>Creator</h4>
-              </div>
-              <div class="journey-connector" id="connectorMentor"></div>
-              <div class="journey-step" id="journeyMentor">
-                <div class="journey-step-circle">03</div>
-                <h4>Mentor</h4>
-              </div>
-            </div>
-            <p style="margin-top:1.5rem;font-size:0.88rem;" id="journeyMsg">You're a Creator — keep uploading artwork and attending sessions to unlock Mentor status!</p>
-          </div>
+    <div class="grid-2" style="gap:2rem;">
+      <!-- LEFT COLUMN -->
+      <div>
 
-          <!-- Stats -->
-          <div class="stats-row" id="statsRow">
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statCourses">2</div>
-              <div class="stat-label">Courses Enrolled</div>
+        <!-- MY COURSES -->
+        <div class="card" style="padding:1.75rem;margin-bottom:1.5rem;">
+          <h3 style="margin-bottom:1rem;">My Courses</h3>
+          <div id="myCoursesList">
+            <div class="course-row">
+              <div class="course-info"><div class="course-name">Watercolor 101</div><div class="course-sub">8 / 12 lessons completed</div></div>
+              <span class="card-tag" style="background:var(--primary);color:var(--accent);font-size:0.72rem;">In Progress</span>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statPieces">0</div>
-              <div class="stat-label">Pieces Uploaded</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statSessions">0</div>
-              <div class="stat-label">Sessions Attended</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon"></div>
-              <div class="stat-value" id="statLikes">0</div>
-              <div class="stat-label">Likes Received</div>
-            </div>
-          </div>
-
-          <!-- Quick links -->
-          <div class="grid-2" style="gap:1.25rem;">
-            <a href="sessions.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div><h4>Book a Session</h4><p style="font-size:0.85rem;margin:0;">Find a mentor or join a group study</p></div>
-            </a>
-            <a href="resources.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
-              <div><h4>Browse Resources</h4><p style="font-size:0.85rem;margin:0;">Videos, quizzes, and downloadables</p></div>
-            </a>
-          </div>
-
-          <!-- Art inspiration strip -->
-          <div style="margin-top:2rem;">
-            <div class="section-heading">Community Art</div>
-            <div class="dash-art-strip">
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_3720.jpg" alt="Soft Blue"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/purple_piece.jpg" alt="Purple Study"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_5300.jpg" alt="Portrait in Red"></a>
-              <a href="gallery.html" class="dash-art-thumb"><img src="images/two_faces.jpg" alt="Two Faces"></a>
-              <a href="gallery.html" class="dash-art-thumb dash-art-more">
-                <span>See all in gallery</span>
-              </a>
+            <div class="course-row">
+              <div class="course-info"><div class="course-name">Sketching Basics</div><div class="course-sub">3 / 10 lessons completed</div></div>
+              <span class="card-tag" style="background:var(--primary);color:var(--accent);font-size:0.72rem;">In Progress</span>
             </div>
           </div>
         </div>
 
-        <!-- PROGRESS -->
-        <div id="section-progress" class="hidden">
-          <h2 style="margin-bottom:2rem;">Your Progress</h2>
-          <div class="content-block">
-            <div class="section-heading">Overall Level: <span id="levelBadge" style="color:var(--accent);">Beginner</span></div>
-            <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem;">
-              <div>
-                <div class="progress-label"><span>Watercolor 101</span><span id="wc101Pct">35%</span></div>
-                <div class="progress-bar"><div class="progress-fill" data-width="35"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">3 of 9 lessons complete</div>
-              </div>
-              <div>
-                <div class="progress-label"><span>Sketching Basics</span><span>60%</span></div>
-                <div class="progress-bar"><div class="progress-fill" data-width="60"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">6 of 10 lessons complete</div>
-              </div>
-              <div>
-                <div class="progress-label"><span>Portfolio Uploads</span><span id="portfolioPct">0%</span></div>
-                <div class="progress-bar"><div class="progress-fill" id="portfolioBar" data-width="0"></div></div>
-                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">Goal: 5 pieces to reach Creator level</div>
-              </div>
-            </div>
+        <!-- UPCOMING SESSIONS -->
+        <div class="card" style="padding:1.75rem;margin-bottom:1.5rem;">
+          <h3 style="margin-bottom:1rem;">Upcoming Sessions</h3>
+          <div id="mySessionsList"></div>
+        </div>
+
+        <!-- MY GOALS -->
+        <div class="card" style="padding:1.75rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <h3>My Goals</h3>
+            <button class="btn btn-outline btn-sm" onclick="addGoal()">Add Goal</button>
           </div>
-          <div class="content-block">
-            <div class="section-heading">Analytics at a Glance</div>
-            <div class="grid-2" style="gap:1rem;margin-top:0.5rem;">
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsTime">0 hrs</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Time on platform</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">Painting, Drawing</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Top interests</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsStreak">0 days</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Current streak</div>
-              </div>
-              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
-                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsLiked">0</div>
-                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Artworks you've liked</div>
-              </div>
-            </div>
+          <div id="goalList">
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div><div style="font-weight:600;font-size:0.9rem;">Complete Watercolor 101</div><div style="font-size:0.8rem;color:var(--mid);">In progress</div></div></div>
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div><div style="font-weight:600;font-size:0.9rem;">Upload 5 artworks to gallery</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div></div>
+            <div class="goal-item"><div class="goal-check" onclick="toggleGoal(this)"></div><div><div style="font-weight:600;font-size:0.9rem;">Book a mentor session</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+        <!-- RECOMMENDED COURSES -->
+        <div style="border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem;background:linear-gradient(135deg,#F0B89A 0%,#E8B4C0 40%,#C8A8E8 100%);padding:2.5rem;position:relative;">
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(44,26,26,0.6);margin-bottom:0.5rem;">Recommended For You</div>
+            <h3 style="font-size:1.6rem;margin-bottom:0.5rem;color:var(--dark);">Inking & Line Art</h3>
+            <p style="font-size:0.88rem;color:var(--dark);opacity:0.75;margin-bottom:1.25rem;max-width:280px;">Explore stippling, hatching, and bold graphic illustration. 189 students enrolled.</p>
+            <a href="resources.html" class="btn btn-sm" style="background:var(--dark);color:var(--white);border-color:var(--dark);">Start Course</a>
           </div>
         </div>
 
-        <!-- PORTFOLIO -->
-        <div id="section-portfolio" class="hidden">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
-            <h2>My Portfolio</h2>
-            <button class="btn btn-primary btn-sm" onclick="showUploadModal()">+ Upload Piece</button>
+        <!-- RECENT UPLOADS -->
+        <div class="card" style="padding:1.75rem;margin-bottom:1.5rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+            <h3>My Art</h3>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('uploadModal').classList.add('open')">Upload</button>
           </div>
-          <div class="content-block">
-            <p style="margin-bottom:1.5rem;font-size:0.9rem;">Your personal gallery — pieces you've uploaded, shared with the community, and are proud of.</p>
-            <div class="portfolio-grid" id="portfolioGrid">
-              <!-- filled by JS -->
-            </div>
+          <div class="dash-art-grid" id="myArtGrid">
+            <div class="dash-art-piece"><img src="images/IMG_3720.jpg" alt="artwork"></div>
+            <div class="dash-art-piece"><img src="images/purple_piece.jpg" alt="artwork"></div>
+            <div class="dash-art-piece"><img src="images/IMG_5300.jpg" alt="artwork"></div>
+            <div class="dash-art-piece"><img src="images/two_faces.jpg" alt="artwork"></div>
+            <div class="dash-art-piece"><img src="images/pondering.jpg" alt="artwork"></div>
+            <div class="dash-art-piece"><img src="images/art_5.jpg" alt="artwork"></div>
           </div>
+          <a href="gallery.html" style="display:block;text-align:center;margin-top:1rem;font-size:0.85rem;font-weight:600;color:var(--accent);">View all in Gallery</a>
         </div>
 
-        <!-- COURSES -->
-        <div id="section-courses" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Courses</h2>
-          <div class="content-block">
-            <div class="section-heading">Enrolled Courses</div>
-            <div id="enrolledCoursesList"></div>
-          </div>
-          <div class="content-block">
-            <div class="section-heading">Discover More</div>
-            <div class="grid-2" style="gap:1rem;">
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Inking & Line Art</div>
-                  <div class="course-sub">Intermediate • 8 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Inking & Line Art','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Mixed Media Collage</div>
-                  <div class="course-sub">Intermediate • 10 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Mixed Media Collage','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Digital Illustration</div>
-                  <div class="course-sub">Advanced • 12 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Digital Illustration','')">Enroll</button>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Art History & Context</div>
-                  <div class="course-sub">Beginner • 6 lessons</div>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Art History & Context','')">Enroll</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- GOALS -->
-        <div id="section-goals" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Goals 🎯</h2>
-          <div class="content-block">
-            <div class="section-heading">This Month's Goals</div>
-            <div id="goalsList">
-              <div class="goal-item">
-                <div class="goal-check done" onclick="toggleGoal(this)">✓</div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Complete 3 Watercolor lessons</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">In progress — 3/3 done</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Upload first artwork to Gallery</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Attend a Group Study session</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-              <div class="goal-item">
-                <div class="goal-check" onclick="toggleGoal(this)"></div>
-                <div>
-                  <div style="font-weight:600;font-size:0.9rem;">Book a 1-on-1 mentor session</div>
-                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
-                </div>
-              </div>
-            </div>
-            <button class="btn btn-outline btn-sm" style="margin-top:1.25rem;" onclick="addGoal()">+ Add Goal</button>
-          </div>
-        </div>
-
-        <!-- MENTORING (mentor role only) -->
-        <div id="section-mentoring" class="hidden">
-          <h2 style="margin-bottom:2rem;">My Mentoring Sessions</h2>
-          <div class="content-block">
-            <div class="section-heading">Upcoming Sessions</div>
-            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Watercolor with Maya</div>
-                  <div class="course-sub">Tomorrow, 4:00 PM • 1-on-1</div>
-                </div>
-                <span class="chip">Confirmed</span>
-              </div>
-              <div class="course-row">
-                <div class="course-icon"></div>
-                <div class="course-info">
-                  <div class="course-name">Group Sketching Workshop</div>
-                  <div class="course-sub">Sat June 21, 2:00 PM • 8 students</div>
-                </div>
-                <span class="chip">Upcoming</span>
-              </div>
-            </div>
-          </div>
-          <div class="content-block">
-            <div class="section-heading">Student Reviews</div>
-            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
-              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
-                  <span style="font-weight:700;font-size:0.9rem;">★★★★★</span>
-                  <span style="font-size:0.82rem;color:var(--mid);">from Mia K.</span>
-                </div>
-                <p style="font-size:0.88rem;">"Amazing session! Really helped me understand wet-on-wet technique."</p>
-              </div>
-              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
-                  <span style="font-weight:700;font-size:0.9rem;">★★★★☆</span>
-                  <span style="font-size:0.82rem;color:var(--mid);">from James L.</span>
-                </div>
-                <p style="font-size:0.88rem;">"Very patient and clear explanations. Would definitely book again."</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </main>
+      </div>
     </div>
   </div>
 </div>
@@ -528,148 +357,127 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('dashView').classList.remove('hidden');
   document.getElementById('dashView').style.display = 'block';
   populateDash(user);
-  animateProgressBars();
-  showSection('overview', document.querySelector('.dash-nav li a'));
 });
 
 function populateDash(user) {
   const initials = (user.firstName[0] + user.lastName[0]).toUpperCase();
-  document.getElementById('dashAvatar').textContent = initials;
+  const avatarEl = document.getElementById('dashAvatar');
+  if (user.avatar) {
+    avatarEl.innerHTML = `<img src="${user.avatar}" style="width:100%;height:100%;object-fit:cover;">`;
+  } else {
+    avatarEl.textContent = initials;
+  }
   document.getElementById('dashName').textContent = user.firstName + ' ' + user.lastName;
-  document.getElementById('dashRole').textContent = user.role === 'mentor' ? 'Mentor' : 'Student';
-  document.getElementById('welcomeMsg').textContent = `Welcome back, ${user.firstName}`;
+  const level = (user.sessionsAttended||0) >= 10 ? 'PRO MENTOR' : (user.sessionsAttended||0) >= 5 ? 'ADVANCED' : (user.enrolledCourses||[]).length >= 2 ? 'INTERMEDIATE ARTIST' : 'BEGINNER';
+  document.getElementById('dashRole').textContent = 'LEVEL: ' + level;
+  const pctLevel = level === 'PRO MENTOR' ? 100 : level === 'ADVANCED' ? 75 : level === 'INTERMEDIATE ARTIST' ? 55 : 20;
+  setTimeout(() => document.getElementById('levelBar').style.width = pctLevel + '%', 300);
 
   // Stats
   document.getElementById('statCourses').textContent = (user.enrolledCourses || []).length;
   document.getElementById('statPieces').textContent = user.uploadedPieces || 0;
   document.getElementById('statSessions').textContent = user.sessionsAttended || 0;
-  document.getElementById('statLikes').textContent = user.uploadedPieces ? Math.floor(user.uploadedPieces * 3.2) : 0;
+  document.getElementById('statLikes').textContent = Math.max(user.sessionsAttended || 0, (user.enrolledCourses||[]).length) * 5;
 
-  // Analytics
-  document.getElementById('analyticsLiked').textContent = (user.likedPieces || []).length;
-  document.getElementById('analyticsStreak').textContent = Math.floor(Math.random()*7+1) + ' days';
-  document.getElementById('analyticsTime').textContent = Math.floor(Math.random()*12+2) + ' hrs';
-
-  // Portfolio progress
-  const pieces = user.uploadedPieces || 0;
-  const pct = Math.min(100, Math.round((pieces/5)*100));
-  document.getElementById('portfolioPct').textContent = pct + '%';
-  const bar = document.getElementById('portfolioBar');
-  if (bar) bar.dataset.width = pct;
-
-  // Mentor view
-  if (user.role === 'mentor') {
-    document.getElementById('mentorBanner').classList.remove('hidden');
-    document.getElementById('mentorNavItem').classList.remove('hidden');
-    document.getElementById('journeyCreate').classList.remove('current');
-    document.getElementById('journeyMentor').classList.add('done');
-    document.getElementById('journeyMentor').classList.add('current');
-    document.getElementById('connectorMentor').classList.add('done');
-    document.getElementById('journeyMsg').textContent = "You've reached Mentor status — thank you for giving back to the community! 🌟";
-    document.getElementById('dashRole').style.background = 'linear-gradient(135deg,var(--accent2),var(--primary-d))';
+  // Booked sessions
+  const booked = JSON.parse(localStorage.getItem('artlab_booked_slots') || '{}');
+  const sessionsList = document.getElementById('mySessionsList');
+  const bookedEntries = Object.keys(booked).filter(k => !k.includes('_count'));
+  if (bookedEntries.length > 0) {
+    sessionsList.innerHTML = bookedEntries.slice(0, 4).map(k => {
+      const parts = k.split('_');
+      const time = parts.slice(1).join(' ');
+      return `<div class="course-row"><div class="course-info"><div class="course-name">Mentor Session</div><div class="course-sub">${time}</div></div><span class="card-tag" style="background:#B8E6B8;color:#1a5c1a;font-size:0.72rem;">Booked</span></div>`;
+    }).join('');
+  } else {
+    sessionsList.innerHTML = '<p style="font-size:0.88rem;color:var(--mid);">No sessions booked yet. <a href="sessions.html" style="color:var(--accent);font-weight:600;">Browse mentors</a></p>';
   }
 
-  // Portfolio grid
-  buildPortfolioGrid(pieces);
-
-  // Courses
-  buildCoursesList(user.enrolledCourses || []);
-}
-
-function buildPortfolioGrid(count) {
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
-  let html = '';
-  for (let i = 0; i < count; i++) {
-    const emoji = PORTFOLIO_EMOJIS[i % PORTFOLIO_EMOJIS.length];
-    const colors = [
-      'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
-      'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
-      'linear-gradient(135deg,#A8C897,#D0EDBB)',
-      'linear-gradient(135deg,#F0B89A,#F9D8A8)',
-    ];
-    html += `<div class="portfolio-piece" style="background:${colors[i%4]}">
-      ${emoji}
-      <div class="piece-overlay"><span style="color:white;font-size:1.5rem;">🔍</span></div>
-    </div>`;
-  }
-  html += `<div class="portfolio-piece add-piece" onclick="showUploadModal()"><span style="font-size:1.5rem;">+</span><span>Upload</span></div>`;
-  grid.innerHTML = html;
-}
-
-function buildCoursesList(courseIds) {
-  const list = document.getElementById('enrolledCoursesList');
-  if (!list) return;
-  let html = '';
-  courseIds.forEach(id => {
-    const c = COURSES_DATA[id] || { name: id, icon: '→', level: 'Beginner', lessons: 8, done: 1 };
-    const pct = Math.round((c.done/c.lessons)*100);
-    html += `<div class="course-row">
-      <div class="course-icon">${c.icon}</div>
-      <div class="course-info">
-        <div class="course-name">${c.name}</div>
-        <div class="course-sub">${c.level} • ${c.done}/${c.lessons} lessons</div>
-        <div class="progress-bar" style="height:6px;margin-top:0.4rem;"><div class="progress-fill" data-width="${pct}" style="width:${pct}%"></div></div>
-      </div>
-      <a href="resources.html" class="btn btn-ghost btn-sm">Continue →</a>
-    </div>`;
-  });
-  list.innerHTML = html;
-}
-
-function showSection(name, el) {
-  document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'));
-  document.getElementById('section-' + name)?.classList.remove('hidden');
-  document.querySelectorAll('.dash-nav li a').forEach(a => a.classList.remove('active'));
-  if (el) el.classList.add('active');
-  animateProgressBars();
 }
 
 function showUploadModal() { document.getElementById('uploadModal').classList.add('open'); }
-function simulateUpload() { showToast('File ready to upload!', '📎'); }
 
 function saveUpload() {
-  const title = document.getElementById('pieceTitle').value;
+  const title = document.getElementById('pieceTitle')?.value;
   if (!title) { showToast('Please give your piece a name!'); return; }
   const user = Auth.currentUser();
   const newCount = (user.uploadedPieces || 0) + 1;
   Auth.updateUser({ uploadedPieces: newCount });
   Auth.addNotification({ text: `Your piece "${title}" is now live in the Gallery!`, time: 'Just now', icon: '+' });
   document.getElementById('uploadModal').classList.remove('open');
-  buildPortfolioGrid(newCount);
   document.getElementById('statPieces').textContent = newCount;
   showToast(`"${title}" uploaded to Gallery!`);
-}
-
-function enrollCourse(name, icon) {
-  const user = Auth.currentUser();
-  const key = name.toLowerCase().replace(/\s+/g,'-');
-  const courses = user.enrolledCourses || [];
-  if (courses.includes(key)) { showToast('Already enrolled!'); return; }
-  COURSES_DATA[key] = { name, icon, level: 'Intermediate', lessons: 8, done: 0 };
-  courses.push(key);
-  Auth.updateUser({ enrolledCourses: courses });
-  Auth.addNotification({ text: `Enrolled in ${name} — good luck!`, time: 'Just now', icon });
-  document.getElementById('statCourses').textContent = courses.length;
-  buildCoursesList(courses);
-  showToast(`Enrolled in ${name}!`, icon);
 }
 
 function toggleGoal(el) {
   el.classList.toggle('done');
   el.textContent = el.classList.contains('done') ? '✓' : '';
+  const item = el.closest('.goal-item');
+  const statusDiv = item.querySelector('div:nth-child(2)');
+  const status = statusDiv?.querySelector('div:last-child');
+  if (el.classList.contains('done')) {
+    item.style.background = 'rgba(184,230,184,0.2)';
+    item.style.borderColor = '#B8E6B8';
+    if (status) { status.textContent = 'Done'; status.style.color = '#1a5c1a'; }
+  } else {
+    item.style.background = '';
+    item.style.borderColor = '';
+    if (status) { status.textContent = 'Not started'; status.style.color = ''; }
+  }
 }
 
 function addGoal() {
-  const name = prompt("What's your new goal?");
+  const name = prompt('What is your goal?');
   if (!name) return;
-  const list = document.getElementById('goalsList');
+  const list = document.getElementById('goalList');
   const div = document.createElement('div');
   div.className = 'goal-item';
-  div.innerHTML = `<div class="goal-check" onclick="toggleGoal(this)"></div>
-    <div><div style="font-weight:600;font-size:0.9rem;">${name}</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div>`;
+  div.innerHTML = '<div class="goal-check" onclick="toggleGoal(this)"></div><div><div style="font-weight:600;font-size:0.9rem;">' + name + '</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div>';
   list.appendChild(div);
 }
+
 </script>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images &amp; icons: Unsplash, The Noun Project</div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Art Lab &mdash; Homestead High School FBLA</span>
+      <span>Poorva Khambekar &middot; Mishti Doshi &middot; Claire Xu</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

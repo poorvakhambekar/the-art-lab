@@ -49,6 +49,14 @@
     .download-name { font-weight: 700; font-size: 0.92rem; color: var(--dark); }
     .download-meta { font-size: 0.78rem; color: var(--mid); margin-top: 0.2rem; }
   </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MBBD9X6MBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MBBD9X6MBG');
+</script>
 </head>
 <body>
 
@@ -69,14 +77,16 @@
       <li><a href="dashboard.html">My Page</a></li>
     </ul>
     <div class="nav-right">
-      </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
-          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
-          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="highcontrast"><div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -87,9 +97,7 @@
 <!-- PAGE HERO -->
 <div class="page-hero art-hero">
   <div class="art-hero-bg">
-    <img src="images/IMG_0059.jpg" alt="" aria-hidden="true">
-    <img src="images/two_faces.jpg" alt="" aria-hidden="true">
-    <img src="images/IMG_3720.jpg" alt="" aria-hidden="true">
+    <img src="images/resources_hero.jpg" alt="" aria-hidden="true" style="width:100%;flex:none;">
   </div>
   <div class="art-hero-overlay"></div>
   <div class="container" style="position:relative;z-index:2;">
@@ -105,15 +113,15 @@
     <!-- Search + filter bar -->
     <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;">
       <div class="search-bar" style="flex:1;min-width:240px;max-width:400px;">
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"></span>
         <input type="text" placeholder="Search resources…" id="resourceSearch" oninput="searchResources()" />
       </div>
       <div class="filter-bar" style="margin:0;">
         <button class="filter-btn active" data-filter="all" onclick="filterResources(this,'all')">All</button>
-        <button class="filter-btn" data-filter="video" onclick="filterResources(this,'video')">🎬 Videos</button>
-        <button class="filter-btn" data-filter="quiz" onclick="filterResources(this,'quiz')">🧠 Quizzes</button>
-        <button class="filter-btn" data-filter="download" onclick="filterResources(this,'download')">📥 Downloads</button>
-        <button class="filter-btn" data-filter="lesson" onclick="filterResources(this,'lesson')">📖 Lessons</button>
+        <button class="filter-btn" data-filter="video" onclick="filterResources(this,'video')">Videos</button>
+        <button class="filter-btn" data-filter="quiz" onclick="filterResources(this,'quiz')">Quizzes</button>
+        <button class="filter-btn" data-filter="download" onclick="filterResources(this,'download')">Downloads</button>
+        <button class="filter-btn" data-filter="lesson" onclick="filterResources(this,'lesson')">Lessons</button>
       </div>
     </div>
 
@@ -254,18 +262,6 @@
   </div>
 </div>
 
-<footer style="background:var(--dark);color:rgba(255,255,255,0.6);padding:2rem 0;">
-  <div class="container">
-    <div class="footer-bottom" style="border:none;padding:0;">
-      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
-      <div style="display:flex;gap:2rem;">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
-        <a href="sessions.html" style="color:rgba(255,255,255,0.6);">Sessions</a>
-        <a href="gallery.html" style="color:rgba(255,255,255,0.6);">Gallery</a>
-      </div>
-    </div>
-  </div>
-</footer>
 
 
   <!-- AVATAR MODAL -->
@@ -300,27 +296,27 @@
 <script src="js/main.js"></script>
 <script>
 const RESOURCES = [
-  { id:1, type:'video', emoji:'', title:'Wet-on-Wet Watercolor', desc:'Master blooms and soft edges in this 18-minute demo.', duration:'18 min', level:'Beginner', medium:'watercolor' },
-  { id:2, type:'video', emoji:'', title:'Gesture Drawing Fundamentals', desc:'Loosen your hand and capture movement with confidence.', duration:'22 min', level:'Beginner', medium:'sketching' },
-  { id:3, type:'lesson', emoji:'', title:'Understanding Color Theory', desc:'Primary, secondary, complementary — and why it all matters.', duration:'15 min', level:'Beginner', medium:'all' },
-  { id:4, type:'video', emoji:'', title:'Stippling Techniques for Ink', desc:'Create stunning texture with just a pen and patience.', duration:'24 min', level:'Intermediate', medium:'inking' },
-  { id:5, type:'quiz', emoji:'', title:'Color Theory Quiz', desc:'Test your knowledge of color wheels, values, and harmony.', duration:'5 questions', level:'Beginner', medium:'all' },
-  { id:6, type:'download', emoji:'', title:'Watercolor Worksheet Pack', desc:'Step-by-step practice sheets for 6 watercolor techniques.', duration:'PDF, 12 pages', level:'Beginner', medium:'watercolor' },
-  { id:7, type:'video', emoji:'', title:'Creating Depth with Layers', desc:'Discover how to build luminous washes that glow from within.', duration:'31 min', level:'Intermediate', medium:'watercolor' },
-  { id:8, type:'lesson', emoji:'', title:'Composition: Rule of Thirds', desc:'How to arrange your subject for maximum visual impact.', duration:'10 min', level:'Beginner', medium:'all' },
-  { id:9, type:'download', emoji:'', title:'Gesture Drawing Reference Sheet', desc:'60 gesture poses for daily warm-up practice.', duration:'PDF, 8 pages', level:'All levels', medium:'sketching' },
-  { id:10, type:'video', emoji:'', title:'Procreate Brush Basics', desc:'Set up your digital workspace and learn core brush controls.', duration:'20 min', level:'Beginner', medium:'digital' },
-  { id:11, type:'lesson', emoji:'', title:'Finding Your Art Style', desc:'Exercises to identify what makes your work distinctly yours.', duration:'12 min', level:'All levels', medium:'all' },
-  { id:12, type:'download', emoji:'', title:'Portfolio Planning Template', desc:'Map out your artistic goals and track growth month by month.', duration:'PDF, 4 pages', level:'All levels', medium:'all' },
+  { id:1, type:'video', img:'images/download.jpg', title:'Wet-on-Wet Watercolor', desc:'Master blooms and soft edges in this 18-minute demo.', duration:'18 min', level:'Beginner', medium:'watercolor' },
+  { id:2, type:'video', img:'images/art_8.jpg', title:'Gesture Drawing Fundamentals', desc:'Loosen your hand and capture movement with confidence.', duration:'22 min', level:'Beginner', medium:'sketching' },
+  { id:3, type:'lesson', img:'images/download_copy_2.jpg', title:'Understanding Color Theory', desc:'Primary, secondary, complementary — and why it all matters.', duration:'15 min', level:'Beginner', medium:'all' },
+  { id:4, type:'video', img:'images/IMG_0059.jpg', title:'Stippling Techniques for Ink', desc:'Create stunning texture with just a pen and patience.', duration:'24 min', level:'Intermediate', medium:'inking' },
+  { id:5, type:'quiz', img:'images/download_copy.jpg', title:'Color Theory Quiz', desc:'Test your knowledge of color wheels, values, and harmony.', duration:'5 questions', level:'Beginner', medium:'all' },
+  { id:6, type:'download', img:'images/pondering.jpg', title:'Watercolor Worksheet Pack', desc:'Step-by-step practice sheets for 6 watercolor techniques.', duration:'PDF, 12 pages', level:'Beginner', medium:'watercolor' },
+  { id:7, type:'video', img:'images/purple_piece.jpg', title:'Creating Depth with Layers', desc:'Discover how to build luminous washes that glow from within.', duration:'31 min', level:'Intermediate', medium:'watercolor' },
+  { id:8, type:'lesson', img:'images/two_faces.jpg', title:'Composition: Rule of Thirds', desc:'How to arrange your subject for maximum visual impact.', duration:'10 min', level:'Beginner', medium:'all' },
+  { id:9, type:'download', img:'images/art_16.jpg', title:'Gesture Drawing Reference Sheet', desc:'60 gesture poses for daily warm-up practice.', duration:'PDF, 8 pages', level:'All levels', medium:'sketching' },
+  { id:10, type:'video', img:'images/art_5.jpg', title:'Procreate Brush Basics', desc:'Set up your digital workspace and learn core brush controls.', duration:'20 min', level:'Beginner', medium:'digital' },
+  { id:11, type:'lesson', img:'images/IMG_5300.jpg', title:'Finding Your Art Style', desc:'Exercises to identify what makes your work distinctly yours.', duration:'12 min', level:'All levels', medium:'all' },
+  { id:12, type:'download', img:'images/IMG_3720.jpg', title:'Portfolio Planning Template', desc:'Map out your artistic goals and track growth month by month.', duration:'PDF, 4 pages', level:'All levels', medium:'all' },
 ];
 
 const COURSES = [
-  { emoji:'', title:'Watercolor 101', level:'Beginner', lessons:9, students:234, desc:'From color mixing to wet-on-wet — the complete beginner watercolor path.', tags:['Color mixing','Blending','Composition'] },
-  { emoji:'', title:'Sketching Basics', level:'Beginner', lessons:10, students:312, desc:'Proportion, shading, and gesture — everything you need to draw with confidence.', tags:['Gesture','Shading','Perspective'] },
-  { emoji:'', title:'Inking & Line Art', level:'Intermediate', lessons:8, students:189, desc:'Stippling, crosshatching, and bold graphic illustration with ink.', tags:['Stippling','Hatching','Bold line'] },
-  { emoji:'', title:'Digital Illustration', level:'Advanced', lessons:12, students:156, desc:'Procreate workflow, color theory in digital, and building your portfolio.', tags:['Procreate','Digital color','Portfolio'] },
-  { emoji:'', title:'Mixed Media Collage', level:'Intermediate', lessons:10, students:98, desc:'Combine painting, drawing, and found materials into expressive collages.', tags:['Texture','Layering','Experimental'] },
-  { emoji:'', title:'Art History & Context', level:'Beginner', lessons:6, students:203, desc:'The movements, masters, and ideas that shaped art as we know it.', tags:['History','Movements','Analysis'] },
+  { img:'images/download.jpg', title:'Watercolor 101', level:'Beginner', lessons:9, students:234, desc:'From color mixing to wet-on-wet — the complete beginner watercolor path.', tags:['Color mixing','Blending','Composition'] },
+  { img:'images/pondering.jpg', title:'Sketching Basics', level:'Beginner', lessons:10, students:312, desc:'Proportion, shading, and gesture — everything you need to draw with confidence.', tags:['Gesture','Shading','Perspective'] },
+  { img:'images/IMG_0059.jpg', title:'Inking & Line Art', level:'Intermediate', lessons:8, students:189, desc:'Stippling, crosshatching, and bold graphic illustration with ink.', tags:['Stippling','Hatching','Bold line'] },
+  { img:'images/art_5.jpg', title:'Digital Illustration', level:'Advanced', lessons:12, students:156, desc:'Procreate workflow, color theory in digital, and building your portfolio.', tags:['Procreate','Digital color','Portfolio'] },
+  { img:'images/screenshot_art_3.jpg', title:'Mixed Media Collage', level:'Intermediate', lessons:10, students:98, desc:'Combine painting, drawing, and found materials into expressive collages.', tags:['Texture','Layering','Experimental'] },
+  { img:'images/art_9.jpg', title:'Art History & Context', level:'Beginner', lessons:6, students:203, desc:'The movements, masters, and ideas that shaped art as we know it.', tags:['History','Movements','Analysis'] },
 ];
 
 const DOWNLOADS = [
@@ -378,10 +374,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderResourceGrid() {
   document.getElementById('resourceGrid').innerHTML = RESOURCES.map(r => {
     const badges = { video:'badge-video', quiz:'badge-quiz', download:'badge-download', lesson:'badge-lesson' };
-    const labels = { video:'🎬 Video', quiz:'🧠 Quiz', download:'📥 Download', lesson:'📖 Lesson' };
+    const labels = { video:'Video', quiz:'Quiz', download:'Download', lesson:'Lesson' };
     return `<div class="resource-card" data-type="${r.type}" data-title="${r.title.toLowerCase()}">
-      <div class="resource-thumb" style="background:linear-gradient(135deg,var(--primary),var(--highlight));">
-        <span style="font-size:2.5rem;">${r.emoji}</span>
+      <div class="resource-thumb" style="${r.img ? '' : 'background:linear-gradient(135deg,var(--primary),var(--highlight));'}">
+        ${r.img ? `<img src="${r.img}" alt="${r.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}
         ${r.type==='video' ? `<div class="play-btn" onclick="openVideo('${r.title}','${r.desc}')">▶</div>` : ''}
       </div>
       <div class="resource-body">
@@ -399,7 +395,7 @@ function renderResourceGrid() {
 function renderCourses() {
   document.getElementById('coursesGrid').innerHTML = COURSES.map(c => `
     <div class="card">
-      <div style="background:linear-gradient(135deg,var(--primary),var(--highlight));padding:2rem;text-align:center;font-size:3rem;">${c.emoji}</div>
+      <div style="height:180px;overflow:hidden;">${c.img ? `<img src="${c.img}" alt="${c.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}</div>
       <div class="card-body">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
           <h3 style="font-size:1.1rem;">${c.title}</h3>
@@ -423,7 +419,7 @@ function renderDownloads() {
         <div class="download-name">${d.name}</div>
         <div class="download-meta">${d.type} • ${d.size}</div>
       </div>
-      <button class="btn btn-outline btn-sm">📥</button>
+      <button class="btn btn-outline btn-sm">↓</button>
     </div>`;
   document.getElementById('downloadList').innerHTML = DOWNLOADS.map(makeItem).join('');
   document.getElementById('templateList').innerHTML = TEMPLATES.map(makeItem).join('');
@@ -525,5 +521,47 @@ function answerQuiz(picked, correct) {
   }, 1200);
 }
 </script>
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images &amp; icons: Unsplash, The Noun Project</div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Art Lab &mdash; Homestead High School FBLA</span>
+      <span>Poorva Khambekar &middot; Mishti Doshi &middot; Claire Xu</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

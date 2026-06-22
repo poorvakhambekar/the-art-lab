@@ -40,6 +40,14 @@
     .seats-bar { height: 6px; background: var(--bg2); border-radius: 50px; overflow: hidden; }
     .seats-fill { height: 100%; border-radius: 50px; background: linear-gradient(90deg, var(--accent2), var(--primary-d)); }
   </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MBBD9X6MBG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MBBD9X6MBG');
+</script>
 </head>
 <body>
 
@@ -60,14 +68,16 @@
       <li><a href="dashboard.html">My Page</a></li>
     </ul>
     <div class="nav-right">
-      </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 2 A15 15 0 0 1 29.99 10.5 L17 17Z" fill="#D4899A"/><path d="M29.99 10.5 A15 15 0 0 1 29.99 23.5 L17 17Z" fill="#E68A62"/><path d="M29.99 23.5 A15 15 0 0 1 17 32 L17 17Z" fill="#D4A040"/><path d="M17 32 A15 15 0 0 1 4.01 23.5 L17 17Z" fill="#7DB06A"/><path d="M4.01 23.5 A15 15 0 0 1 4.01 10.5 L17 17Z" fill="#6AAFD4"/><path d="M4.01 10.5 A15 15 0 0 1 17 2 L17 17Z" fill="#C8A8E8"/></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
-          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
-          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
+          <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Default</div>
+          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Cool</div>
+          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Fresh</div>
+          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2C2C2C,#1A1A1A)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="highcontrast"><div class="palette-swatch" style="background:linear-gradient(135deg,#0057B7,#FFD700)"></div> High Contrast</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -78,9 +88,7 @@
 <!-- PAGE HERO -->
 <div class="page-hero art-hero">
   <div class="art-hero-bg">
-    <img src="images/IMG_5139.jpg" alt="" aria-hidden="true">
-    <img src="images/IMG_5300.jpg" alt="" aria-hidden="true">
-    <img src="images/purple_piece.jpg" alt="" aria-hidden="true">
+    <img src="images/sessions_hero.jpg" alt="" aria-hidden="true" style="width:100%;flex:none;">
   </div>
   <div class="art-hero-overlay"></div>
   <div class="container" style="position:relative;z-index:2;">
@@ -116,7 +124,7 @@
         </div>
       </div>
 
-      <div class="grid-3" id="mentorGrid">
+      <div class="mentor-grid" id="mentorGrid">
         <!-- Cards injected by JS -->
       </div>
 
@@ -132,13 +140,13 @@
             <h3 id="detailNameLg" style="margin-bottom:0.25rem;"></h3>
             <p id="detailSpecialty" style="font-size:0.88rem;margin-bottom:1rem;"></p>
             <div class="mentor-rating" style="margin-bottom:1rem;"><span class="stars">★★★★★</span><span id="detailRating" style="margin-left:0.4rem;"></span></div>
-            <p id="detailPhil" class="mentor-philosophy" style="margin-bottom:1.25rem;"></p>
+            <p id="detailPhil" class="mentor-philosophy" style="margin-bottom:0.75rem;"></p>
+            <p id="detailBio" style="font-size:0.9rem;color:var(--mid);margin-bottom:1.25rem;line-height:1.6;"></p>
             <div class="mentor-tags" id="detailTags"></div>
           </div>
           <div>
-            <h4 style="margin-bottom:1rem;">Available Time Slots</h4>
-            <p style="font-size:0.88rem;color:var(--mid);margin-bottom:1rem;">All times in your local timezone.</p>
-            <div id="timeSlotsContainer"></div>
+            <h4 style="margin-bottom:1rem;">Weekly Availability</h4>
+            <div id="weeklyCalendar" class="weekly-cal"></div>
           </div>
         </div>
       </div>
@@ -160,25 +168,16 @@
       </div>
     </div>
 
-    <!-- CALENDAR -->
+    <!-- FULL SCHEDULE CALENDAR -->
     <div class="tab-panel" id="calendar">
-      <div class="schedule-calendar">
-        <div class="calendar-header">
-          <button onclick="prevMonth()">←</button>
-          <span id="calMonthLabel">June 2025</span>
-          <button onclick="nextMonth()">→</button>
-        </div>
-        <div class="calendar-grid" id="calDayHeaders"></div>
-        <div class="calendar-grid" id="calDays"></div>
-      </div>
-      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;font-size:0.85rem;color:var(--mid);">
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:14px;height:14px;background:rgba(245,213,160,0.5);border-radius:3px;display:inline-block;"></span>Has session</span>
-        <span style="display:flex;align-items:center;gap:0.4rem;"><span style="width:14px;height:14px;background:rgba(232,180,192,0.4);border-radius:3px;display:inline-block;"></span>Today</span>
-      </div>
+      <div id="fullScheduleCal" class="weekly-cal"></div>
     </div>
 
   </div>
 </section>
+
+<!-- Schedule Detail Popup -->
+<div class="modal-overlay" id="schedDetailPopup" onclick="if(event.target===this)this.classList.remove('open')"></div>
 
 <!-- Book Confirmation Modal -->
 <div class="modal-overlay" id="bookModal">
@@ -237,13 +236,42 @@
 
 <footer>
   <div class="container">
-    <div class="footer-bottom" style="border:none;padding:2rem 0 1rem;">
-      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
-      <div style="display:flex;gap:2rem;">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
-        <a href="gallery.html" style="color:rgba(255,255,255,0.6);">Gallery</a>
-        <a href="resources.html" style="color:rgba(255,255,255,0.6);">Resources</a>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>The Art Lab</h3>
+        <p>An online creative learning hub built for students, by students. Equal access to art education — always free.</p>
+        <div style="margin-top:1rem;font-size:0.82rem;">Images &amp; icons: Unsplash, The Noun Project</div>
       </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="sessions.html">Sessions</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="#" onclick="openAuthModal('signup')">Sign Up</a></li>
+          <li><a href="#" onclick="openAuthModal('login')">Sign In</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">WCAG 2.1</a></li>
+          <li><a href="#">HHS FBLA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 The Art Lab &mdash; Homestead High School FBLA</span>
+      <span>Poorva Khambekar &middot; Mishti Doshi &middot; Claire Xu</span>
     </div>
   </div>
 </footer>
@@ -281,15 +309,27 @@
 <script src="js/main.js"></script>
 <script>
 const MENTOR_FACES = {
-  1: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><path d="M22 44 C20 24 28 11 40 11 C52 11 60 24 58 44 L58 62 C55 68 48 72 40 72 C32 72 25 68 22 62Z" fill="#111"/><ellipse cx="40" cy="44" rx="15" ry="18.5" fill="white"/><path d="M31 40 C32.5 37.5 36.5 37.5 38 40" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><path d="M42 40 C43.5 37.5 47.5 37.5 49 40" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><circle cx="38.5" cy="46.5" r="1.1" fill="#111"/><circle cx="41.5" cy="46.5" r="1.1" fill="#111"/><path d="M34 52 C36.5 56 43.5 56 46 52" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg>`,
-  2: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><path d="M22 34 C21 18 28 11 40 11 C52 11 59 18 58 34 C55 30 51 28 48 30 C46 32 43 30 40 30 C37 30 34 32 32 30 C29 28 25 30 22 34Z" fill="#111"/><ellipse cx="40" cy="46" rx="15" ry="18" fill="white"/><rect x="28" y="38.5" width="11" height="7.5" rx="3" stroke="#111" stroke-width="2" fill="none"/><rect x="41" y="38.5" width="11" height="7.5" rx="3" stroke="#111" stroke-width="2" fill="none"/><line x1="28" y1="42" x2="24" y2="42" stroke="#111" stroke-width="2"/><line x1="52" y1="42" x2="56" y2="42" stroke="#111" stroke-width="2"/><circle cx="33.5" cy="42.5" r="2" fill="#111"/><circle cx="46.5" cy="42.5" r="2" fill="#111"/><circle cx="38.5" cy="49" r="1.1" fill="#111"/><circle cx="41.5" cy="49" r="1.1" fill="#111"/><path d="M34 55 C37 59 43 59 46 55" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg>`,
-  3: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><ellipse cx="40" cy="28" rx="23" ry="20" fill="#111"/><path d="M17 30 C16 20 20 13 27 11 C22 16 20 23 22 30Z" fill="#111"/><path d="M63 30 C64 20 60 13 53 11 C58 16 60 23 58 30Z" fill="#111"/><ellipse cx="40" cy="49" rx="14" ry="17" fill="white"/><circle cx="34.5" cy="45" r="2.3" fill="#111"/><circle cx="45.5" cy="45" r="2.3" fill="#111"/><circle cx="38.5" cy="51" r="1.1" fill="#111"/><circle cx="41.5" cy="51" r="1.1" fill="#111"/><path d="M32 57 C35.5 63 44.5 63 48 57" stroke="#111" stroke-width="2.3" stroke-linecap="round"/></svg>`,
-  4: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><path d="M24 40 C23 22 29 13 40 13 C51 13 57 22 56 40" fill="#111"/><circle cx="30" cy="14" r="7.5" fill="#111"/><circle cx="50" cy="14" r="7.5" fill="#111"/><ellipse cx="40" cy="48" rx="15" ry="18" fill="white"/><path d="M30 38 C32.5 35.5 37 35.5 39 38" stroke="#111" stroke-width="2.5" stroke-linecap="round"/><path d="M41 38 C43 35.5 47.5 35.5 50 38" stroke="#111" stroke-width="2.5" stroke-linecap="round"/><circle cx="34.5" cy="44" r="2.2" fill="#111"/><circle cx="45.5" cy="44" r="2.2" fill="#111"/><circle cx="38.5" cy="50" r="1.1" fill="#111"/><circle cx="41.5" cy="50" r="1.1" fill="#111"/><path d="M33 56 C36.5 60.5 43.5 60.5 47 56" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg>`,
-  5: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><path d="M24 36 C22 20 25 12 31 9 C29 14 32 11 36 10 C34 15 37 11 40 11 C43 11 46 15 44 10 C48 11 51 14 49 9 C55 12 58 20 56 36 C53 30 50 32 46 30 C43 28 40 30 40 30 C40 30 37 28 34 30 C30 32 27 30 24 36Z" fill="#111"/><ellipse cx="40" cy="47" rx="15" ry="17.5" fill="white"/><circle cx="34.5" cy="43" r="2.3" fill="#111"/><circle cx="45.5" cy="43" r="2.3" fill="#111"/><circle cx="38.5" cy="49.5" r="1.1" fill="#111"/><circle cx="41.5" cy="49.5" r="1.1" fill="#111"/><path d="M31 56 C34.5 62 45.5 62 49 56" stroke="#111" stroke-width="2.3" stroke-linecap="round"/></svg>`,
-  6: `<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white"/><path d="M22 36 C20 18 28 11 40 11 C52 11 60 18 58 36" fill="#111"/><path d="M22 38 C20 50 18 62 20 72" stroke="#111" stroke-width="9" stroke-linecap="round"/><path d="M58 38 C60 50 62 62 60 72" stroke="#111" stroke-width="9" stroke-linecap="round"/><ellipse cx="40" cy="46" rx="14.5" ry="17.5" fill="white"/><circle cx="34.5" cy="42" r="2.5" fill="#111"/><circle cx="45.5" cy="42" r="2.5" fill="#111"/><circle cx="35.3" cy="41.2" r="0.9" fill="white"/><circle cx="46.3" cy="41.2" r="0.9" fill="white"/><circle cx="38.5" cy="48.5" r="1.1" fill="#111"/><circle cx="41.5" cy="48.5" r="1.1" fill="#111"/><path d="M34 54 C37 58 43 58 46 54" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg>`
+  1: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">JP</span>`,
+  2: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">LC</span>`,
+  3: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">AW</span>`,
+  4: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">MR</span>`,
+  5: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">SK</span>`,
+  6: `<span style="font-weight:700;font-size:1.1rem;color:var(--accent)">PN</span>`,
+  7: `<img src="images/lydia_fu.jpg" alt="Lydia Fu" style="width:100%;height:100%;object-fit:cover;">`,
+  8: `<img src="images/jaya_singhal.jpg" alt="Jaya Singhal" style="width:100%;height:100%;object-fit:cover;">`,
+  9: `<img src="images/robin_trout.jpg" alt="Robin Trout" style="width:100%;height:100%;object-fit:cover;">`,
+  10: `<img src="images/chloe_dahl.jpg" alt="Chloe Dahl" style="width:100%;height:100%;object-fit:cover;">`,
+  11: `<img src="images/nina_huang.jpg" alt="Nina Huang" style="width:100%;height:100%;object-fit:cover;">`,
+  12: `<img src="images/tyler_cripe.jpg" alt="Tyler Cripe" style="width:100%;height:100%;object-fit:cover;">`,
 };
 
 const MENTORS = [
+  { id:7, name:'Lydia Fu', specialty:'Portraiture & Oil Pastel', mediums:['sketching','watercolor'], philosophy:'"Faces tell stories that words can\'t."', bio:'Lydia currently attends UC Irvine, and is an avid art enthusiast. She loves all types of arts and crafts, from sketching to making cards to doing elaborate designs on her nails.', rating:'4.9 (26 reviews)', tags:['Portraits','Oil pastel','Realism'], times:['Tue 5PM','Thu 3PM','Sat 11AM'] },
+  { id:8, name:'Jaya Singhal', specialty:'Watercolor & Mixed Media', mediums:['watercolor'], philosophy:'"Let the paint lead — you follow."', bio:'Jaya is an AP Drawing student at Homestead High School. She loves painting with acrylics and being creative with colors.', rating:'4.7 (18 reviews)', tags:['Watercolor','Experimental','Loose style'], times:['Mon 5PM','Wed 3PM','Fri 4PM'] },
+  { id:9, name:'Robin Trout', specialty:'Figure Drawing & Anatomy', mediums:['sketching'], philosophy:'"Understanding the body is understanding movement."', bio:'Robin is a student at the Rhode Island School of Design. His interests regarding art are extremely broad, and he loves engaging in thought-provoking discussions regarding how pieces can be interpreted.', rating:'4.8 (31 reviews)', tags:['Figure drawing','Anatomy','Gesture'], times:['Tue 6PM','Sat 2PM','Sun 10AM'] },
+  { id:10, name:'Chloe Dahl', specialty:'Graphic Design & Layout', mediums:['digital'], philosophy:'"Design is art with a purpose."', bio:'Chloe is currently taking AP Drawing at Homestead High School. Her favorite medium is oil pastel, and she loves using art for activism and explorations of philosophical thought.', rating:'5.0 (14 reviews)', tags:['Layout','Typography','Branding'], times:['Wed 5PM','Thu 4PM','Sat 1PM'] },
+  { id:11, name:'Nina Huang', specialty:'Printmaking & Pattern', mediums:['inking','watercolor'], philosophy:'"Repetition reveals rhythm."', bio:'Nina is an art student at the Rhode Island School of Design. She teaches sessions for entertainment design and digital illustration.', rating:'4.6 (22 reviews)', tags:['Printmaking','Patterns','Linocut'], times:['Mon 3PM','Fri 5PM','Sun 2PM'] },
+  { id:12, name:'Tyler Cripe', specialty:'Sculpture & 3D Art', mediums:['sketching'], philosophy:'"Think in three dimensions — always."', bio:'Mr. Cripe is an art teacher at Homestead High School. He teaches a variety of classes, from introductory classes to AP Drawing and AP 2-D Art and Design.', rating:'4.9 (19 reviews)', tags:['Sculpture','Clay','3D thinking'], times:['Tue 4PM','Thu 6PM','Sat 3PM'] },
   { id:1, name:'Jaya Patel', specialty:'Watercolor & Painting', mediums:['watercolor'], philosophy:'"Art is a practice, not a talent."', rating:'4.9 (47 reviews)', tags:['Beginner-friendly','Patient','Detail-oriented'], times:['Mon 3PM','Mon 5PM','Wed 4PM','Thu 3PM','Sat 10AM','Sat 2PM'] },
   { id:2, name:'Leo Chen', specialty:'Sketching & Illustration', mediums:['sketching'], philosophy:'"Every line tells a story — yours is worth telling."', rating:'4.8 (38 reviews)', tags:['Illustration','Portraits','Perspective'], times:['Tue 4PM','Tue 6PM','Fri 3PM','Fri 5PM','Sun 11AM'] },
   { id:3, name:'Amara Wilson', specialty:'Digital Art & Design', mediums:['digital'], philosophy:'"The best tool is the one you understand deeply."', rating:'5.0 (29 reviews)', tags:['Procreate','Photoshop','Color theory'], times:['Mon 6PM','Wed 5PM','Thu 6PM','Sat 3PM'] },
@@ -299,12 +339,12 @@ const MENTORS = [
 ];
 
 const GROUPS = [
-  { id:1, title:'Watercolor Wednesday', emoji:'💧', level:'beginner', date:'Wed Jun 18', time:'5:00 PM', seats:12, filled:9, duration:'60 min', mentor:'Jaya Patel', desc:'Explore loose, expressive watercolor techniques in a relaxed group setting.' },
-  { id:2, title:'Sketch & Chill', emoji:'', level:'beginner', date:'Fri Jun 20', time:'4:00 PM', seats:15, filled:11, duration:'45 min', mentor:'Leo Chen', desc:'Weekly casual sketching session — bring anything you want to work on.' },
-  { id:3, title:'Inking Intensive', emoji:'', level:'intermediate', date:'Sat Jun 21', time:'2:00 PM', seats:10, filled:6, duration:'90 min', mentor:'Maya Rodriguez', desc:'Deep dive into stippling and crosshatching techniques for bold line art.' },
-  { id:4, title:'Digital Art Bootcamp', emoji:'', level:'intermediate', date:'Sun Jun 22', time:'3:00 PM', seats:8, filled:3, duration:'75 min', mentor:'Amara Wilson', desc:'Hands-on Procreate session — from sketch to color in one afternoon.' },
-  { id:5, title:'Weekly Art Challenge', emoji:'', level:'challenge', date:'Sat Jun 21', time:'11:00 AM', seats:20, filled:14, duration:'120 min', mentor:'Sam Kim', desc:'This week\'s challenge: "Opposites" — create a piece exploring contrast and tension.' },
-  { id:6, title:'Abstract Expression', emoji:'🌈', level:'challenge', date:'Thu Jun 19', time:'6:00 PM', seats:10, filled:7, duration:'60 min', mentor:'Priya Nair', desc:'Emotion-led painting session — no rules, just expression.' },
+  { id:1, title:'Watercolor Wednesday', level:'beginner', day:'Wed', date:'Wed Jun 18', time:'5:00 PM', hr:17, seats:12, filled:9, duration:'60 min', mentor:'Jaya Patel', desc:'Explore loose, expressive watercolor techniques in a relaxed group setting.' },
+  { id:2, title:'Sketch & Chill', level:'beginner', day:'Fri', date:'Fri Jun 20', time:'4:00 PM', hr:16, seats:15, filled:11, duration:'45 min', mentor:'Leo Chen', desc:'Weekly casual sketching session — bring anything you want to work on.' },
+  { id:3, title:'Inking Intensive', level:'intermediate', day:'Sat', date:'Sat Jun 21', time:'2:00 PM', hr:14, seats:10, filled:6, duration:'90 min', mentor:'Maya Rodriguez', desc:'Deep dive into stippling and crosshatching techniques for bold line art.' },
+  { id:4, title:'Digital Art Bootcamp', level:'intermediate', day:'Sun', date:'Sun Jun 22', time:'3:00 PM', hr:15, seats:8, filled:3, duration:'75 min', mentor:'Amara Wilson', desc:'Hands-on Procreate session — from sketch to color in one afternoon.' },
+  { id:5, title:'Weekly Art Challenge', level:'challenge', day:'Sat', date:'Sat Jun 21', time:'11:00 AM', hr:11, seats:20, filled:14, duration:'120 min', mentor:'Sam Kim', desc:'This week\'s challenge: "Opposites" — create a piece exploring contrast and tension.' },
+  { id:6, title:'Abstract Expression', level:'challenge', day:'Thu', date:'Thu Jun 19', time:'6:00 PM', hr:18, seats:10, filled:7, duration:'60 min', mentor:'Priya Nair', desc:'Emotion-led painting session — no rules, just expression.' },
 ];
 
 let currentMentor = null;
@@ -314,13 +354,23 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuthUI();
   renderMentors(MENTORS);
   renderGroups(GROUPS);
-  renderCalendar();
+  renderFullSchedule();
   initTabs('#sessionTabs');
 });
 
 // ── Mentors ──────────────────────────────────────────────────────────────
 function renderMentors(list) {
-  document.getElementById('mentorGrid').innerHTML = list.map(m => `
+  const hasPhoto = id => id >= 7 && id <= 12;
+  document.getElementById('mentorGrid').innerHTML = list.map(m => hasPhoto(m.id) ? `
+    <div class="mentor-card mentor-card--photo" data-mediums="${m.mediums.join(',')}" data-name="${m.name.toLowerCase()}">
+      <div class="mentor-card-photo">${MENTOR_FACES[m.id]}</div>
+      <div class="mentor-card-left">
+        <div class="mentor-name" style="font-size:1.2rem;">${m.name}</div>
+        <p class="mentor-bio">${m.bio || m.philosophy}</p>
+        <button class="btn btn-outline btn-sm" onclick="viewMentor(${m.id})">View Mentor</button>
+      </div>
+    </div>
+  ` : `
     <div class="mentor-card" data-mediums="${m.mediums.join(',')}" data-name="${m.name.toLowerCase()}">
       <div style="display:flex;align-items:center;gap:1rem;">
         <div class="mentor-avatar">${MENTOR_FACES[m.id] || ''}</div>
@@ -364,13 +414,54 @@ function viewMentor(id) {
   document.getElementById('detailSpecialty').textContent = m.specialty;
   document.getElementById('detailRating').textContent = m.rating;
   document.getElementById('detailPhil').textContent = m.philosophy;
+  const bioEl = document.getElementById('detailBio');
+  if (bioEl) bioEl.textContent = m.bio || '';
+  if (bioEl) bioEl.style.display = m.bio ? '' : 'none';
   document.getElementById('detailTags').innerHTML = m.tags.map(t=>`<span class="mentor-tag">${t}</span>`).join('');
+  renderWeeklyCalendar(m);
+}
+
+function renderWeeklyCalendar(m) {
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const hours = [];
+  for (let h = 9; h <= 18; h++) hours.push(h);
   const booked = JSON.parse(localStorage.getItem('artlab_booked_slots') || '{}');
-  document.getElementById('timeSlotsContainer').innerHTML = m.times.map(t => `
-    <button class="time-slot ${booked[m.id+'_'+t] ? 'booked' : ''}" onclick="bookSlot(${m.id},'${t}',this)">
-      ${booked[m.id+'_'+t] ? '✓ ' : ''}${t}
-    </button>
-  `).join('');
+
+  const slotMap = {};
+  m.times.forEach(t => {
+    const parts = t.match(/^(\w+)\s+(\d+)(AM|PM)$/);
+    if (!parts) return;
+    const day = parts[1];
+    let hr = parseInt(parts[2]);
+    if (parts[3] === 'PM' && hr !== 12) hr += 12;
+    if (parts[3] === 'AM' && hr === 12) hr = 0;
+    if (!slotMap[day]) slotMap[day] = {};
+    slotMap[day][hr] = { time: t, booked: !!booked[m.id + '_' + t] };
+  });
+
+  let html = '<div class="cal-grid">';
+  html += '<div class="cal-corner"></div>';
+  days.forEach(d => html += `<div class="cal-day-header">${d}</div>`);
+
+  hours.forEach(h => {
+    const label = h <= 12 ? h + (h < 12 ? 'AM' : 'PM') : (h - 12) + 'PM';
+    html += `<div class="cal-hour-label">${label}</div>`;
+    days.forEach(d => {
+      const slot = slotMap[d]?.[h];
+      const cls = slot ? (slot.booked ? 'cal-cell cal-booked' : 'cal-cell cal-available') : 'cal-cell';
+      const onclick = slot && !slot.booked ? `onclick="calBook(${m.id},'${slot.time}',this)"` : '';
+      html += `<div class="${cls}" ${onclick}>${slot ? (slot.booked ? '✓' : '') : ''}</div>`;
+    });
+  });
+  html += '</div>';
+  html += '<div style="display:flex;gap:1.5rem;margin-top:0.75rem;font-size:0.78rem;color:var(--mid);"><span><span style="display:inline-block;width:12px;height:12px;background:#B8E6B8;border-radius:3px;vertical-align:middle;margin-right:4px;"></span>Available</span><span><span style="display:inline-block;width:12px;height:12px;background:var(--accent);border-radius:3px;vertical-align:middle;margin-right:4px;"></span>Booked</span></div>';
+  document.getElementById('weeklyCalendar').innerHTML = html;
+}
+
+let _pendingCalCell = null;
+function calBook(mentorId, time, el) {
+  _pendingCalCell = el;
+  bookSlot(mentorId, time);
 }
 
 function closeMentorDetail() {
@@ -409,17 +500,24 @@ function confirmBook() {
   });
   Auth.addNotification({ text: `1-on-1 with ${m.name} booked for ${time}`, time: 'Just now', icon: '+' });
   Auth.updateUser({ sessionsAttended: (Auth.currentUser().sessionsAttended||0)+1 });
+  if (_pendingCalCell) {
+    _pendingCalCell.classList.remove('cal-available');
+    _pendingCalCell.classList.add('cal-booked');
+    _pendingCalCell.textContent = '✓';
+    _pendingCalCell.onclick = null;
+    _pendingCalCell = null;
+  }
   document.getElementById('bookModal').classList.remove('open');
   showToast(`Booked with ${m.name} — ${time}!`);
 }
 
 // ── Groups ────────────────────────────────────────────────────────────────
+const GROUP_BORDERS = ['#E8B4C0','#A8CDE8','#F5D5A0','#A8C897','#C8A8E8','#F0B89A'];
 function renderGroups(list) {
-  document.getElementById('groupGrid').innerHTML = list.map(g => {
+  document.getElementById('groupGrid').innerHTML = list.map((g,i) => {
     const pct = Math.round((g.filled/g.seats)*100);
-    return `<div class="group-card" data-level="${g.level}">
+    return `<div class="group-card" data-level="${g.level}" style="border:3.5px solid ${GROUP_BORDERS[i%6]}">
       <div class="group-header">
-        <div class="group-emoji">${g.emoji}</div>
         <div>
           <h3 style="font-size:1.05rem;">${g.title}</h3>
           <div style="font-size:0.82rem;color:var(--mid);margin-top:0.2rem;">${g.level.charAt(0).toUpperCase()+g.level.slice(1)}</div>
@@ -429,8 +527,8 @@ function renderGroups(list) {
         <p style="font-size:0.88rem;">${g.desc}</p>
         <div class="group-meta">
           <span>${g.date}</span>
-          <span>⏰ ${g.time}</span>
-          <span>⏱ ${g.duration}</span>
+          <span>${g.time}</span>
+          <span>${g.duration}</span>
         </div>
         <div>
           <div style="display:flex;justify-content:space-between;font-size:0.8rem;color:var(--mid);margin-bottom:0.35rem;">
@@ -465,6 +563,106 @@ function joinGroup(id, name) {
 // ── Calendar ──────────────────────────────────────────────────────────────
 const SESSION_DAYS = [4,7,11,14,18,19,21,22,25,28];
 const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let schedWeekOffset = 0;
+
+function getWeekDates(offset) {
+  const now = new Date();
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - ((now.getDay() + 6) % 7) + offset * 7);
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon);
+    d.setDate(mon.getDate() + i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function renderFullSchedule() {
+  const dayNames = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const hours = [];
+  for (let h = 9; h <= 18; h++) hours.push(h);
+
+  const weekDates = getWeekDates(schedWeekOffset);
+  const monthLabel = weekDates[0].toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const weekRange = weekDates[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+    ' – ' + weekDates[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const slotMap = {};
+  GROUPS.forEach(g => {
+    if (!slotMap[g.day]) slotMap[g.day] = {};
+    slotMap[g.day][g.hr] = g;
+  });
+
+  let html = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+    <button class="btn btn-ghost btn-sm" onclick="schedWeekOffset--;renderFullSchedule()">← Prev</button>
+    <div style="text-align:center;">
+      <div style="font-family:'Abril Fatface',serif;font-size:1.2rem;color:var(--dark);">${monthLabel}</div>
+      <div style="font-size:0.82rem;color:var(--mid);">${weekRange}</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="schedWeekOffset++;renderFullSchedule()">Next →</button>
+  </div>`;
+
+  html += '<div class="cal-grid full-sched-grid">';
+  html += '<div class="cal-corner"></div>';
+  weekDates.forEach((d, i) => {
+    const dayNum = d.getDate();
+    const isToday = d.toDateString() === new Date().toDateString();
+    html += `<div class="cal-day-header" ${isToday ? 'style="background:var(--primary);color:var(--dark);"' : ''}>${dayNames[i]}<br><span style="font-size:0.85rem;">${dayNum}</span></div>`;
+  });
+
+  hours.forEach(h => {
+    const label = h <= 12 ? h + (h < 12 ? 'AM' : 'PM') : (h - 12) + 'PM';
+    html += `<div class="cal-hour-label">${label}</div>`;
+    dayNames.forEach(d => {
+      const g = slotMap[d]?.[h];
+      if (g) {
+        const borderColor = GROUP_BORDERS[(g.id - 1) % 6];
+        html += `<div class="cal-cell sched-session" style="border-left:4px solid ${borderColor};background:rgba(184,230,184,0.25);" onclick="openSchedDetail(${g.id})">
+          <div class="sched-title">${g.title}</div>
+          <div class="sched-meta">${g.mentor} · ${g.duration}</div>
+          <div class="sched-meta">${g.filled}/${g.seats} seats</div>
+        </div>`;
+      } else {
+        html += '<div class="cal-cell"></div>';
+      }
+    });
+  });
+  html += '</div>';
+  document.getElementById('fullScheduleCal').innerHTML = html;
+}
+
+function openSchedDetail(groupId) {
+  const g = GROUPS.find(x => x.id === groupId);
+  if (!g) return;
+  const borderColor = GROUP_BORDERS[(g.id - 1) % 6];
+  const pct = Math.round((g.filled / g.seats) * 100);
+  const el = document.getElementById('schedDetailPopup');
+  el.innerHTML = `
+    <div class="sched-detail-card" style="border:4px solid ${borderColor};">
+      <button class="modal-close" onclick="document.getElementById('schedDetailPopup').classList.remove('open')" style="position:absolute;top:1rem;right:1rem;">✕</button>
+      <h3 style="margin-bottom:0.25rem;">${g.title}</h3>
+      <div style="font-size:0.85rem;color:var(--mid);margin-bottom:1rem;">${g.level.charAt(0).toUpperCase()+g.level.slice(1)}</div>
+      <p style="margin-bottom:1rem;">${g.desc}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;font-size:0.88rem;">
+        <div><strong>Date</strong><br>${g.date}</div>
+        <div><strong>Time</strong><br>${g.time}</div>
+        <div><strong>Duration</strong><br>${g.duration}</div>
+        <div><strong>Mentor</strong><br>${g.mentor}</div>
+      </div>
+      <div style="margin-bottom:1.25rem;">
+        <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--mid);margin-bottom:0.35rem;">
+          <span>Seats filled</span><span>${g.filled}/${g.seats}</span>
+        </div>
+        <div class="seats-bar"><div class="seats-fill" style="width:${pct}%"></div></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="joinGroup(${g.id},'${g.title.replace(/'/g,"\\'")}');document.getElementById('schedDetailPopup').classList.remove('open');">
+        ${g.filled >= g.seats ? 'Join Waitlist' : 'Join Session →'}
+      </button>
+    </div>`;
+  el.classList.add('open');
+}
 
 function renderCalendar() {
   const label = new Date(calYear, calMonth).toLocaleDateString('en-US',{month:'long',year:'numeric'});
