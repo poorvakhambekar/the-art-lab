@@ -1610,3 +1610,6 @@ footer {
 .graph-gap { transition: opacity 0.8s ease 1.8s; }
 #impactGraph.animated .graph-line { stroke-dashoffset: 0; }
 #impactGraph.animated .graph-gap { opacity: 0.15; }
+
+/* Dark mode button text fix */
+[data-palette="dark"] .btn-primary { color: #1C1410; }
