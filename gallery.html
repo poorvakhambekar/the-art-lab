@@ -163,9 +163,8 @@
   </div>
 </nav>
 
-<div id="dashView" class="hidden">
-  <div class="container" style="padding-top:0;">
-    <div class="dash-layout">
+<section class="section" style="padding-top:7rem;">
+  <div class="container">
 
     <!-- Controls -->
     <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem;">
@@ -348,43 +347,6 @@ function renderGallery(pieces) {
   }).join('');
 }
 
-  // Stats
-  document.getElementById('statCourses').textContent = (user.enrolledCourses || []).length;
-  document.getElementById('statPieces').textContent = user.uploadedPieces || 0;
-  document.getElementById('statSessions').textContent = user.sessionsAttended || 0;
-  document.getElementById('statLikes').textContent = user.uploadedPieces ? Math.floor(user.uploadedPieces * 3.2) : 0;
-
-  // Analytics
-  document.getElementById('analyticsLiked').textContent = (user.likedPieces || []).length;
-  document.getElementById('analyticsStreak').textContent = Math.floor(Math.random()*7+1) + ' days';
-  document.getElementById('analyticsTime').textContent = Math.floor(Math.random()*12+2) + ' hrs';
-
-  // Portfolio progress
-  const pieces = user.uploadedPieces || 0;
-  const pct = Math.min(100, Math.round((pieces/5)*100));
-  document.getElementById('portfolioPct').textContent = pct + '%';
-  const bar = document.getElementById('portfolioBar');
-  if (bar) bar.dataset.width = pct;
-
-  // Mentor view
-  if (user.role === 'mentor') {
-    document.getElementById('mentorBanner').classList.remove('hidden');
-    document.getElementById('mentorNavItem').classList.remove('hidden');
-    document.getElementById('journeyCreate').classList.remove('current');
-    document.getElementById('journeyMentor').classList.add('done');
-    document.getElementById('journeyMentor').classList.add('current');
-    document.getElementById('connectorMentor').classList.add('done');
-    document.getElementById('journeyMsg').textContent = "You've reached Mentor status — thank you for giving back to the community! 🌟";
-    document.getElementById('dashRole').style.background = 'linear-gradient(135deg,var(--accent2),var(--primary-d))';
-  }
-
-  // Portfolio grid
-  buildPortfolioGrid(pieces);
-
-  // Courses
-  buildCoursesList(user.enrolledCourses || []);
-
-
 function openPiece(id) {
   const piece = PIECES.find(p => p.id === id);
   if (!piece) return;
@@ -461,82 +423,17 @@ function modalLike() {
   } else {
     allLikes[currentPieceId + '_count'] = Math.max(0, (allLikes[currentPieceId + '_count'] || 0) - 1);
   }
-  html += `<div class="portfolio-piece add-piece" onclick="showUploadModal()"><span style="font-size:1.5rem;">+</span><span>Upload</span></div>`;
-  grid.innerHTML = html;
+  saveLikes(allLikes);
+  const isLiked = liked;
+  document.getElementById('modalHeart').textContent = isLiked ? '♥' : '♡';
+  document.getElementById('modalLikeBtn').classList.toggle('liked', isLiked);
+  const piece = PIECES.find(p => p.id === currentPieceId);
+  document.getElementById('modalLikeCount').textContent = piece.likes + (allLikes[currentPieceId+'_count'] || 0);
+  renderGallery(displayedPieces);
 }
 
-function buildCoursesList(courseIds) {
-  const list = document.getElementById('enrolledCoursesList');
-  if (!list) return;
-  let html = '';
-  courseIds.forEach(id => {
-    const c = COURSES_DATA[id] || { name: id, icon: '→', level: 'Beginner', lessons: 8, done: 1 };
-    const pct = Math.round((c.done/c.lessons)*100);
-    html += `<div class="course-row">
-      <div class="course-icon">${c.icon}</div>
-      <div class="course-info">
-        <div class="course-name">${c.name}</div>
-        <div class="course-sub">${c.level} • ${c.done}/${c.lessons} lessons</div>
-        <div class="progress-bar" style="height:6px;margin-top:0.4rem;"><div class="progress-fill" data-width="${pct}" style="width:${pct}%"></div></div>
-      </div>
-      <a href="resources.html" class="btn btn-ghost btn-sm">Continue →</a>
-    </div>`;
-  });
-  list.innerHTML = html;
-}
-
-function showSection(name, el) {
-  document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'));
-  document.getElementById('section-' + name)?.classList.remove('hidden');
-  document.querySelectorAll('.dash-nav li a').forEach(a => a.classList.remove('active'));
-  if (el) el.classList.add('active');
-  animateProgressBars();
-}
-
-function showUploadModal() { document.getElementById('uploadModal').classList.add('open'); }
-function simulateUpload() { showToast('File ready to upload!', '📎'); }
-
-function saveUpload() {
-  const title = document.getElementById('pieceTitle').value;
-  if (!title) { showToast('Please give your piece a name!'); return; }
-  const user = Auth.currentUser();
-  const newCount = (user.uploadedPieces || 0) + 1;
-  Auth.updateUser({ uploadedPieces: newCount });
-  Auth.addNotification({ text: `Your piece "${title}" is now live in the Gallery!`, time: 'Just now', icon: '+' });
-  document.getElementById('uploadModal').classList.remove('open');
-  buildPortfolioGrid(newCount);
-  document.getElementById('statPieces').textContent = newCount;
-  showToast(`"${title}" uploaded to Gallery!`);
-}
-
-function enrollCourse(name, icon) {
-  const user = Auth.currentUser();
-  const key = name.toLowerCase().replace(/\s+/g,'-');
-  const courses = user.enrolledCourses || [];
-  if (courses.includes(key)) { showToast('Already enrolled!'); return; }
-  COURSES_DATA[key] = { name, icon, level: 'Intermediate', lessons: 8, done: 0 };
-  courses.push(key);
-  Auth.updateUser({ enrolledCourses: courses });
-  Auth.addNotification({ text: `Enrolled in ${name} — good luck!`, time: 'Just now', icon });
-  document.getElementById('statCourses').textContent = courses.length;
-  buildCoursesList(courses);
-  showToast(`Enrolled in ${name}!`, icon);
-}
-
-function toggleGoal(el) {
-  el.classList.toggle('done');
-  el.textContent = el.classList.contains('done') ? '✓' : '';
-}
-
-function addGoal() {
-  const name = prompt("What's your new goal?");
-  if (!name) return;
-  const list = document.getElementById('goalsList');
-  const div = document.createElement('div');
-  div.className = 'goal-item';
-  div.innerHTML = `<div class="goal-check" onclick="toggleGoal(this)"></div>
-    <div><div style="font-weight:600;font-size:0.9rem;">${name}</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div>`;
-  list.appendChild(div);
+function loadMore() {
+  showToast('All pieces loaded!');
 }
 </script>
 <footer>
