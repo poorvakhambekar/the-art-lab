@@ -163,20 +163,6 @@
   </div>
 </nav>
 
-<!-- LOCKED VIEW (shown when not logged in) -->
-<div id="lockedView" class="hidden" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:68px;">
-  <div style="text-align:center;max-width:480px;padding:2rem;">
-    <div style="font-size:4rem;margin-bottom:1.5rem;">🔒</div>
-    <h2 style="margin-bottom:1rem;">Your creative space awaits.</h2>
-    <p style="margin-bottom:2rem;">Sign in or create a free account to access your personal dashboard — track progress, manage your portfolio, and see your courses.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;">
-      <button class="btn btn-outline" onclick="openAuthModal('login')">Sign In</button>
-      <button class="btn btn-primary" onclick="openAuthModal('signup')">Join Free →</button>
-    </div>
-  </div>
-</div>
-
-<!-- DASHBOARD VIEW -->
 <div id="dashView" class="hidden">
   <div class="container" style="padding-top:0;">
     <div class="dash-layout">
@@ -332,17 +318,7 @@ function saveComments(c) { localStorage.setItem(COMMENTS_KEY, JSON.stringify(c))
 
 document.addEventListener('DOMContentLoaded', () => {
   initAuthUI();
-  const user = Auth.currentUser();
-  if (!user) {
-    document.getElementById('lockedView').classList.remove('hidden');
-    document.getElementById('lockedView').style.display = 'flex';
-    return;
-  }
-  document.getElementById('dashView').classList.remove('hidden');
-  document.getElementById('dashView').style.display = 'block';
-  populateDash(user);
-  animateProgressBars();
-  showSection('overview', document.querySelector('.dash-nav li a'));
+  renderGallery(displayedPieces);
 });
 
 function renderGallery(pieces) {
