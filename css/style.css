@@ -894,16 +894,16 @@ nav.scrolled { box-shadow: 0 4px 24px var(--shadow); }
 /* ─── FOOTER ────────────────────────────────────────────────────────────── */
 footer {
   background: var(--primary); color: var(--dark);
-  padding: 4rem 0 2rem;
+  padding: 5rem 0 3rem;
 }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
 .footer-brand h3 { font-family: 'Abril Fatface', serif; color: var(--dark); font-size: 2.2rem; margin-bottom: 0.75rem; }
-.footer-brand p { font-size: 0.95rem; max-width: 280px; color: var(--accent); }
+.footer-brand p { font-size: 0.95rem; max-width: 280px; color: var(--dark); }
 .footer-col h4 { color: var(--dark); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.footer-col ul li a { font-size: 0.92rem; color: var(--accent); transition: var(--transition); }
-.footer-col ul li a:hover { color: var(--dark); }
-.footer-bottom { border-top: 1px solid rgba(44,26,26,0.15); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--accent); }
+.footer-col ul li a { font-size: 0.92rem; color: var(--dark); transition: var(--transition); }
+.footer-col ul li a:hover { color: var(--accent); }
+.footer-bottom { border-top: 1px solid rgba(44,26,26,0.15); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.88rem; color: var(--dark); }
 
 /* ─── NOTIFICATIONS ─────────────────────────────────────────────────────── */
 .notif-badge {
