@@ -83,15 +83,13 @@
       <li><a href="dashboard.html" class="active">My Page</a></li>
     </ul>
     <div class="nav-right">
-      </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
           <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm</div>
-          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh</div>
-          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -450,7 +448,7 @@
         <div class="modal-tab" data-tab="signup" onclick="switchTab('signup')">Join Free</div>
       </div>
       <div class="modal-tab-content active" id="loginForm">
-        <div id="loginError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div id="loginError" style="color:var(--danger-color);font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
         <form onsubmit="handleLogin(event)">
           <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required /></div>
           <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="Your password" required /></div>
@@ -459,7 +457,7 @@
         <div style="text-align:center;margin-top:1rem;font-size:0.88rem;color:var(--mid);">No account? <a href="#" onclick="switchTab('signup')" style="color:var(--accent);font-weight:600;">Join free</a></div>
       </div>
       <div class="modal-tab-content" id="signupForm">
-        <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div id="signupError" style="color:var(--danger-color);font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
         <div style="margin-bottom:1.25rem;"><label style="display:block;font-weight:600;font-size:0.88rem;color:var(--dark);margin-bottom:0.5rem;">I am a...</label>
           <div class="role-select">
             <div class="role-option selected" data-role="student" onclick="selectRole('student')">Student</div>
@@ -663,7 +661,7 @@ function toggleGoal(el) {
 }
 
 function addGoal() {
-  const name = prompt('What's your new goal?');
+  const name = prompt("What's your new goal?");
   if (!name) return;
   const list = document.getElementById('goalsList');
   const div = document.createElement('div');

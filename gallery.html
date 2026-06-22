@@ -3,103 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery — The Art Lab</title>
+  <title>My Page — The Art Lab</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23E8B4C0'/><circle cx='50' cy='50' r='28' fill='%23D4899A'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .gallery-masonry { columns: 4 200px; gap: 1.25rem; }
-    .gallery-piece {
-      break-inside: avoid; margin-bottom: 1.25rem;
-      border-radius: var(--radius); overflow: hidden;
-      position: relative; cursor: pointer;
-      box-shadow: 0 4px 20px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .upload-zone {
+      border: 3px dashed var(--primary-d); border-radius: var(--radius);
+      padding: 2.5rem; text-align: center;
+      background: rgba(232,180,192,0.07);
+      transition: var(--transition); cursor: pointer;
     }
-    .gallery-piece:hover { transform: translateY(-4px); box-shadow: 0 12px 36px var(--shadow); }
-    .piece-canvas {
-      width: 100%; display: block;
-      background: linear-gradient(135deg, var(--primary), var(--highlight));
-    }
-    .piece-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(44,26,26,0.88) 0%, rgba(44,26,26,0) 55%);
-      opacity: 0; transition: opacity 0.3s ease;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 1.1rem;
-    }
-    .gallery-piece:hover .piece-overlay { opacity: 1; }
-    .piece-title { color: var(--white); font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem; }
-    .piece-artist { color: rgba(255,255,255,0.72); font-size: 0.78rem; margin-bottom: 0.6rem; }
-    .piece-actions { display: flex; gap: 0.5rem; }
-    .piece-like-btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
-      padding: 0.35rem 0.85rem; color: var(--white);
-      font-size: 0.8rem; font-weight: 600;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .piece-like-btn:hover, .piece-like-btn.liked { background: rgba(255,77,109,0.7); border-color: transparent; }
-    .piece-like-btn.liked .lheart { animation: heartPop 0.3s ease; }
-    .piece-view-btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 50px;
-      padding: 0.35rem 0.85rem; color: var(--white);
-      font-size: 0.8rem; font-weight: 600; transition: background 0.2s;
-    }
-    .piece-view-btn:hover { background: rgba(255,255,255,0.25); }
-    @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
-
-    /* Piece Detail Modal */
-    .piece-modal {
-      display: none; position: fixed; inset: 0; z-index: 9500;
-      background: rgba(20,10,10,0.92); backdrop-filter: blur(8px);
-      align-items: center; justify-content: center; padding: 2rem;
-    }
-    .piece-modal.open { display: flex; animation: fadeIn 0.2s ease; }
-    .piece-modal-inner {
-      display: grid; grid-template-columns: 1fr 380px; gap: 0;
-      background: var(--card); border-radius: 24px; overflow: hidden;
-      max-width: 900px; width: 100%; max-height: 90vh;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.5);
-      animation: scaleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .piece-modal-canvas {
-      background: linear-gradient(135deg, var(--primary), var(--highlight));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8rem; min-height: 400px;
-    }
-    .piece-modal-info { padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
-    .piece-modal-close {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(255,255,255,0.15); border: none;
-      color: white; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    .upload-zone:hover { background: rgba(232,180,192,0.15); border-color: var(--accent); }
+    .upload-zone .upload-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .course-row {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding: 1.25rem; border-radius: var(--radius-sm);
+      background: var(--bg); margin-bottom: 0.75rem;
       transition: var(--transition);
     }
-    .piece-modal-close:hover { background: rgba(255,255,255,0.3); }
-    .comment-input-area {
-      display: flex; gap: 0.5rem; margin-top: 0.5rem;
+    .course-row:hover { background: var(--bg2); }
+    .course-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .course-info { flex: 1; }
+    .course-name { font-weight: 700; font-size: 0.95rem; color: var(--dark); margin-bottom: 0.2rem; }
+    .course-sub { font-size: 0.8rem; color: var(--mid); }
+    .mentor-badge {
+      background: linear-gradient(135deg, var(--accent2), var(--primary-d));
+      color: white; padding: 0.75rem 1.5rem; border-radius: var(--radius);
+      text-align: center; margin-bottom: 1.5rem;
     }
-    .comment-input-area input {
-      flex: 1; padding: 0.6rem 1rem; border-radius: 50px;
-      border: 2px solid var(--bg2); background: var(--bg);
-      font-size: 0.88rem; color: var(--dark); outline: none; font-family: inherit;
+    .mentor-badge h3 { color: white; font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .mentor-badge p { color: rgba(255,255,255,0.85); font-size: 0.82rem; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .portfolio-piece {
+      aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden;
+      position: relative; background: linear-gradient(135deg, var(--primary), var(--highlight));
+      display: flex; align-items: center; justify-content: center; font-size: 2.5rem;
+      transition: var(--transition); cursor: pointer;
     }
-    .comment-input-area input:focus { border-color: var(--primary-d); }
-    .comment-item { padding: 0.75rem 0; border-bottom: 1px solid var(--bg2); }
-    .comment-item:last-child { border: none; }
-    .comment-author { font-weight: 700; font-size: 0.85rem; color: var(--dark); margin-bottom: 0.2rem; }
-    .comment-text { font-size: 0.85rem; color: var(--mid); }
-    .trending-badge {
-      position: absolute; top: 0.75rem; left: 0.75rem; z-index: 2;
-      background: var(--accent); color: var(--white);
-      padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.04em;
+    .portfolio-piece:hover { transform: scale(1.03); }
+    .portfolio-piece .piece-overlay {
+      position: absolute; inset: 0; background: rgba(44,26,26,0.6);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: var(--transition);
     }
+    .portfolio-piece:hover .piece-overlay { opacity: 1; }
+    .add-piece {
+      border: 3px dashed var(--primary-d); background: var(--bg2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem; font-size: 0.85rem; color: var(--mid); font-weight: 600;
+    }
+    .add-piece:hover { border-color: var(--accent); color: var(--accent); background: rgba(232,180,192,0.1); }
+    .section-heading { font-weight: 700; font-size: 1.1rem; color: var(--dark); margin-bottom: 1rem; }
+    .content-block { background: var(--card); border-radius: var(--radius); padding: 1.75rem; box-shadow: 0 4px 24px var(--shadow); margin-bottom: 1.5rem; }
+    .goal-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--bg2); }
+    .goal-item:last-child { border: none; }
+    .goal-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--primary-d); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: var(--transition); cursor: pointer; }
+    .goal-check.done { background: var(--accent); border-color: var(--accent); color: white; }
   </style>
 </head>
 <body>
@@ -107,6 +68,7 @@
 <div id="cursor"></div>
 <div id="cursor-trail"></div>
 
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
@@ -117,19 +79,17 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="sessions.html">Sessions</a></li>
       <li><a href="resources.html">Resources</a></li>
-      <li><a href="gallery.html" class="active">Gallery</a></li>
-      <li><a href="dashboard.html">My Page</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="dashboard.html" class="active">My Page</a></li>
     </ul>
     <div class="nav-right">
-      </div>
       <div style="position:relative;">
-        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></button>
+        <button class="palette-btn" id="paletteBtn" title="Choose your palette" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2v.5A8 8 0 0 1 20 11v5l2 2H2l2-2v-5a8 8 0 0 1 6-7.75V4a2 2 0 0 1 2-2zA6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button>
         <div class="palette-popup" id="palettePopup">
           <div style="font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:0.25rem;">Your Palette</div>
           <div class="palette-option active" data-palette="warm"><div class="palette-swatch" style="background:linear-gradient(135deg,#E8B4C0,#F5D5A0)"></div> Warm Studio</div>
-          <div class="palette-option" data-palette="ocean"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8CDE8,#C8E8F5)"></div> Ocean Calm</div>
-          <div class="palette-option" data-palette="forest"><div class="palette-swatch" style="background:linear-gradient(135deg,#A8C897,#D0EDBB)"></div> Forest Fresh</div>
-          <div class="palette-option" data-palette="sunset"><div class="palette-swatch" style="background:linear-gradient(135deg,#F0B89A,#F9D8A8)"></div> Sunset Glow</div>
+          <div class="palette-option" data-palette="dark"><div class="palette-swatch" style="background:linear-gradient(135deg,#2A1F19,#E0A892)"></div> Dark Mode</div>
+          <div class="palette-option" data-palette="colorblind"><div class="palette-swatch" style="background:linear-gradient(135deg,#3E84B5,#E0791C)"></div> Colorblind Friendly</div>
         </div>
       </div>
       <div class="auth-area" id="authArea"></div>
@@ -137,86 +97,342 @@
   </div>
 </nav>
 
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <div class="blob-bg" style="width:350px;height:350px;background:var(--primary);bottom:-80px;right:10%;"></div>
-  <div class="container">
-    <div class="section-tag">Student Gallery</div>
-    <h1>Art made by students,<br>celebrated by all.</h1>
-    <p>Every piece here was created by a member of The Art Lab community. Like, comment, and get inspired.</p>
+<!-- LOCKED VIEW (shown when not logged in) -->
+<div id="lockedView" class="hidden" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:68px;">
+  <div style="text-align:center;max-width:480px;padding:2rem;">
+    <div style="font-size:4rem;margin-bottom:1.5rem;">🔒</div>
+    <h2 style="margin-bottom:1rem;">Your creative space awaits.</h2>
+    <p style="margin-bottom:2rem;">Sign in or create a free account to access your personal dashboard — track progress, manage your portfolio, and see your courses.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;">
+      <button class="btn btn-outline" onclick="openAuthModal('login')">Sign In</button>
+      <button class="btn btn-primary" onclick="openAuthModal('signup')">Join Free →</button>
+    </div>
   </div>
 </div>
 
-<section class="section">
-  <div class="container">
+<!-- DASHBOARD VIEW -->
+<div id="dashView" class="hidden">
+  <div class="container" style="padding-top:0;">
+    <div class="dash-layout">
 
-    <!-- Controls -->
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2.5rem;">
-      <div class="search-bar" style="flex:1;min-width:200px;max-width:360px;">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search by title or artist…" id="gallerySearch" oninput="searchGallery()" />
-      </div>
-      <div class="filter-bar" style="margin:0;">
-        <button class="filter-btn active" onclick="filterGallery(this,'all')">All</button>
-        <button class="filter-btn" onclick="filterGallery(this,'watercolor')">Watercolor</button>
-        <button class="filter-btn" onclick="filterGallery(this,'sketching')">Sketching</button>
-        <button class="filter-btn" onclick="filterGallery(this,'digital')">Digital</button>
-        <button class="filter-btn" onclick="filterGallery(this,'inking')">Inking</button>
-        <button class="filter-btn" onclick="filterGallery(this,'mixed')">Mixed Media</button>
-      </div>
-      <div style="margin-left:auto;display:flex;gap:0.5rem;">
-        <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">Most Liked</button>
-        <button class="filter-btn" id="sortNew" onclick="sortBy('new')">Newest</button>
-      </div>
+      <!-- SIDEBAR -->
+      <aside class="dash-sidebar" id="dashSidebar">
+        <div class="dash-avatar" id="dashAvatar">PK</div>
+        <div class="dash-name" id="dashName">Poorva K.</div>
+        <div class="dash-role" id="dashRole">Student</div>
+        <ul class="dash-nav">
+          <li><a href="#overview" class="active" onclick="showSection('overview',this)"><span class="nav-icon">🏠</span>Overview</a></li>
+          <li><a href="#progress" onclick="showSection('progress',this)"><span class="nav-icon">📈</span>Progress</a></li>
+          <li><a href="#portfolio" onclick="showSection('portfolio',this)">Portfolio</a></li>
+          <li><a href="#courses" onclick="showSection('courses',this)">My Courses</a></li>
+          <li><a href="#goals" onclick="showSection('goals',this)"><span class="nav-icon">🎯</span>Goals</a></li>
+          <li id="mentorNavItem" class="hidden"><a href="#mentoring" onclick="showSection('mentoring',this)">My Sessions</a></li>
+          <li style="margin-top:1rem;"><a href="#" onclick="Auth.logout()" style="color:var(--mid);">Sign Out</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="dash-content">
+
+        <!-- OVERVIEW -->
+        <div id="section-overview">
+          <div style="margin-bottom:2rem;">
+            <h2 id="welcomeMsg">Welcome back!</h2>
+            <p style="margin-top:0.25rem;">Here's what's happening in your creative journey.</p>
+          </div>
+
+          <!-- Mentor badge (hidden for students) -->
+          <div class="mentor-badge hidden" id="mentorBanner">
+            <h3>You're a Mentor</h3>
+            <p>Thank you for giving back to the community. Your sessions are making a difference.</p>
+          </div>
+
+          <!-- Journey path -->
+          <div class="content-block">
+            <div class="section-heading">Your Journey</div>
+            <div class="journey-steps" id="journeySteps">
+              <div class="journey-step done">
+                <div class="journey-step-circle">01</div>
+                <h4>Learner</h4>
+              </div>
+              <div class="journey-connector done"></div>
+              <div class="journey-step current" id="journeyCreate">
+                <div class="journey-step-circle">02</div>
+                <h4>Creator</h4>
+              </div>
+              <div class="journey-connector" id="connectorMentor"></div>
+              <div class="journey-step" id="journeyMentor">
+                <div class="journey-step-circle">03</div>
+                <h4>Mentor</h4>
+              </div>
+            </div>
+            <p style="margin-top:1.5rem;font-size:0.88rem;" id="journeyMsg">You're a Creator — keep uploading artwork and attending sessions to unlock Mentor status!</p>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-row" id="statsRow">
+            <div class="stat-card">
+              <div class="stat-icon"></div>
+              <div class="stat-value" id="statCourses">2</div>
+              <div class="stat-label">Courses Enrolled</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"></div>
+              <div class="stat-value" id="statPieces">0</div>
+              <div class="stat-label">Pieces Uploaded</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"></div>
+              <div class="stat-value" id="statSessions">0</div>
+              <div class="stat-label">Sessions Attended</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"></div>
+              <div class="stat-value" id="statLikes">0</div>
+              <div class="stat-label">Likes Received</div>
+            </div>
+          </div>
+
+          <!-- Quick links -->
+          <div class="grid-2" style="gap:1.25rem;">
+            <a href="sessions.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
+              <div><h4>Book a Session</h4><p style="font-size:0.85rem;margin:0;">Find a mentor or join a group study</p></div>
+            </a>
+            <a href="resources.html" class="card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;text-decoration:none;">
+              <div><h4>Browse Resources</h4><p style="font-size:0.85rem;margin:0;">Videos, quizzes, and downloadables</p></div>
+            </a>
+          </div>
+
+          <!-- Art inspiration strip -->
+          <div style="margin-top:2rem;">
+            <div class="section-heading">Community Art</div>
+            <div class="dash-art-strip">
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_3720.jpg" alt="Soft Blue"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/purple_piece.jpg" alt="Purple Study"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/IMG_5300.jpg" alt="Portrait in Red"></a>
+              <a href="gallery.html" class="dash-art-thumb"><img src="images/two_faces.jpg" alt="Two Faces"></a>
+              <a href="gallery.html" class="dash-art-thumb dash-art-more">
+                <span>See all in gallery</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROGRESS -->
+        <div id="section-progress" class="hidden">
+          <h2 style="margin-bottom:2rem;">Your Progress</h2>
+          <div class="content-block">
+            <div class="section-heading">Overall Level: <span id="levelBadge" style="color:var(--accent);">Beginner</span></div>
+            <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1rem;">
+              <div>
+                <div class="progress-label"><span>Watercolor 101</span><span id="wc101Pct">35%</span></div>
+                <div class="progress-bar"><div class="progress-fill" data-width="35"></div></div>
+                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">3 of 9 lessons complete</div>
+              </div>
+              <div>
+                <div class="progress-label"><span>Sketching Basics</span><span>60%</span></div>
+                <div class="progress-bar"><div class="progress-fill" data-width="60"></div></div>
+                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">6 of 10 lessons complete</div>
+              </div>
+              <div>
+                <div class="progress-label"><span>Portfolio Uploads</span><span id="portfolioPct">0%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="portfolioBar" data-width="0"></div></div>
+                <div style="font-size:0.8rem;color:var(--mid);margin-top:0.3rem;">Goal: 5 pieces to reach Creator level</div>
+              </div>
+            </div>
+          </div>
+          <div class="content-block">
+            <div class="section-heading">Analytics at a Glance</div>
+            <div class="grid-2" style="gap:1rem;margin-top:0.5rem;">
+              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
+                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsTime">0 hrs</div>
+                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Time on platform</div>
+              </div>
+              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
+                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">Painting, Drawing</div>
+                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Top interests</div>
+              </div>
+              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
+                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsStreak">0 days</div>
+                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Current streak</div>
+              </div>
+              <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1.25rem;">
+                <div style="font-size:1.5rem;font-weight:700;color:var(--accent);" id="analyticsLiked">0</div>
+                <div style="font-size:0.82rem;color:var(--mid);margin-top:0.25rem;">Artworks you've liked</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PORTFOLIO -->
+        <div id="section-portfolio" class="hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+            <h2>My Portfolio</h2>
+            <button class="btn btn-primary btn-sm" onclick="showUploadModal()">+ Upload Piece</button>
+          </div>
+          <div class="content-block">
+            <p style="margin-bottom:1.5rem;font-size:0.9rem;">Your personal gallery — pieces you've uploaded, shared with the community, and are proud of.</p>
+            <div class="portfolio-grid" id="portfolioGrid">
+              <!-- filled by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- COURSES -->
+        <div id="section-courses" class="hidden">
+          <h2 style="margin-bottom:2rem;">My Courses</h2>
+          <div class="content-block">
+            <div class="section-heading">Enrolled Courses</div>
+            <div id="enrolledCoursesList"></div>
+          </div>
+          <div class="content-block">
+            <div class="section-heading">Discover More</div>
+            <div class="grid-2" style="gap:1rem;">
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Inking & Line Art</div>
+                  <div class="course-sub">Intermediate • 8 lessons</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Inking & Line Art','')">Enroll</button>
+              </div>
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Mixed Media Collage</div>
+                  <div class="course-sub">Intermediate • 10 lessons</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Mixed Media Collage','')">Enroll</button>
+              </div>
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Digital Illustration</div>
+                  <div class="course-sub">Advanced • 12 lessons</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Digital Illustration','')">Enroll</button>
+              </div>
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Art History & Context</div>
+                  <div class="course-sub">Beginner • 6 lessons</div>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="enrollCourse('Art History & Context','')">Enroll</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GOALS -->
+        <div id="section-goals" class="hidden">
+          <h2 style="margin-bottom:2rem;">My Goals 🎯</h2>
+          <div class="content-block">
+            <div class="section-heading">This Month's Goals</div>
+            <div id="goalsList">
+              <div class="goal-item">
+                <div class="goal-check done" onclick="toggleGoal(this)">✓</div>
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem;">Complete 3 Watercolor lessons</div>
+                  <div style="font-size:0.8rem;color:var(--mid);">In progress — 3/3 done</div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-check" onclick="toggleGoal(this)"></div>
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem;">Upload first artwork to Gallery</div>
+                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-check" onclick="toggleGoal(this)"></div>
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem;">Attend a Group Study session</div>
+                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
+                </div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-check" onclick="toggleGoal(this)"></div>
+                <div>
+                  <div style="font-weight:600;font-size:0.9rem;">Book a 1-on-1 mentor session</div>
+                  <div style="font-size:0.8rem;color:var(--mid);">Not started</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="margin-top:1.25rem;" onclick="addGoal()">+ Add Goal</button>
+          </div>
+        </div>
+
+        <!-- MENTORING (mentor role only) -->
+        <div id="section-mentoring" class="hidden">
+          <h2 style="margin-bottom:2rem;">My Mentoring Sessions</h2>
+          <div class="content-block">
+            <div class="section-heading">Upcoming Sessions</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Watercolor with Maya</div>
+                  <div class="course-sub">Tomorrow, 4:00 PM • 1-on-1</div>
+                </div>
+                <span class="chip">Confirmed</span>
+              </div>
+              <div class="course-row">
+                <div class="course-icon"></div>
+                <div class="course-info">
+                  <div class="course-name">Group Sketching Workshop</div>
+                  <div class="course-sub">Sat June 21, 2:00 PM • 8 students</div>
+                </div>
+                <span class="chip">Upcoming</span>
+              </div>
+            </div>
+          </div>
+          <div class="content-block">
+            <div class="section-heading">Student Reviews</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.5rem;">
+              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
+                  <span style="font-weight:700;font-size:0.9rem;">★★★★★</span>
+                  <span style="font-size:0.82rem;color:var(--mid);">from Mia K.</span>
+                </div>
+                <p style="font-size:0.88rem;">"Amazing session! Really helped me understand wet-on-wet technique."</p>
+              </div>
+              <div style="padding:1rem;background:var(--bg2);border-radius:var(--radius-sm);">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
+                  <span style="font-weight:700;font-size:0.9rem;">★★★★☆</span>
+                  <span style="font-size:0.82rem;color:var(--mid);">from James L.</span>
+                </div>
+                <p style="font-size:0.88rem;">"Very patient and clear explanations. Would definitely book again."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
     </div>
-
-    <!-- Masonry gallery -->
-    <div class="gallery-masonry" id="galleryGrid">
-      <!-- injected by JS -->
-    </div>
-
-    <div style="text-align:center;margin-top:3rem;">
-      <button class="btn btn-outline btn-lg" onclick="loadMore()">Load More ↓</button>
-    </div>
-
   </div>
-</section>
+</div>
 
-<!-- Piece Detail Modal -->
-<div class="piece-modal" id="pieceModal">
-  <button class="piece-modal-close" onclick="closePieceModal()">✕</button>
-  <div class="piece-modal-inner">
-    <div class="piece-modal-canvas" id="modalCanvas"></div>
-    <div class="piece-modal-info">
-      <div>
-        <h2 id="modalTitle" style="margin-bottom:0.25rem;font-size:1.5rem;"></h2>
-        <div id="modalArtist" style="font-size:0.88rem;color:var(--mid);margin-bottom:0.75rem;"></div>
-        <div class="tag-list" id="modalTags"></div>
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('uploadModal').classList.remove('open')">✕</button>
+    <div class="modal-header"><h2>Upload Artwork</h2><p>Share your creation with the community.</p></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><input type="text" id="pieceTitle" class="form-control" placeholder="Give your piece a name" /></div>
+      <div class="form-group"><label>Medium</label>
+        <select class="form-control" id="pieceMedium">
+          <option>Watercolor</option><option>Pencil/Sketch</option><option>Ink</option>
+          <option>Digital</option><option>Mixed Media</option><option>Other</option>
+        </select>
       </div>
-      <div style="background:var(--bg2);border-radius:var(--radius-sm);padding:1rem;">
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">Artist Statement</div>
-        <p id="modalStatement" style="font-size:0.9rem;font-style:italic;"></p>
+      <div class="form-group"><label>Artist Statement (optional)</label><textarea class="form-control" id="pieceStatement" rows="3" placeholder="What inspired this piece?"></textarea></div>
+      <div class="upload-zone" onclick="simulateUpload()">
+        <div class="upload-icon">📎</div>
+        <div style="font-weight:600;color:var(--dark);margin-bottom:0.3rem;">Click to upload your artwork</div>
+        <div style="font-size:0.82rem;color:var(--mid);">JPG, PNG, or GIF up to 10MB</div>
       </div>
-      <div style="display:flex;gap:1rem;">
-        <button class="piece-like-btn" id="modalLikeBtn" style="flex:1;justify-content:center;padding:0.65rem;" onclick="modalLike()">
-          <span class="lheart" id="modalHeart">♡</span>
-          <span id="modalLikeCount">0</span> likes
-        </button>
-        <button class="piece-view-btn" style="flex:1;justify-content:center;padding:0.65rem;background:var(--accent);border-color:var(--accent);" onclick="sharepiece()">
-          📤 Share
-        </button>
-      </div>
-      <div>
-        <div style="font-weight:700;font-size:0.92rem;margin-bottom:0.75rem;">Comments <span id="commentCount" style="color:var(--mid);font-weight:400;font-family:'DM Sans',sans-serif;font-size:0.82rem;"></span></div>
-        <div id="commentsList" style="max-height:180px;overflow-y:auto;"></div>
-        <div class="comment-input-area" style="margin-top:0.75rem;">
-          <input type="text" id="commentInput" placeholder="Leave a kind word…" onkeydown="if(event.key==='Enter')submitComment()" />
-          <button class="btn btn-primary btn-sm" onclick="submitComment()">Post</button>
-        </div>
-        <div id="commentLoginHint" style="font-size:0.8rem;color:var(--mid);margin-top:0.5rem;display:none;">
-          <a href="#" onclick="openAuthModal('login');return false;" style="color:var(--accent);font-weight:600;">Sign in</a> to leave a comment.
-        </div>
-      </div>
+      <button class="btn btn-primary btn-full" style="margin-top:1.25rem;" onclick="saveUpload()">Share to Gallery →</button>
     </div>
   </div>
 </div>
@@ -225,52 +441,42 @@
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeAuthModal()">✕</button>
-    <div class="modal-header"><h2>The Art Lab</h2><p>Sign in to like and comment on art.</p></div>
+    <div class="modal-header"><h2>The Art Lab</h2><p>Create, learn, and grow with a community of student artists.</p></div>
     <div class="modal-body">
       <div class="modal-tabs">
         <div class="modal-tab active" data-tab="login" onclick="switchTab('login')">Sign In</div>
         <div class="modal-tab" data-tab="signup" onclick="switchTab('signup')">Join Free</div>
       </div>
       <div class="modal-tab-content active" id="loginForm">
-        <div id="loginError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div id="loginError" style="color:var(--danger-color);font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
         <form onsubmit="handleLogin(event)">
           <div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required /></div>
-          <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" placeholder="Your password" required /></div>
           <button type="submit" class="btn btn-primary btn-full">Sign In →</button>
         </form>
+        <div style="text-align:center;margin-top:1rem;font-size:0.88rem;color:var(--mid);">No account? <a href="#" onclick="switchTab('signup')" style="color:var(--accent);font-weight:600;">Join free</a></div>
       </div>
       <div class="modal-tab-content" id="signupForm">
-        <div id="signupError" style="color:#C0392B;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
-        <div class="role-select" style="margin-bottom:1.25rem;">
-          <div class="role-option selected" data-role="student" onclick="selectRole('student')">Student</div>
-          <div class="role-option" data-role="mentor" onclick="selectRole('mentor')">Mentor</div>
+        <div id="signupError" style="color:var(--danger-color);font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+        <div style="margin-bottom:1.25rem;"><label style="display:block;font-weight:600;font-size:0.88rem;color:var(--dark);margin-bottom:0.5rem;">I am a...</label>
+          <div class="role-select">
+            <div class="role-option selected" data-role="student" onclick="selectRole('student')">Student</div>
+            <div class="role-option" data-role="mentor" onclick="selectRole('mentor')">Mentor</div>
+          </div>
         </div>
         <form onsubmit="handleSignup(event)">
           <div class="form-row">
-            <div class="form-group"><label>First Name</label><input type="text" id="signupFirst" class="form-control" required /></div>
-            <div class="form-group"><label>Last Name</label><input type="text" id="signupLast" class="form-control" required /></div>
+            <div class="form-group"><label>First Name</label><input type="text" id="signupFirst" class="form-control" placeholder="First" required /></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="signupLast" class="form-control" placeholder="Last" required /></div>
           </div>
-          <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" required /></div>
-          <div class="form-group"><label>Password</label><input type="password" id="signupPassword" class="form-control" required /></div>
+          <div class="form-group"><label>Email</label><input type="email" id="signupEmail" class="form-control" placeholder="you@example.com" required /></div>
+          <div class="form-group"><label>Password</label><input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required /></div>
           <button type="submit" class="btn btn-primary btn-full">Create My Account →</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-<footer style="background:var(--dark);color:rgba(255,255,255,0.6);padding:2rem 0;">
-  <div class="container">
-    <div class="footer-bottom" style="border:none;padding:0;">
-      <span>© 2025 The Art Lab — Homestead High School FBLA</span>
-      <div style="display:flex;gap:2rem;">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a>
-        <a href="sessions.html" style="color:rgba(255,255,255,0.6);">Sessions</a>
-        <a href="resources.html" style="color:rgba(255,255,255,0.6);">Resources</a>
-      </div>
-    </div>
-  </div>
-</footer>
 
 
   <!-- AVATAR MODAL -->
@@ -304,230 +510,166 @@
   <script src="js/auth.js"></script>
 <script src="js/main.js"></script>
 <script>
-const PIECES = [
-  { id:'p1', img:'images/IMG_3720.jpg',  title:'Soft Blue', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:47, trending:true, statement:'I wanted to capture the fleeting beauty of a moment — watercolor felt like the only medium that could hold that impermanence.', comments:[{author:'Leo C.',text:'The soft edges are just perfect!'},{author:'Sofia B.',text:'Love the color palette'}], w:1, h:1.4 },
-  { id:'p2', img:'images/IMG_5139.jpg',  title:'Bloom', artist:'James L.', artistId:'jl', medium:'watercolor', likes:34, trending:false, statement:'Layers of color rendered in wet ink — this took 4 sessions to get right.', comments:[{author:'Mia K.',text:'The depth here is incredible.'}], w:1, h:0.85 },
-  { id:'p3', img:'images/IMG_5300.jpg',  title:'Portrait in Red', artist:'Sofia B.', artistId:'sb', medium:'sketching', likes:62, trending:true, statement:'Part of my ongoing portrait series — drawing in oil pastels is the most honest thing you can do.', comments:[{author:'Priya R.',text:'So emotionally raw — love it.'},{author:'Tyler D.',text:'Those eyes!!'},{author:'Mia K.',text:'Your line work has improved so much.'}], w:1, h:1.2 },
-  { id:'p4', img:'images/IMG_0059.jpg',  title:'Zentangle', artist:'Maya R.', artistId:'mr', medium:'inking', likes:28, trending:false, statement:'Ink patterns exploring density and the meditative nature of repetition.', comments:[], w:1, h:0.9 },
-  { id:'p5', img:'images/purple_piece.jpg', title:'Purple Study', artist:'Sam K.', artistId:'sk', medium:'mixed', likes:51, trending:true, statement:'Oil pastel and ink — exploring identity and cultural memory through layered textures.', comments:[{author:'Amara W.',text:'The textures are unreal!'},{author:'Maya R.',text:'Museum worthy'}], w:1, h:1.5 },
-  { id:'p6', img:'images/two_faces.jpg', title:'Two Faces', artist:'Tyler D.', artistId:'td', medium:'sketching', likes:39, trending:false, statement:'A dual portrait exploring how identity shifts between the public and private self.', comments:[{author:'James L.',text:'The composition is perfect.'}], w:1, h:1.0 },
-  { id:'p7', img:'images/IMG_5400.jpg', title:'Studio Piece', artist:'Priya R.', artistId:'pr', medium:'watercolor', likes:29, trending:false, statement:'A piece born from a long studio session — letting the medium lead rather than forcing it.', comments:[{author:'Sofia B.',text:'So peaceful to look at'}], w:1, h:1.3 },
-  { id:'p8', img:'images/2025-01-04_23-14-44_284.jpg', title:'Ignition', artist:'Leo C.', artistId:'lc', medium:'inking', likes:44, trending:false, statement:'Dynamic gestural inking exploring motion and energy.', comments:[{author:'Maya R.',text:'I can literally feel the heat!'},{author:'Mia K.',text:'Your brushwork is insane.'}], w:1, h:0.8 },
-  { id:'p9', title:'Constellation', artist:'Amara W.', artistId:'aw', medium:'digital', likes:56, trending:true, statement:'Mapping personal mythology onto star charts — each star is a memory.', comments:[{author:'Tyler D.',text:'This belongs on a poster.'},{author:'Priya R.',text:'Absolutely ethereal'}], w:1, h:1.1 },
-  { id:'p10', title:'Metamorphosis', artist:'Mia K.', artistId:'mk', medium:'watercolor', likes:33, trending:false, statement:'A study in transition — inspired by one of those weeks where everything changes at once.', comments:[], w:1, h:1.6 },
-  { id:'p11', title:'Golden Hour', artist:'James L.', artistId:'jl', medium:'sketching', likes:22, trending:false, statement:'Pencil studies of light at dusk — trying to capture warmth through value alone.', comments:[{author:'Sam K.',text:'The gradients are so smooth!'}], w:1, h:0.9 },
-  { id:'p12', title:'Fracture', artist:'Sofia B.', artistId:'sb', medium:'mixed', likes:48, trending:true, statement:'Mixed media exploration of breaking points — sometimes things have to fracture before they can reform beautifully.', comments:[{author:'Leo C.',text:'Stunning. So powerful.'},{author:'Amara W.',text:'This gives me chills.'}], w:1, h:1.2 },
-];
-
-const GRADIENTS = [
-  'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
-  'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
-  'linear-gradient(135deg,#A8C897,#D0EDBB)',
-  'linear-gradient(135deg,#F0B89A,#F9D8A8)',
-  'linear-gradient(135deg,#C8A8E8,#E8C8F5)',
-  'linear-gradient(135deg,#E8D4A0,#F5E8C0)',
-  'linear-gradient(135deg,#A8E8D4,#C8F5E8)',
-  'linear-gradient(135deg,#E8A8A8,#F5C8C8)',
-];
-
-const HEIGHTS = [180, 220, 260, 300, 240, 200, 280, 160];
-
-let displayedPieces = [...PIECES];
-let currentPieceId = null;
-const COMMENTS_KEY = 'artlab_gallery_comments';
-const LIKES_KEY = 'artlab_gallery_likes';
-
-function getLikes() { return JSON.parse(localStorage.getItem(LIKES_KEY) || '{}'); }
-function saveLikes(l) { localStorage.setItem(LIKES_KEY, JSON.stringify(l)); }
-function getComments() { return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }
-function saveComments(c) { localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
+const COURSES_DATA = {
+  'watercolor-101': { name: 'Watercolor 101', icon: '+', level: 'Beginner', lessons: 9, done: 3 },
+  'sketching-basics': { name: 'Sketching Basics', icon: '', level: 'Beginner', lessons: 10, done: 6 },
+};
+const PORTFOLIO_EMOJIS = ['','','','','','','',''];
+let portfolioPieces = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   initAuthUI();
-  renderGallery(displayedPieces);
+  const user = Auth.currentUser();
+  if (!user) {
+    document.getElementById('lockedView').classList.remove('hidden');
+    document.getElementById('lockedView').style.display = 'flex';
+    return;
+  }
+  document.getElementById('dashView').classList.remove('hidden');
+  document.getElementById('dashView').style.display = 'block';
+  populateDash(user);
+  animateProgressBars();
+  showSection('overview', document.querySelector('.dash-nav li a'));
 });
 
-function renderGallery(pieces) {
-  const grid = document.getElementById('galleryGrid');
-  const allLikes = getLikes();
-  grid.innerHTML = pieces.map((p, i) => {
-    const isLiked = Auth.isLiked(p.id) || allLikes[p.id];
-    const totalLikes = p.likes + (allLikes[p.id+'_count'] || 0);
-    const h = HEIGHTS[i % HEIGHTS.length];
-    const grad = GRADIENTS[i % GRADIENTS.length];
-    return `
-      <div class="gallery-piece" data-id="${p.id}" data-medium="${p.medium}" data-title="${p.title.toLowerCase()} ${p.artist.toLowerCase()}" onclick="openPiece('${p.id}')">
-        ${p.trending ? '<div class="trending-badge">Trending</div>' : ''}
-        <div class="piece-canvas" style="height:${h}px;${p.img ? '' : 'background:'+grad+';'}">
-          ${p.img ? `<img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;display:block;">` : ''}
-        </div>
-        <div class="piece-overlay">
-          <div class="piece-title">${p.title}</div>
-          <div class="piece-artist">by ${p.artist}</div>
-          <div class="piece-actions" onclick="event.stopPropagation()">
-            <button class="piece-like-btn ${isLiked?'liked':''}" data-piece="${p.id}" onclick="quickLike(event,'${p.id}')">
-              <span class="lheart">${isLiked?'♥':'♡'}</span>
-              <span class="lcount">${totalLikes}</span>
-            </button>
-            <button class="piece-view-btn" onclick="openPiece('${p.id}')">View</button>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-}
+function populateDash(user) {
+  const initials = (user.firstName[0] + user.lastName[0]).toUpperCase();
+  document.getElementById('dashAvatar').textContent = initials;
+  document.getElementById('dashName').textContent = user.firstName + ' ' + user.lastName;
+  document.getElementById('dashRole').textContent = user.role === 'mentor' ? 'Mentor' : 'Student';
+  document.getElementById('welcomeMsg').textContent = `Welcome back, ${user.firstName}`;
 
-function quickLike(e, pieceId) {
-  e.stopPropagation();
-  const user = Auth.currentUser();
-  if (!user) { openAuthModal('login'); return; }
-  const btn = e.currentTarget;
-  const heart = btn.querySelector('.lheart');
-  const count = btn.querySelector('.lcount');
-  const allLikes = getLikes();
-  const wasLiked = Auth.isLiked(pieceId) || allLikes[pieceId];
-  const liked = Auth.likeToggle(pieceId);
-  allLikes[pieceId] = liked;
-  const piece = PIECES.find(p => p.id === pieceId);
-  if (liked) {
-    allLikes[pieceId + '_count'] = (allLikes[pieceId + '_count'] || 0) + 1;
-    Auth.addNotification({ text: `Someone liked "${piece?.title}"!`, time: 'Just now', icon: '♥' });
-  } else {
-    allLikes[pieceId + '_count'] = Math.max(0, (allLikes[pieceId + '_count'] || 0) - 1);
+  // Stats
+  document.getElementById('statCourses').textContent = (user.enrolledCourses || []).length;
+  document.getElementById('statPieces').textContent = user.uploadedPieces || 0;
+  document.getElementById('statSessions').textContent = user.sessionsAttended || 0;
+  document.getElementById('statLikes').textContent = user.uploadedPieces ? Math.floor(user.uploadedPieces * 3.2) : 0;
+
+  // Analytics
+  document.getElementById('analyticsLiked').textContent = (user.likedPieces || []).length;
+  document.getElementById('analyticsStreak').textContent = Math.floor(Math.random()*7+1) + ' days';
+  document.getElementById('analyticsTime').textContent = Math.floor(Math.random()*12+2) + ' hrs';
+
+  // Portfolio progress
+  const pieces = user.uploadedPieces || 0;
+  const pct = Math.min(100, Math.round((pieces/5)*100));
+  document.getElementById('portfolioPct').textContent = pct + '%';
+  const bar = document.getElementById('portfolioBar');
+  if (bar) bar.dataset.width = pct;
+
+  // Mentor view
+  if (user.role === 'mentor') {
+    document.getElementById('mentorBanner').classList.remove('hidden');
+    document.getElementById('mentorNavItem').classList.remove('hidden');
+    document.getElementById('journeyCreate').classList.remove('current');
+    document.getElementById('journeyMentor').classList.add('done');
+    document.getElementById('journeyMentor').classList.add('current');
+    document.getElementById('connectorMentor').classList.add('done');
+    document.getElementById('journeyMsg').textContent = "You've reached Mentor status — thank you for giving back to the community! 🌟";
+    document.getElementById('dashRole').style.background = 'linear-gradient(135deg,var(--accent2),var(--primary-d))';
   }
-  saveLikes(allLikes);
-  btn.classList.toggle('liked', liked);
-  heart.textContent = liked ? '♥' : '♡';
-  const base = piece?.likes || 0;
-  count.textContent = base + (allLikes[pieceId + '_count'] || 0);
+
+  // Portfolio grid
+  buildPortfolioGrid(pieces);
+
+  // Courses
+  buildCoursesList(user.enrolledCourses || []);
 }
 
-function openPiece(id) {
-  const piece = PIECES.find(p => p.id === id);
-  if (!piece) return;
-  currentPieceId = id;
-  const allLikes = getLikes();
-  const i = PIECES.indexOf(piece);
-  const grad = GRADIENTS[i % GRADIENTS.length];
-  document.getElementById('modalCanvas').style.background = grad;
-  document.getElementById('modalCanvas').textContent = piece.emoji;
-  document.getElementById('modalTitle').textContent = piece.title;
-  document.getElementById('modalArtist').textContent = `by ${piece.artist} · ${piece.medium.charAt(0).toUpperCase()+piece.medium.slice(1)}`;
-  document.getElementById('modalStatement').textContent = piece.statement;
-  document.getElementById('modalTags').innerHTML = `<span class="chip">${piece.medium}</span>`;
-
-  const isLiked = Auth.isLiked(id) || allLikes[id];
-  const totalLikes = piece.likes + (allLikes[id+'_count'] || 0);
-  const likeBtn = document.getElementById('modalLikeBtn');
-  likeBtn.classList.toggle('liked', isLiked);
-  document.getElementById('modalHeart').textContent = isLiked ? '♥' : '♡';
-  document.getElementById('modalLikeCount').textContent = totalLikes;
-
-  renderComments(id, piece.comments);
-  const user = Auth.currentUser();
-  document.getElementById('commentInput').style.display = user ? '' : 'none';
-  document.querySelector('.comment-input-area button').style.display = user ? '' : 'none';
-  document.getElementById('commentLoginHint').style.display = user ? 'none' : 'block';
-
-  document.getElementById('pieceModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function renderComments(pieceId, defaultComments) {
-  const stored = getComments();
-  const all = [...(defaultComments || []), ...(stored[pieceId] || [])];
-  document.getElementById('commentCount').textContent = `(${all.length})`;
-  document.getElementById('commentsList').innerHTML = all.length
-    ? all.map(c => `<div class="comment-item"><div class="comment-author">${c.author}</div><div class="comment-text">${c.text}</div></div>`).join('')
-    : '<div style="font-size:0.85rem;color:var(--mid);padding:0.5rem 0;">No comments yet — be the first!</div>';
-}
-
-function submitComment() {
-  const user = Auth.currentUser();
-  if (!user) { openAuthModal('login'); return; }
-  const input = document.getElementById('commentInput');
-  const text = input.value.trim();
-  if (!text) return;
-  const stored = getComments();
-  stored[currentPieceId] = stored[currentPieceId] || [];
-  const comment = { author: user.firstName + ' ' + user.lastName[0] + '.', text };
-  stored[currentPieceId].push(comment);
-  saveComments(stored);
-  const piece = PIECES.find(p => p.id === currentPieceId);
-  renderComments(currentPieceId, piece?.comments || []);
-  input.value = '';
-  Auth.addNotification({ text: `Your comment on "${piece?.title}" was posted!`, time: 'Just now', icon: '💬' });
-  showToast('Comment posted!', '💬');
-}
-
-function modalLike() {
-  if (!currentPieceId) return;
-  const user = Auth.currentUser();
-  if (!user) { openAuthModal('login'); return; }
-  const allLikes = getLikes();
-  const liked = Auth.likeToggle(currentPieceId);
-  allLikes[currentPieceId] = liked;
-  const piece = PIECES.find(p => p.id === currentPieceId);
-  if (liked) {
-    allLikes[currentPieceId + '_count'] = (allLikes[currentPieceId + '_count'] || 0) + 1;
-    Auth.addNotification({ text: `You liked "${piece?.title}"`, time: 'Just now', icon: '♥' });
-  } else {
-    allLikes[currentPieceId + '_count'] = Math.max(0, (allLikes[currentPieceId + '_count'] || 0) - 1);
+function buildPortfolioGrid(count) {
+  const grid = document.getElementById('portfolioGrid');
+  if (!grid) return;
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    const emoji = PORTFOLIO_EMOJIS[i % PORTFOLIO_EMOJIS.length];
+    const colors = [
+      'linear-gradient(135deg,#E8B4C0,#F5D5A0)',
+      'linear-gradient(135deg,#A8CDE8,#C8E8F5)',
+      'linear-gradient(135deg,#A8C897,#D0EDBB)',
+      'linear-gradient(135deg,#F0B89A,#F9D8A8)',
+    ];
+    html += `<div class="portfolio-piece" style="background:${colors[i%4]}">
+      ${emoji}
+      <div class="piece-overlay"><span style="color:white;font-size:1.5rem;">🔍</span></div>
+    </div>`;
   }
-  saveLikes(allLikes);
-  const btn = document.getElementById('modalLikeBtn');
-  btn.classList.toggle('liked', liked);
-  document.getElementById('modalHeart').textContent = liked ? '♥' : '♡';
-  const base = piece?.likes || 0;
-  document.getElementById('modalLikeCount').textContent = base + (allLikes[currentPieceId + '_count'] || 0);
-  // update grid too
-  renderGallery(displayedPieces);
+  html += `<div class="portfolio-piece add-piece" onclick="showUploadModal()"><span style="font-size:1.5rem;">+</span><span>Upload</span></div>`;
+  grid.innerHTML = html;
 }
 
-function closePieceModal() {
-  document.getElementById('pieceModal').classList.remove('open');
-  document.body.style.overflow = '';
-  currentPieceId = null;
+function buildCoursesList(courseIds) {
+  const list = document.getElementById('enrolledCoursesList');
+  if (!list) return;
+  let html = '';
+  courseIds.forEach(id => {
+    const c = COURSES_DATA[id] || { name: id, icon: '→', level: 'Beginner', lessons: 8, done: 1 };
+    const pct = Math.round((c.done/c.lessons)*100);
+    html += `<div class="course-row">
+      <div class="course-icon">${c.icon}</div>
+      <div class="course-info">
+        <div class="course-name">${c.name}</div>
+        <div class="course-sub">${c.level} • ${c.done}/${c.lessons} lessons</div>
+        <div class="progress-bar" style="height:6px;margin-top:0.4rem;"><div class="progress-fill" data-width="${pct}" style="width:${pct}%"></div></div>
+      </div>
+      <a href="resources.html" class="btn btn-ghost btn-sm">Continue →</a>
+    </div>`;
+  });
+  list.innerHTML = html;
 }
 
-function sharepiece() {
-  if (navigator.share) {
-    navigator.share({ title: 'The Art Lab Gallery', text: 'Check out this artwork!' });
-  } else {
-    showToast('Link copied to clipboard!', '📤');
-  }
+function showSection(name, el) {
+  document.querySelectorAll('[id^="section-"]').forEach(s => s.classList.add('hidden'));
+  document.getElementById('section-' + name)?.classList.remove('hidden');
+  document.querySelectorAll('.dash-nav li a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  animateProgressBars();
 }
 
-// ── Filtering ──────────────────────────────────────────────────────────────
-function filterGallery(btn, medium) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  displayedPieces = medium === 'all' ? [...PIECES] : PIECES.filter(p => p.medium === medium);
-  renderGallery(displayedPieces);
+function showUploadModal() { document.getElementById('uploadModal').classList.add('open'); }
+function simulateUpload() { showToast('File ready to upload!', '📎'); }
+
+function saveUpload() {
+  const title = document.getElementById('pieceTitle').value;
+  if (!title) { showToast('Please give your piece a name!'); return; }
+  const user = Auth.currentUser();
+  const newCount = (user.uploadedPieces || 0) + 1;
+  Auth.updateUser({ uploadedPieces: newCount });
+  Auth.addNotification({ text: `Your piece "${title}" is now live in the Gallery!`, time: 'Just now', icon: '+' });
+  document.getElementById('uploadModal').classList.remove('open');
+  buildPortfolioGrid(newCount);
+  document.getElementById('statPieces').textContent = newCount;
+  showToast(`"${title}" uploaded to Gallery!`);
 }
 
-function searchGallery() {
-  const q = document.getElementById('gallerySearch').value.toLowerCase();
-  displayedPieces = PIECES.filter(p => p.title.toLowerCase().includes(q) || p.artist.toLowerCase().includes(q));
-  renderGallery(displayedPieces);
+function enrollCourse(name, icon) {
+  const user = Auth.currentUser();
+  const key = name.toLowerCase().replace(/\s+/g,'-');
+  const courses = user.enrolledCourses || [];
+  if (courses.includes(key)) { showToast('Already enrolled!'); return; }
+  COURSES_DATA[key] = { name, icon, level: 'Intermediate', lessons: 8, done: 0 };
+  courses.push(key);
+  Auth.updateUser({ enrolledCourses: courses });
+  Auth.addNotification({ text: `Enrolled in ${name} — good luck!`, time: 'Just now', icon });
+  document.getElementById('statCourses').textContent = courses.length;
+  buildCoursesList(courses);
+  showToast(`Enrolled in ${name}!`, icon);
 }
 
-function sortBy(type) {
-  document.getElementById('sortLikes').classList.toggle('active', type==='likes');
-  document.getElementById('sortNew').classList.toggle('active', type==='new');
-  if (type === 'likes') displayedPieces = [...displayedPieces].sort((a,b) => b.likes - a.likes);
-  else displayedPieces = [...PIECES].filter(p => displayedPieces.find(d => d.id===p.id));
-  renderGallery(displayedPieces);
+function toggleGoal(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
 }
 
-function loadMore() {
-  showToast('All pieces loaded — check back soon for new submissions!');
+function addGoal() {
+  const name = prompt("What's your new goal?");
+  if (!name) return;
+  const list = document.getElementById('goalsList');
+  const div = document.createElement('div');
+  div.className = 'goal-item';
+  div.innerHTML = `<div class="goal-check" onclick="toggleGoal(this)"></div>
+    <div><div style="font-weight:600;font-size:0.9rem;">${name}</div><div style="font-size:0.8rem;color:var(--mid);">Not started</div></div>`;
+  list.appendChild(div);
 }
-
-// Close modal on backdrop click
-document.getElementById('pieceModal').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('pieceModal')) closePieceModal();
-});
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePieceModal(); });
 </script>
 </body>
 </html>
