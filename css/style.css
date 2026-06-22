@@ -284,21 +284,22 @@ nav.scrolled { box-shadow: 0 4px 24px var(--shadow); }
 
 .palette-popup {
   position: absolute; top: 76px; right: 180px;
-  background: #FFFDF9; border-radius: var(--radius);
+  background: #FFFDF9 !important; border-radius: var(--radius);
   box-shadow: 0 12px 40px rgba(0,0,0,0.15);
   padding: 1.25rem;
   display: none; flex-direction: column; gap: 0.75rem;
   min-width: 180px; z-index: 2000;
   border: 1px solid rgba(139,94,82,0.1);
+  color: #2C1A1A !important;
 }
 .palette-popup.open { display: flex; animation: fadeUp 0.2s ease; }
 .palette-option {
   display: flex; align-items: center; gap: 0.75rem;
   padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
-  font-size: 0.9rem; font-weight: 600; color: #2C1A1A;
+  font-size: 0.9rem; font-weight: 600; color: #2C1A1A !important;
   transition: 0.2s ease;
 }
-.palette-option:hover { background: #F3EBE2; }
+.palette-option:hover { background: #F3EBE2 !important; }
 .palette-option.active { background: rgba(232,180,192,0.25); }
 .palette-swatch { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.1); }
 
