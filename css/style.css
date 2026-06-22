@@ -28,6 +28,22 @@
 }
 
 /* Palette themes */
+[data-palette="ocean"] {
+  --bg:#F0F6FA; --bg2:#E2EDF5; --primary:#A8CDE8; --primary-d:#6AAFD4;
+  --accent:#3A6B8B; --accent2:#5B96B8; --dark:#1A2C38; --mid:#3E6A82;
+  --highlight:#C8E8F5; --card:#F8FCFF;
+}
+[data-palette="forest"] {
+  --bg:#F2F6EE; --bg2:#E8F0E0; --primary:#A8C897; --primary-d:#7DB06A;
+  --accent:#4A7A52; --accent2:#6CA070; --dark:#1A2C1C; --mid:#3E6A46;
+  --highlight:#D0EDBB; --card:#F6FAF4;
+}
+[data-palette="sunset"] {
+  --bg:#FDF6F0; --bg2:#F7EBDF; --primary:#F0B89A; --primary-d:#E68A62;
+  --accent:#B85A28; --accent2:#D4783E; --dark:#2C1808; --mid:#7A3E1C;
+  --highlight:#F9D8A8; --card:#FFFAF6;
+}
+
 /* Dark mode — same warm-studio hues, inverted for low-light viewing */
 [data-palette="dark"] {
   --bg:#1C1410; --bg2:#251B16; --primary:#D4899A; --primary-d:#E8B4C0;
@@ -61,7 +77,9 @@
   border-bottom-color: rgba(255,255,255,0.08);
 }
 [data-palette="highcontrast"] {
-  --bg:#FFFFF0; --bg2:#FFFDE6; --primary:#0057B7; --primary-d:#003D80;
+  --bg:#FFFFF0; --bg2:#FFFDE6;
+  --primary:#5AA9FF;      /* was #0057B7 — lighter, reads clearly on black */
+  --primary-d:#0057B7;    /* old blue moves here, for use on light backgrounds */
   --accent:#1A1A1A; --accent2:#333333; --dark:#000000; --mid:#333333;
   --highlight:#FFD700; --card:#FFFFFF; --shadow:rgba(0,0,0,0.2);
   --white:#FFFFFF;
@@ -96,10 +114,12 @@ body {
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%,-50%);
-  transition: width 0.15s, height 0.15s, border-radius 0.15s, background 0.15s;
-  mix-blend-mode: multiply;
+  transition: width 0.15s, height 0.15s, border-radius 0.15s,
+              border-color 0.15s, background 0.15s;
 }
-[data-palette="dark"] #cursor { mix-blend-mode: screen; }
+#cursor.on-dark {
+  border-color: var(--highlight);
+}
 #cursor.pressed {
   width: 12px; height: 12px;
   background: var(--accent2);
@@ -114,7 +134,10 @@ body {
   z-index: 99998;
   transform: translate(-50%,-50%);
   opacity: 0.6;
-  transition: 0.12s ease;
+  transition: 0.12s ease, background 0.15s;
+}
+#cursor-trail.on-dark {
+  background: var(--highlight);
 }
 a, button, [role="button"], input, select, textarea { cursor: none; }
 input, select, textarea { user-select: text; -webkit-user-select: text; }
