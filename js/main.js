@@ -41,9 +41,11 @@ function initPalette() {
     document.getElementById('notifPanel')?.classList.remove('open');
   });
   document.querySelectorAll('.palette-option').forEach(o => {
-    o.addEventListener('click', () => {
+    o.addEventListener('click', (e) => {
+      e.stopPropagation();
       applyPalette(o.dataset.palette === 'warm' ? '' : o.dataset.palette);
-      popup.classList.remove('open');
+      document.querySelectorAll('.palette-option').forEach(p => p.classList.remove('active'));
+      o.classList.add('active');
     });
   });
 }
