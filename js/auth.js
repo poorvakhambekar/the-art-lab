@@ -188,11 +188,13 @@ function initFaceCanvas() {
   if (user && user.avatar) {
     const img = new Image();
     img.onload = () => {
-      ctx.clearRect(0, 0, 240, 240);
+      drawGuide();
+      ctx.save();
       ctx.drawImage(img, 0, 0, 240, 240);
+      ctx.restore();
     };
     img.onerror = () => {};
-    img.src = user.avatar;
+    setTimeout(() => { img.src = user.avatar; }, 50);
   }
 
   let drawing = false;
