@@ -183,15 +183,16 @@ function initFaceCanvas() {
     ctx.fillRect(0, 0, 240, 240);
   }
 
+  drawGuide();
   const user = Auth.currentUser();
   if (user && user.avatar) {
     const img = new Image();
     img.onload = () => {
+      ctx.clearRect(0, 0, 240, 240);
       ctx.drawImage(img, 0, 0, 240, 240);
     };
+    img.onerror = () => {};
     img.src = user.avatar;
-  } else {
-    drawGuide();
   }
 
   let drawing = false;
