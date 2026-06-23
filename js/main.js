@@ -40,6 +40,7 @@ function initPalette() {
     document.getElementById('userPopup')?.classList.remove('open');
     document.getElementById('notifPanel')?.classList.remove('open');
   });
+  popup?.addEventListener('click', (e) => e.stopPropagation());
   document.querySelectorAll('.palette-option').forEach(o => {
     o.addEventListener('click', (e) => {
       e.stopPropagation();
