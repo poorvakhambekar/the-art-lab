@@ -1270,9 +1270,10 @@ footer {
   inset: 0;
   z-index: 2;
   display: flex;
-  align-items: center;
+  flex-wrap: nowrap;
+  align-items: flex-start;
   justify-content: space-around;
-  padding: 0 8%;
+  padding: 6% 8% 0;
   pointer-events: none;
 }
 .lcm-item {
@@ -1292,6 +1293,7 @@ footer {
   color: var(--dark);
   line-height: 1.05;
   margin-bottom: 0.4rem;
+  white-space: nowrap;
 }
 .lcm-item p {
   color: var(--accent);
