@@ -177,13 +177,22 @@ function initFaceCanvas() {
   const ctx = canvas.getContext('2d');
   canvas.width = 240; canvas.height = 240;
 
-  // Just fill with background — the CSS wrapper provides the circle shape
   function drawGuide() {
     ctx.clearRect(0, 0, 240, 240);
     ctx.fillStyle = '#FAF6F0';
     ctx.fillRect(0, 0, 240, 240);
   }
-  drawGuide();
+
+  const user = Auth.currentUser();
+  if (user && user.avatar) {
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, 240, 240);
+    };
+    img.src = user.avatar;
+  } else {
+    drawGuide();
+  }
 
   let drawing = false;
   let color = '#2C1A1A';
