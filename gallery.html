@@ -98,6 +98,12 @@
       padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.04em;
     }
+    /* Upload modal extras */
+    #uploadPreviewWrap { margin-bottom: 1.25rem; }
+    #uploadPreview {
+      width: 100%; border-radius: var(--radius-sm);
+      max-height: 240px; object-fit: cover; display: block;
+    }
   </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBBD9X6MBG"></script>
@@ -168,6 +174,7 @@
         <button class="filter-btn active" onclick="filterGallery(this,'all')">All</button>
       </div>
       <div style="margin-left:auto;display:flex;gap:0.5rem;">
+        <button class="btn btn-primary btn-sm" onclick="openUploadModal()">📤 Upload Artwork</button>
         <button class="filter-btn" id="sortLikes" onclick="sortBy('likes')">Most Liked</button>
         <button class="filter-btn" id="sortNew" onclick="sortBy('new')">Newest</button>
       </div>
@@ -220,6 +227,36 @@
           <a href="#" onclick="openAuthModal('login');return false;" style="color:var(--accent);font-weight:600;">Sign in</a> to leave a comment.
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUploadModal()">✕</button>
+    <div class="modal-header">
+      <h2>Upload Artwork</h2>
+      <p>Share your creation with the community.</p>
+    </div>
+    <div class="modal-body">
+      <div id="uploadError" style="color:var(--danger-color);font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="uploadTitle" class="form-control" placeholder="Give your piece a name" required />
+      </div>
+      <div class="form-group">
+        <label>Artist Statement (optional)</label>
+        <textarea class="form-control" id="uploadStatement" rows="3" placeholder="What inspired this piece?"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Artwork File</label>
+        <input type="file" id="uploadFile" class="form-control" accept="image/*" required />
+      </div>
+      <div id="uploadPreviewWrap" style="display:none;">
+        <img id="uploadPreview" alt="Preview of your upload" />
+      </div>
+      <button class="btn btn-primary btn-full" onclick="submitUpload()">Submit for Review →</button>
     </div>
   </div>
 </div>
@@ -513,11 +550,57 @@ function loadMore() {
   showToast('All pieces loaded — check back soon for new submissions!');
 }
 
+// ── Upload ───────────────────────────────────────────────────────────────
+function openUploadModal() {
+  const user = Auth.currentUser();
+  if (!user) { openAuthModal('login'); return; }
+  document.getElementById('uploadModal').classList.add('open');
+  document.getElementById('uploadError').style.display = 'none';
+  document.getElementById('uploadTitle').value = '';
+  document.getElementById('uploadStatement').value = '';
+  document.getElementById('uploadFile').value = '';
+  document.getElementById('uploadPreviewWrap').style.display = 'none';
+}
+
+function closeUploadModal() {
+  document.getElementById('uploadModal').classList.remove('open');
+}
+
+document.getElementById('uploadFile').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    document.getElementById('uploadPreview').src = ev.target.result;
+    document.getElementById('uploadPreviewWrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+function submitUpload() {
+  const title = document.getElementById('uploadTitle').value.trim();
+  const file = document.getElementById('uploadFile').files[0];
+  const errorBox = document.getElementById('uploadError');
+
+  if (!title || !file) {
+    errorBox.textContent = 'Please add a title and choose a file.';
+    errorBox.style.display = 'block';
+    return;
+  }
+
+  errorBox.style.display = 'none';
+  closeUploadModal();
+  showToast('Thanks! Your upload will be reviewed by our team before it appears in the gallery.', '🎨');
+}
+
 // Close modal on backdrop click
 document.getElementById('pieceModal').addEventListener('click', (e) => {
   if (e.target === document.getElementById('pieceModal')) closePieceModal();
 });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePieceModal(); });
+document.getElementById('uploadModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('uploadModal')) closeUploadModal();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closePieceModal(); closeUploadModal(); } });
 </script>
 <footer>
   <div class="container">
