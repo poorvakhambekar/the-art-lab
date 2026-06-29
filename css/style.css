@@ -1100,8 +1100,10 @@ footer {
   .hero-cta-row .btn { width: 100%; max-width: 280px; justify-content: center; }
   .section { padding: 3rem 0; }
   .container { padding: 0 1.25rem; }
-  .lcm-label { font-size: clamp(1.2rem, 3vw, 1.8rem); }
-  .lcm-item p { font-size: 0.65rem; max-width: 120px; }
+  .lcm-label { font-size: clamp(1.2rem, 5vw, 1.8rem); }
+  .lcm-item p { display: none; }
+  .lcm-overlay { padding: 0 2%; }
+  .lcm-btn-row { display: none; }
   .gallery-masonry { grid-template-columns: repeat(2, 1fr); }
   .mentor-grid { grid-template-columns: 1fr; }
   .mentor-card--photo { grid-template-columns: 1fr; height: auto; }
