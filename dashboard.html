@@ -370,9 +370,9 @@ function populateDash(user) {
     avatarEl.textContent = initials;
   }
   document.getElementById('dashName').textContent = user.firstName + ' ' + user.lastName;
-  const level = (user.sessionsAttended||0) >= 10 ? 'PRO MENTOR' : (user.sessionsAttended||0) >= 5 ? 'ADVANCED' : (user.enrolledCourses||[]).length >= 2 ? 'INTERMEDIATE ARTIST' : 'BEGINNER';
+  const level = 'INTERMEDIATE ARTIST';
   document.getElementById('dashRole').textContent = 'LEVEL: ' + level;
-  const pctLevel = level === 'PRO MENTOR' ? 100 : level === 'ADVANCED' ? 75 : level === 'INTERMEDIATE ARTIST' ? 55 : 20;
+  const pctLevel = 55;
   setTimeout(() => document.getElementById('levelBar').style.width = pctLevel + '%', 300);
 
   // Stats
